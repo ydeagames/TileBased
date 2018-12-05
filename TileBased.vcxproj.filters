@@ -54,14 +54,14 @@
     <Filter Include="ライブラリ\ゲームライブラリ\グラフィック">
       <UniqueIdentifier>{554577b7-a529-475d-9e13-49408c2b508a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ライブラリ\ゲームライブラリ\オブジェクト">
-      <UniqueIdentifier>{d0f8aacc-0996-41a2-998e-e939188357cb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ライブラリ\ゲームライブラリ\ユーティリティ">
       <UniqueIdentifier>{815786f4-e50a-4c70-bd7c-6f64fb758eb6}</UniqueIdentifier>
     </Filter>
     <Filter Include="ライブラリ\ゲームライブラリ\マネージャー">
       <UniqueIdentifier>{00b7abe0-6715-48b8-b1a1-03191c89a706}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ライブラリ\ゲームライブラリ\オブジェクト">
+      <UniqueIdentifier>{d0f8aacc-0996-41a2-998e-e939188357cb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <!-- ソースファイル -->
@@ -153,6 +153,12 @@
     </ClCompile>
     <ClCompile Include="Game\GameGlobal.cpp">
       <Filter>ゲーム</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\GameLibrary\Sprite.cpp">
+      <Filter>ライブラリ\ゲームライブラリ\グラフィック</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\GameLibrary\Texture.cpp">
+      <Filter>ライブラリ\ゲームライブラリ\グラフィック</Filter>
     </ClCompile>
   </ItemGroup>
   <!-- ヘッダファイル -->
@@ -249,6 +255,12 @@
     </ClInclude>
     <ClInclude Include="Game\GameGlobal.h">
       <Filter>ゲーム</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\GameLibrary\Sprite.h">
+      <Filter>ライブラリ\ゲームライブラリ\グラフィック</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\GameLibrary\Texture.h">
+      <Filter>ライブラリ\ゲームライブラリ\グラフィック</Filter>
     </ClInclude>
   </ItemGroup>
   <!-- リソースファイル -->

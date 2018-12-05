@@ -7,7 +7,7 @@ using namespace MathUtils;
 
 bool GameObject::DEBUG_HITBOX = FALSE;
 
-//*
+/*
 
 // <<ティック>> --------------------------------------------------------
 
@@ -19,7 +19,7 @@ static int g_deltamilliseconds = 0;
 // <<テクスチャ>> ------------------------------------------------------
 
 // <テクスチャ作成>
-GameTexture::GameTexture(HGRP texture, const Vec2& anchor, const Vec2& size, const Vec2& pivot) :
+Texture::Texture(HGRP texture, const Vec2& anchor, const Vec2& size, const Vec2& pivot) :
 	texture(texture),
 	anchor(anchor),
 	size(size),
@@ -28,7 +28,7 @@ GameTexture::GameTexture(HGRP texture, const Vec2& anchor, const Vec2& size, con
 }
 
 // <テクスチャ作成>
-GameTexture::GameTexture(HGRP texture) :
+Texture::Texture(HGRP texture) :
 	texture(texture)
 {
 	anchor = {};
@@ -49,15 +49,15 @@ GameTexture::GameTexture(HGRP texture) :
 }
 
 // <テクスチャなし>
-GameTexture::GameTexture() :
-	GameTexture(TEXTURE_NONE, Vec2{}, Vec2{})
+Texture::Texture() :
+	Texture(TEXTURE_NONE, Vec2{}, Vec2{})
 {
 }
 
 // <<スプライト>> ------------------------------------------------------
 
 // <スプライト作成>
-GameSprite::GameSprite(GameTexture texture, float scale, float angle) :
+GameSprite::GameSprite(Texture texture, float scale, float angle) :
 	color(Colors::White),
 	texture(texture),
 	size(texture.size),
@@ -71,7 +71,7 @@ GameSprite::GameSprite(GameTexture texture, float scale, float angle) :
 
 // <スプライトなし>
 GameSprite::GameSprite() :
-	GameSprite(GameTexture{}, 0, 0)
+	GameSprite(Texture{}, 0, 0)
 {
 }
 
@@ -106,7 +106,7 @@ void GameSprite::Render(const Vec2* pos)
 // <<スプライトアニメーション>> ----------------------------------------
 
 // <スプライトアニメーション作成>
-GameSpriteAnimation::GameSpriteAnimation(GameTexture texture, int frame_start, int frame_end, int frame_duration, float scale, float angle, bool pause) :
+GameSpriteAnimation::GameSpriteAnimation(Texture texture, int frame_start, int frame_end, int frame_duration, float scale, float angle, bool pause) :
 	GameSprite(texture, scale, angle),
 	frame_start(frame_start),
 	frame_end(frame_end),
@@ -120,7 +120,7 @@ GameSpriteAnimation::GameSpriteAnimation(GameTexture texture, int frame_start, i
 
 // <スプライトアニメーションなし>
 GameSpriteAnimation::GameSpriteAnimation() :
-	GameSpriteAnimation(GameTexture{}, -1, -1, 1, 0, 0, true)
+	GameSpriteAnimation(Texture{}, -1, -1, 1, 0, 0, true)
 {
 }
 
@@ -243,9 +243,9 @@ void GameObject::Render(const Vec2* translate)
 	Vec2 box_t = { box_xc, box_ym };
 
 	// テクスチャを確認
-	if (sprite.texture.texture != GameTexture::TEXTURE_NONE)
+	if (sprite.texture.texture != Texture::TEXTURE_NONE)
 	{
-		if (sprite.texture.texture != GameTexture::TEXTURE_MISSING)
+		if (sprite.texture.texture != Texture::TEXTURE_MISSING)
 		{
 			switch (sprite_connection)
 			{

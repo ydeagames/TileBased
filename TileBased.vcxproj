@@ -115,7 +115,9 @@
     <ClCompile Include="Libraries\GameLibrary\SceneManager.cpp" />
     <ClCompile Include="Libraries\GameLibrary\Shape.cpp" />
     <ClCompile Include="Libraries\GameLibrary\Singleton.cpp" />
+    <ClCompile Include="Libraries\GameLibrary\Sprite.cpp" />
     <ClCompile Include="Libraries\GameLibrary\SystemUtils.cpp" />
+    <ClCompile Include="Libraries\GameLibrary\Texture.cpp" />
     <ClCompile Include="Libraries\GameLibrary\Timer.cpp" />
     <ClCompile Include="Libraries\GameLibrary\Transform.cpp" />
     <ClCompile Include="Libraries\GameLibrary\Vec2.cpp" />
@@ -159,7 +161,9 @@
     <ClInclude Include="Libraries\GameLibrary\SceneManager.h" />
     <ClInclude Include="Libraries\GameLibrary\Shape.h" />
     <ClInclude Include="Libraries\GameLibrary\Singleton.h" />
+    <ClInclude Include="Libraries\GameLibrary\Sprite.h" />
     <ClInclude Include="Libraries\GameLibrary\SystemUtils.h" />
+    <ClInclude Include="Libraries\GameLibrary\Texture.h" />
     <ClInclude Include="Libraries\GameLibrary\Timer.h" />
     <ClInclude Include="Libraries\GameLibrary\Transform.h" />
     <ClInclude Include="Libraries\GameLibrary\Vec2.h" />

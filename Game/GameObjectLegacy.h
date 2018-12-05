@@ -2,6 +2,8 @@
 
 #ifdef GOBJ
 
+/*
+
 // <アニメーションの結果>
 enum class AnimationState
 {
@@ -11,7 +13,7 @@ enum class AnimationState
 };
 
 // <テクスチャ>
-class GameTexture final
+class Texture final
 {
 public:
 	static constexpr int TEXTURE_MISSING = -1;		// テクスチャが見つかりません
@@ -25,13 +27,13 @@ public:
 
 public:
 	// <テクスチャ作成>
-	GameTexture(HGRP texture, const Vec2& anchor, const Vec2& size, const Vec2& pivot = Vec2{ .5f, .5f });
+	Texture(HGRP texture, const Vec2& anchor, const Vec2& size, const Vec2& pivot = Vec2{ .5f, .5f });
 
 	// <テクスチャ作成>
-	GameTexture(HGRP texture);
+	Texture(HGRP texture);
 
 	// <テクスチャなし>
-	GameTexture();
+	Texture();
 };
 
 class Transform final
@@ -59,11 +61,11 @@ public:
 class TextureSprite : public Sprite
 {
 public:
-	GameTexture texture;		
+	Texture texture;		
 	Transform transform;
 
 public:
-	TextureSprite(const GameTexture& texture, const Transform& transform);
+	TextureSprite(const Texture& texture, const Transform& transform);
 
 	// <スプライトなし>
 	TextureSprite();
@@ -84,7 +86,7 @@ class GameSprite
 {
 public:
 	Color color;			// <色>
-	GameTexture texture;		// <テクスチャ>
+	Texture texture;		// <テクスチャ>
 	Vec2 size;					// <サイズ>
 	int num_columns;			// <1行あたりのフレーム数>
 	int frame_index;			// <現在のフレームのインデックス>
@@ -92,7 +94,7 @@ public:
 	float scale;				// <スケール>
 	float angle;				// <回転>
 public:
-	GameSprite(GameTexture texture, float scale = 1, float angle = 0);
+	GameSprite(Texture texture, float scale = 1, float angle = 0);
 
 	// <スプライトなし>
 	GameSprite();
@@ -119,7 +121,7 @@ public:
 	AnimationState result;		// 最後の状態
 public:
 	// <スプライトアニメーション作成>
-	GameSpriteAnimation(GameTexture texture, int frames_start, int frames_end, int frame_duration, float scale = 1, float angle = 0, bool pause = false);
+	GameSpriteAnimation(Texture texture, int frames_start, int frames_end, int frame_duration, float scale = 1, float angle = 0, bool pause = false);
 
 	// <スプライトアニメーションなし>
 	GameSpriteAnimation();
@@ -189,4 +191,5 @@ public:
 // <オブジェクト作成>
 void GameTick_Update(void);
 
+/**/
 #endif
