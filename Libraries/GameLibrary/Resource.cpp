@@ -16,6 +16,30 @@ TextureResource::~TextureResource()
 	DeleteGraph(resource);
 }
 
+TextureResource::TextureResource(HGRP id)
+	: Resource(-1)
+{
+	resource = id;
+}
+
+std::shared_ptr<TextureResource> TextureResource::CreateMissingTexture()
+{
+	HGRP tex = MakeScreen(16, 16);
+	screen_start(tex)
+	{
+		DrawBox(0, 0, 15, 15, Colors::Black, true);
+		DrawBox(0, 0, 7, 7, Colors::Fuchsia, true);
+		DrawBox(8, 8, 15, 15, Colors::Fuchsia, true);
+	} screen_end;
+	return std::make_shared<TextureResource>(tex);
+}
+
+std::shared_ptr<TextureResource> TextureResource::GetMissingTexture()
+{
+	static auto nulltexture = CreateMissingTexture();
+	return nulltexture;
+}
+
 AudioResource::AudioResource(const std::string& file)
 	: Resource(-1)
 {

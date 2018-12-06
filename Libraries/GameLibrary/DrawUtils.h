@@ -12,6 +12,18 @@ using HNET = int;
 // <色コード>
 using Color = unsigned int;
 
+// スクリーン開始
+#define screen_start(screen) \
+{ \
+	HGRP screen_stack = GetDrawScreen(); \
+	SetDrawScreen(screen); \
+	{
+// スクリーン終了
+#define screen_end \
+	} \
+	SetDrawScreen(screen_stack); \
+}
+
 // <色コード(標準カラー16色)>
 namespace Colors
 {

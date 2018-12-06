@@ -21,4 +21,5 @@
 #include "SystemUtils.h"
 #include "Timer.h"
 #include "Transform.h"
+#include "Texture.h"
 #include "Vec2.h"

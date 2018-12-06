@@ -15,33 +15,11 @@ public:
 	Texture(const std::shared_ptr<TextureResource>& texture, const Vec2& anchor, const Vec2& size, const Vec2& pivot = Vec2{ .5f, .5f });
 
 	// <テクスチャ作成>
-	Texture(const std::shared_ptr<TextureResource>& texture);
+	Texture(const std::shared_ptr<TextureResource>& texture, const Vec2& pivot = Vec2{ .5f, .5f });
 
-	// <テクスチャなし>
-	Texture();
+	// <テクスチャ描画>
+	void Render(const Vec2& center, const Vec2& scale, float angle) const;
+
+	// <テクスチャ描画>
+	void Render(const Transform& tranform) const;
 };
-
-// <テクスチャ作成>
-Texture::Texture(const std::shared_ptr<TextureResource>& texture, const Vec2& anchor, const Vec2& size, const Vec2& pivot) :
-	texture(texture),
-	anchor(anchor),
-	size(size),
-	pivot(pivot)
-{
-}
-
-// <テクスチャ作成>
-Texture::Texture(const std::shared_ptr<TextureResource>& texture) :
-	texture(texture)
-{
-	anchor = {};
-	size = {};
-	pivot = { .5f, .5f };
-
-	if (texture->IsValid())
-	{
-		float width, height;
-		if (GetGraphSizeF(texture->GetResource(), &width, &height) != -1)
-			size = { width, height };
-	}
-}

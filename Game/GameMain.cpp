@@ -39,7 +39,8 @@ void Game::Update(void)
 // ƒQ[ƒ€‚Ì•`‰æˆ—
 void Game::Render(void)
 {
-	//DrawFormatString(10, 10, Colors::White, "FPS = %f", m_frame_timer->GetFrameRate());
-
 	SceneManager::GetInstance().RenderActiveScene();
+
+	if (_DEBUG)
+		DrawFormatString(10, 10, Colors::White, "FPS = %f", m_frame_timer->GetFrameRate());
 }

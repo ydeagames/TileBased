@@ -12,14 +12,16 @@ public:
 		: resource(default_resource)
 		, default_resource(default_resource) {};
 	virtual ~Resource() = default;
+	Resource(const Resource &) = delete;
+	Resource& operator=(const Resource &) = delete;
 
 public:
-	const T& GetResource()
+	const T& GetResource() const
 	{
 		return resource;
 	}
 
-	const T& IsValid()
+	bool IsValid() const
 	{
 		return resource != default_resource;
 	}
@@ -32,7 +34,14 @@ public:
 
 public:
 	TextureResource(const std::string& file);
+	TextureResource(HGRP id);
 	virtual ~TextureResource();
+
+private:
+	static std::shared_ptr<TextureResource> CreateMissingTexture();
+
+public:
+	static std::shared_ptr<TextureResource> GetMissingTexture();
 };
 
 class AudioResource : public Resource<HSND>
