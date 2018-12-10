@@ -1,18 +1,16 @@
 #include "Texture.h"
 
 // <テクスチャ作成>
-Texture::Texture(const std::shared_ptr<TextureResource>& texture, const Vec2& anchor, const Vec2& size, const Vec2& pivot) :
-	texture(texture),
-	anchor(anchor),
-	size(size),
-	pivot(pivot)
+Texture::Texture(const std::shared_ptr<TextureResource>& texture, const Vec2& anchor, const Vec2& size)
+	: texture(texture)
+	, anchor(anchor)
+	, size(size)
 {
 }
 
 // <テクスチャ作成>
-Texture::Texture(const std::shared_ptr<TextureResource>& texture, const Vec2& pivot)
+Texture::Texture(const std::shared_ptr<TextureResource>& texture)
 	: texture(texture)
-	, pivot(pivot)
 {
 	anchor = {};
 	size = {};
@@ -26,7 +24,7 @@ Texture::Texture(const std::shared_ptr<TextureResource>& texture, const Vec2& pi
 }
 
 // <テクスチャ描画>
-void Texture::Render(const Vec2& center, const Vec2& scale, float angle) const
+void Texture::Render(const Vec2& center, const Vec2& scale, float angle, const Vec2& pivot) const
 {
 	if (texture->IsValid())
 		// スプライト描画
@@ -43,7 +41,7 @@ void Texture::Render(const Vec2& center, const Vec2& scale, float angle) const
 }
 
 // <テクスチャ描画>
-void Texture::Render(const Transform& tranform) const
+void Texture::Render(const Transform& tranform, const Vec2& pivot) const
 {
-	Render(tranform.position, tranform.scale, tranform.rotation);
+	Render(tranform.position, tranform.scale, tranform.rotation, pivot);
 }
