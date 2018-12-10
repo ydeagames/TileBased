@@ -41,6 +41,7 @@ void Game::Render(void)
 {
 	SceneManager::GetInstance().RenderActiveScene();
 
-	if (_DEBUG)
-		DrawFormatString(10, 10, Colors::White, "FPS = %f", m_frame_timer->GetFrameRate());
+#ifdef _DEBUG
+	DrawFormatString(10, 10, Colors::White, "FPS = %f", m_frame_timer->GetFrameRate());
+#endif
 }

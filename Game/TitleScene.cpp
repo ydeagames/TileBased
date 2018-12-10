@@ -19,26 +19,11 @@ TitleScene::TitleScene()
 	obj->AddComponent<BoxRenderer>(renderer);
 
 	auto title = GameObject::Create("Title");
-	title->transform()->position = SCREEN.GetCenter() + Vec2{ -250, -100 };
-	title->AddNewComponent<FontTextRenderer>(GameGlobal::GetInstance().titlefont, "360°ブロック崩し");
+	title->transform()->position = SCREEN.GetCenter() + Vec2{ -100, -50 };
+	title->AddNewComponent<FontTextRenderer>(GameGlobal::GetInstance().titlefont, "タイル");
 
-	int deltay = 36;
-	int posy = -deltay;
-
-	auto text1 = GameObject::Create();
-	text1->transform()->position = SCREEN.GetCenter() + Vec2{ -200, posy += deltay };
-	text1->AddNewComponent<FontTextRenderer>(font, "矢印キーやWASDキーでパドル移動！");
-	auto text2 = GameObject::Create();
-	text2->transform()->position = SCREEN.GetCenter() + Vec2{ -200, posy += deltay };
-	text2->AddNewComponent<FontTextRenderer>(font, "マウス横移動やQEキーでパドル回転！");
-	auto text3 = GameObject::Create();
-	text3->transform()->position = SCREEN.GetCenter() + Vec2{ -200, posy += deltay };
-	text3->AddNewComponent<FontTextRenderer>(font, "パドルがブロックに触れると即死");
-	auto text4 = GameObject::Create();
-	text4->transform()->position = SCREEN.GetCenter() + Vec2{ -200, posy += deltay };
-	text4->AddNewComponent<FontTextRenderer>(font, "30秒以内にスコアを稼げ！");
 	auto text5 = GameObject::Create();
-	text5->transform()->position = SCREEN.GetCenter() + Vec2{ -200, posy += deltay };
+	text5->transform()->position = SCREEN.GetCenter() + Vec2{ -200, 50 };
 	text5->AddNewComponent<FontTextRenderer>(font, "クリックかスペースキーでスタート！");
 
 	auto director = GameObject::Create("GameDirector");

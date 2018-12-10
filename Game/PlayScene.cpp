@@ -55,6 +55,19 @@ public:
 	void Render();
 };
 
+class Player : public Component
+{
+public:
+	Vec2 pos;
+
+public:
+	Player() = default;
+	virtual ~Player() = default;
+
+public:
+	void Update();
+};
+
 
 PlayScene::PlayScene()
 	: Scene()
@@ -87,6 +100,7 @@ PlayScene::PlayScene()
 		for (int ix = 0; ix < 16; ix++)
 			tileterrain->tileMap[iy][ix] = map[iy][ix];
 	terrain->AddNewComponent<TileRenderer>();
+	terrain->AddNewComponent<Player>();
 }
 
 PlayScene::~PlayScene()
@@ -96,10 +110,11 @@ PlayScene::~PlayScene()
 
 void TileRenderer::Render()
 {
+	Vec2 pos = gameObject()->GetComponent<Player>()->pos;
 	auto terrain = gameObject()->GetComponent<TileTerrain>();
 	for (int iy = 0; iy < 16; iy++)
 		for (int ix = 0; ix < 16; ix++)
-			terrain->GetTile(ix, iy).Render(terrain->tileSize * Vec2{ ix, iy }, nullptr);
+			terrain->GetTile(ix, iy).Render(gameObject()->transform()->position - pos + terrain->tileSize * Vec2{ ix, iy }, nullptr);
 }
 
 void Tile::Render(const Vec2& pos, const std::unique_ptr<TileEntity>& te) const
@@ -118,4 +133,18 @@ const Tile& TileTerrain::GetTile(int x, int y)
 void TileTerrain::RegisterTile(int id, std::unique_ptr<Tile>&& tile)
 {
 	tileRegistry[id] = std::move(tile);
+}
+
+void Player::Update()
+{
+	Vec2 vel = {};
+	if (InputManager::GetInstance().joypad->GetButton(KEY_INPUT_UP))
+		vel += Vec2::up;
+	if (InputManager::GetInstance().joypad->GetButton(KEY_INPUT_DOWN))
+		vel += Vec2::down;
+	if (InputManager::GetInstance().joypad->GetButton(KEY_INPUT_LEFT))
+		vel += Vec2::left;
+	if (InputManager::GetInstance().joypad->GetButton(KEY_INPUT_RIGHT))
+		vel += Vec2::right;
+	pos += vel;
 }
