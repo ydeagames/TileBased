@@ -58,6 +58,9 @@ public:
 	// <同値のベクトルか>
 	bool Equals(const Vec2& other, float epsilon = FLOAT_EPSILON) const;
 
+	// <正にしたベクトル>
+	Vec2 Abs() const;
+
 	// <0ベクトルか>
 	bool IsZero() const;
 

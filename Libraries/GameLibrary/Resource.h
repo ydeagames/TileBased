@@ -32,9 +32,13 @@ class TextureResource : public Resource<HGRP>
 public:
 	static const std::string TEXTURE_DIR;
 
+private:
+	std::shared_ptr<TextureResource> source;
+
 public:
 	TextureResource(const std::string& file);
 	TextureResource(HGRP id);
+	TextureResource(const std::shared_ptr<TextureResource>& source, const Bounds& bounds);
 	virtual ~TextureResource();
 
 private:

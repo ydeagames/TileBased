@@ -7,19 +7,28 @@ const std::string FontFileResource::FONT_DIR = "Resources/Fonts/";
 
 TextureResource::TextureResource(const std::string& file)
 	: Resource(-1)
+	, source(nullptr)
 {
 	resource = LoadGraph((TEXTURE_DIR + file).c_str());
+}
+
+TextureResource::TextureResource(HGRP id)
+	: Resource(-1)
+	, source(nullptr)
+{
+	resource = id;
+}
+
+TextureResource::TextureResource(const std::shared_ptr<TextureResource>& source, const Bounds& bounds)
+	: Resource(-1)
+	, source(source)
+{
+	resource = DerivationGraphF(bounds.GetMin().x, bounds.GetMin().y, bounds.GetSize().x, bounds.GetSize().y, source->GetResource());
 }
 
 TextureResource::~TextureResource()
 {
 	DeleteGraph(resource);
-}
-
-TextureResource::TextureResource(HGRP id)
-	: Resource(-1)
-{
-	resource = id;
 }
 
 std::shared_ptr<TextureResource> TextureResource::CreateMissingTexture()

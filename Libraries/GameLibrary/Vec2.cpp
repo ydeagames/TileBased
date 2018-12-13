@@ -80,6 +80,12 @@ bool Vec2::Equals(const Vec2& other, float epsilon) const
 	return fabsf(x - other.x) < epsilon && fabsf(y - other.y) < epsilon;
 }
 
+// <正にしたベクトル>
+Vec2 Vec2::Abs() const
+{
+	return{ MathUtils::GetAbs(x), MathUtils::GetAbs(y) };
+}
+
 // <0ベクトルか>
 bool Vec2::IsZero() const
 {

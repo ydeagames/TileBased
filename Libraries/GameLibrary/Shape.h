@@ -105,6 +105,13 @@ public:
 
 	// <¶‰EÕ“Ëˆ—>
 	HorizontalSide CollisionHorizontal(const Bounds& obj, Connection connection, Edge edge);
+
+public:
+	static Bounds CreateFromPosition(const Vec2& a, const Vec2& b);
+
+	static Bounds CreateFromSize(const Vec2& center, const Vec2& size);
+
+	static Bounds CreateFromPosition(float x1, float y1, float x2, float y2);
 };
 
 class Box final : public Shape

@@ -202,6 +202,21 @@ HorizontalSide Bounds::CollisionHorizontal(const Bounds& field, Connection conne
 	return side_hit;
 }
 
+Bounds Bounds::CreateFromPosition(const Vec2& a, const Vec2& b)
+{
+	return{ (a + b) / 2, (a - b).Abs() };
+}
+
+Bounds Bounds::CreateFromSize(const Vec2 & center, const Vec2 & size)
+{
+	return{ center, size };
+}
+
+Bounds Bounds::CreateFromPosition(float x1, float y1, float x2, float y2)
+{
+	return CreateFromPosition(Vec2{ x1, y1 }, Vec2{ x2, y2 });
+}
+
 Box::Box(const Vec2& center, const Vec2& size, float angle)
 	: center(center)
 	, size(size)
