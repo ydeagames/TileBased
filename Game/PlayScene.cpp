@@ -119,7 +119,7 @@ void TileRenderer::Render()
 
 void Tile::Render(const Vec2& pos, const std::unique_ptr<TileEntity>& te) const
 {
-	texture.Render(Transform{ pos, 0, Vec2::one * 3 });
+	texture.Render(Transform{ pos, 0, Vec2::one * 3 }, Vec2::zero);
 }
 
 const Tile& TileTerrain::GetTile(int x, int y)
@@ -138,13 +138,13 @@ void TileTerrain::RegisterTile(int id, std::unique_ptr<Tile>&& tile)
 void Player::Update()
 {
 	Vec2 vel = {};
-	if (InputManager::GetInstance().joypad->GetButton(KEY_INPUT_UP))
+	if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_UP))
 		vel += Vec2::up;
-	if (InputManager::GetInstance().joypad->GetButton(KEY_INPUT_DOWN))
+	if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_DOWN))
 		vel += Vec2::down;
-	if (InputManager::GetInstance().joypad->GetButton(KEY_INPUT_LEFT))
+	if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_LEFT))
 		vel += Vec2::left;
-	if (InputManager::GetInstance().joypad->GetButton(KEY_INPUT_RIGHT))
+	if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_RIGHT))
 		vel += Vec2::right;
 	pos += vel;
 }

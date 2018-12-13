@@ -36,6 +36,7 @@ private:
 	std::shared_ptr<TextureResource> source;
 
 public:
+	TextureResource(const std::string& dir, const std::string& file);
 	TextureResource(const std::string& file);
 	TextureResource(HGRP id);
 	TextureResource(const std::shared_ptr<TextureResource>& source, const Bounds& bounds);
@@ -54,7 +55,9 @@ public:
 	static const std::string AUDIO_DIR;
 
 public:
+	AudioResource(const std::string& dir, const std::string& file);
 	AudioResource(const std::string& file);
+	AudioResource(HSND id);
 	virtual ~AudioResource();
 };
 
@@ -64,30 +67,40 @@ public:
 	static const std::string MOVIE_DIR;
 
 public:
+	MovieResource(const std::string& dir, const std::string& file);
 	MovieResource(const std::string& file);
+	MovieResource(HSND id);
 	virtual ~MovieResource();
+};
+
+class FontFileResource : public Resource<std::string>
+{
+private:
+	FontFileResource(const std::string& path);
+
+public:
+	virtual ~FontFileResource();
+
+private:
+	static std::unordered_map<std::string, std::weak_ptr<FontFileResource>> pool;
+
+public:
+	static std::shared_ptr<FontFileResource> Load(const std::string& path);
 };
 
 class FontResource : public Resource<HFNT>
 {
-protected:
-	FontResource(HFNT resource);
-
-public:
-	FontResource(const std::string& FontName, int Size, int Thick, int FontType = -1, int CharSet = -1, int EdgeSize = -1, int Italic = FALSE);
-	virtual ~FontResource();
-};
-
-class FontFileResource : public FontResource
-{
 public:
 	static const std::string FONT_DIR;
 
-protected:
-	std::string file;
+private:
+	std::shared_ptr<FontFileResource> fontfile;
 
 public:
-	FontFileResource(const std::string& file, const std::string& FontName, int Size, int Thick, int FontType = -1, int CharSet = -1, int EdgeSize = -1, int Italic = FALSE);
-	virtual ~FontFileResource();
+	FontResource(const std::string& dir, const std::string& file, const std::string& FontName, int Size, int Thick, int FontType = -1, int CharSet = -1, int EdgeSize = -1, int Italic = FALSE);
+	FontResource(const std::string& file, const std::string& FontName, int Size, int Thick, int FontType = -1, int CharSet = -1, int EdgeSize = -1, int Italic = FALSE);
+	FontResource(const std::string& FontName, int Size, int Thick, int FontType = -1, int CharSet = -1, int EdgeSize = -1, int Italic = FALSE);
+	FontResource(HFNT resource);
+	virtual ~FontResource();
 };
 

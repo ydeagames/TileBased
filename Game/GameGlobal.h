@@ -3,8 +3,8 @@
 class GameGlobal : public Singleton<GameGlobal>
 {
 public:
-	std::shared_ptr<FontFileResource> titlefont;
-	std::shared_ptr<FontFileResource> font;
+	std::shared_ptr<FontResource> titlefont;
+	std::shared_ptr<FontResource> font;
 
 private:
 	GameGlobal();
