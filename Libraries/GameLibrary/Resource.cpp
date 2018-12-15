@@ -38,11 +38,6 @@ TextureResource::~TextureResource()
 	DeleteGraph(resource);
 }
 
-TextureResource::~TextureResource()
-{
-	DeleteGraph(resource);
-}
-
 std::shared_ptr<TextureResource> TextureResource::CreateMissingTexture()
 {
 	HGRP tex = MakeScreen(16, 16);

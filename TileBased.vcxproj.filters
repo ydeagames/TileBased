@@ -160,6 +160,9 @@
     <ClCompile Include="Libraries\GameLibrary\Texture.cpp">
       <Filter>ライブラリ\ゲームライブラリ\グラフィック</Filter>
     </ClCompile>
+    <ClCompile Include="Libraries\GameLibrary\Matrix.cpp">
+      <Filter>ゲーム</Filter>
+    </ClCompile>
   </ItemGroup>
   <!-- ヘッダファイル -->
   <ItemGroup>
@@ -261,6 +264,9 @@
     </ClInclude>
     <ClInclude Include="Libraries\GameLibrary\Texture.h">
       <Filter>ライブラリ\ゲームライブラリ\グラフィック</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\GameLibrary\Matrix.h">
+      <Filter>ゲーム</Filter>
     </ClInclude>
   </ItemGroup>
   <!-- リソースファイル -->
