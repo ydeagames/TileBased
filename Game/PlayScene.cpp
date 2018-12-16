@@ -62,7 +62,7 @@ public:
 class Player : public Component
 {
 public:
-	float blocks_per_sec = 1.f;
+	float blocks_per_sec = 4.f;
 
 	Vector2 target_pos;
 	Vector2 pos;
@@ -182,11 +182,7 @@ void Player::Update()
 
 	Vector2 sub = target_pos - pos;
 	Vector2 vel = sub.Normalized() * blocks_per_sec * Time::deltaTime;
-	Vector2 subvel = {
-		MathUtils::Clamp(vel.x, std::floor(vel.x), std::ceil(vel.x)),
-		MathUtils::Clamp(vel.y, std::floor(vel.y), std::ceil(vel.y))
-	};
-	pos += subvel;
+	pos += (vel.LengthSquared() < sub.LengthSquared()) ? vel : sub;
 
 	gameObject()->GetComponent<TileRenderer>()->offset = -pos;
 }
