@@ -183,8 +183,8 @@ void Player::Update()
 	Vector2 sub = target_pos - pos;
 	Vector2 vel = sub.Normalized() * blocks_per_sec * Time::deltaTime;
 	Vector2 subvel = {
-		MathUtils::GetClamp(vel.x, std::floor(vel.x), std::ceil(vel.x)),
-		MathUtils::GetClamp(vel.y, std::floor(vel.y), std::ceil(vel.y))
+		MathUtils::Clamp(vel.x, std::floor(vel.x), std::ceil(vel.x)),
+		MathUtils::Clamp(vel.y, std::floor(vel.y), std::ceil(vel.y))
 	};
 	pos += subvel;
 

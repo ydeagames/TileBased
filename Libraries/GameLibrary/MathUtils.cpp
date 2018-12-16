@@ -6,65 +6,65 @@
 namespace MathUtils
 {
 	// 0.0≦x≦1.0 の小数ランダム生成
-	float GetRandScale()
+	float Random()
 	{
-		return static_cast<float>(GetRand(RAND_MAX)) / RAND_MAX;
+		return static_cast<float>(Rand(RAND_MAX)) / RAND_MAX;
 	}
 
 	// 0.0≦x≦max の整数ランダム生成
-	int GetRand(int max)
+	int Rand(int max)
 	{
 		return DxLib::GetRand(max);
 	}
 
 	// 0.0≦x≦max の小数ランダム生成
-	float GetRand(float max)
+	float Rand(float max)
 	{
-		return GetRandScale() * max;
+		return Random() * max;
 	}
 
 	// min≦x≦max の整数ランダム生成
-	int GetRandRange(int min, int max)
+	int Rand(int min, int max)
 	{
 		if (max < min)
 			std::swap(min, max);
-		return GetRand(max - min) + min;
+		return Rand(max - min) + min;
 	}
 
 	// min≦x≦max の小数ランダム生成
-	float GetRandRange(float min, float max)
+	float Rand(float min, float max)
 	{
 		if (max < min)
 			std::swap(min, max);
-		return GetRand(max - min) + min;
+		return Rand(max - min) + min;
 	}
 
 	// 0～w の整数ループ
-	int GetLoop(int x, int w)
+	int Loop(int x, int w)
 	{
 		return ((x % w) + w) % w;
 	}
 
 	// 0～w の小数ループ
-	float GetLoop(float x, float w)
+	float Loop(float x, float w)
 	{
 		return std::fmodf((std::fmodf(x, w) + w), w);
 	}
 
 	// min～max の整数ループ
-	int GetLoopRange(int x, int min, int max)
+	int Loop(int x, int min, int max)
 	{
 		if (max < min)
 			std::swap(min, max);
-		return GetLoop(x - min, max - min) + min;
+		return Loop(x - min, max - min) + min;
 	}
 
 	// min～max の小数ループ
-	float GetLoopRange(float x, float min, float max)
+	float Loop(float x, float min, float max)
 	{
 		if (max < min)
 			std::swap(min, max);
-		return GetLoop(x - min, max - min) + min;
+		return Loop(x - min, max - min) + min;
 	}
 
 	// 浮動小数点数型の誤差を考慮に入れた比較
@@ -87,39 +87,39 @@ namespace MathUtils
 
 	// 0～maxの範囲でxは何%の位置にいるのか
 	// ※ 範囲外は範囲内に収められます
-	float GetPercentage(float x, float max)
+	float Percentage(float x, float max)
 	{
-		float n = GetClamp(x, 0.f, max);
+		float n = Clamp(x, 0.f, max);
 		return n / max;
 	}
 
 	// min～maxの範囲でxは何%の位置にいるのか
 	// ※ 範囲外は範囲内に収められます
-	float GetPercentageRange(float x, float min, float max)
+	float Percentage(float x, float min, float max)
 	{
 		if (max < min)
 		{
 			x = max - x + min;
 			std::swap(min, max);
 		}
-		return GetPercentage(x - min, max - min);
+		return Percentage(x - min, max - min);
 	}
 
 	// 0～maxの範囲でのpercent%の位置
-	float GetPercentValue(float percent, float max)
+	float Lerp(float percent, float max)
 	{
 		return max * percent;
 	}
 
 	// min～maxの範囲でのpercent%の位置
-	float GetPercentValueRange(float percent, float min, float max)
+	float Lerp(float percent, float min, float max)
 	{
 		if (max < min)
 		{
 			percent = 1 - percent;
 			std::swap(min, max);
 		}
-		return GetPercentValue(percent, max - min) + min;
+		return Lerp(percent, max - min) + min;
 	}
 
 	// H : 色相　有効範囲 0.0f ～ 360.0f

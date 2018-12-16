@@ -1,5 +1,7 @@
 #pragma once
 
+#define NOMINMAX
+
 #include <DxLib.h>
 #include <algorithm>
 #include <exception>

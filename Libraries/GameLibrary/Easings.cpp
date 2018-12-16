@@ -11,7 +11,7 @@ Easing::Easing(ESG esg) :
 // Easingを使用し0～maxの範囲でのpercent%の位置
 float Easing::GetEasingValue(float percent, float max) const
 {
-	return MathUtils::GetPercentValue(easing(percent, 0, 1, 1), max);
+	return MathUtils::Lerp(easing(percent, 0, 1, 1), max);
 }
 
 // Easingを使用しmin～maxの範囲でのpercent%の位置

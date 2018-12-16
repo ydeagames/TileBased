@@ -75,8 +75,8 @@ Vector2 Bounds::GetSize() const
 Vector2 Bounds::ClosestPoint(const Vector2& point) const
 {
 	return{
-		GetClamp(point.x, GetMin().x, GetMax().x),
-		GetClamp(point.y, GetMin().y, GetMax().y),
+		Clamp(point.x, GetMin().x, GetMax().x),
+		Clamp(point.y, GetMin().y, GetMax().y),
 	};
 }
 
@@ -144,11 +144,11 @@ VerticalSide Bounds::CollisionVertical(const Bounds& field, Connection connectio
 		{
 		case Connection::BARRIER:
 			// 壁にあたったら調整
-			center.y = GetClamp(center.y, padding.GetY(VerticalSide::TOP), padding.GetY(VerticalSide::BOTTOM));
+			center.y = Clamp(center.y, padding.GetY(VerticalSide::TOP), padding.GetY(VerticalSide::BOTTOM));
 			break;
 		case Connection::LOOP:
 			// 壁にあたったらループ
-			center.y = GetLoopRange(center.y, padding.GetY(VerticalSide::TOP), padding.GetY(VerticalSide::BOTTOM));
+			center.y = Loop(center.y, padding.GetY(VerticalSide::TOP), padding.GetY(VerticalSide::BOTTOM));
 			break;
 		}
 	}
@@ -187,11 +187,11 @@ HorizontalSide Bounds::CollisionHorizontal(const Bounds& field, Connection conne
 		{
 		case Connection::BARRIER:
 			// 壁にあたったら調整
-			center.x = GetClamp(center.x, padding.GetX(HorizontalSide::LEFT), padding.GetX(HorizontalSide::RIGHT));
+			center.x = Clamp(center.x, padding.GetX(HorizontalSide::LEFT), padding.GetX(HorizontalSide::RIGHT));
 			break;
 		case Connection::LOOP:
 			// 壁にあたったらループ
-			center.x = GetLoopRange(center.x, padding.GetX(HorizontalSide::LEFT), padding.GetX(HorizontalSide::RIGHT));
+			center.x = Loop(center.x, padding.GetX(HorizontalSide::LEFT), padding.GetX(HorizontalSide::RIGHT));
 			break;
 		}
 	}

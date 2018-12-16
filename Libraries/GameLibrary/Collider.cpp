@@ -148,7 +148,7 @@ void BoxCollider::Apply(const CollisionResult & result) const
 	float rotate = DX_PI_F / 2 - result.normal;
 	float rotate_angle = transform->rotation + rotate;
 	if (sinf(rotate_angle) < 0) {
-		transform->rotation = MathUtils::GetLoop(-rotate_angle - rotate, DX_TWO_PI_F);
+		transform->rotation = MathUtils::Loop(-rotate_angle - rotate, DX_TWO_PI_F);
 	}
 	auto rigidbody = gameObject()->GetComponent<Rigidbody>();
 	if (rigidbody)
@@ -295,7 +295,7 @@ void CircleCollider::Apply(const CollisionResult & result) const
 	float rotate = DX_PI_F / 2 - result.normal;
 	float rotate_angle = transform->rotation + rotate;
 	if (sinf(rotate_angle) < 0) {
-		transform->rotation = MathUtils::GetLoop(-rotate_angle - rotate, DX_TWO_PI_F);
+		transform->rotation = MathUtils::Loop(-rotate_angle - rotate, DX_TWO_PI_F);
 	}
 	auto rigidbody = gameObject()->GetComponent<Rigidbody>();
 	if (rigidbody)

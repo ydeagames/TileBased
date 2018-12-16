@@ -80,10 +80,10 @@ public:
 	Vector2 LerpUnclamped(const Vector2 & min, const Vector2 & max, float step) const;
 
 	// <ベクトルループ>
-	Vector2 GetLoop(const Vector2& max) const;
+	Vector2 Loop(const Vector2& max) const;
 
 	// <ベクトルループ>
-	Vector2 GetLoopRange(const Vector2& min, const Vector2& max) const;
+	Vector2 Loop(const Vector2& min, const Vector2& max) const;
 
 	// <ベクトルはそのまま>
 	Vector2 operator +() const;

@@ -83,7 +83,7 @@ bool Vector2::Equals(const Vector2& other, float epsilon) const
 // <正にしたベクトル>
 Vector2 Vector2::Abs() const
 {
-	return{ MathUtils::GetAbs(x), MathUtils::GetAbs(y) };
+	return{ std::abs(x), std::abs(y) };
 }
 
 // <0ベクトルか>
@@ -125,8 +125,8 @@ void Vector2::Decompose(const Vector2& angle, Vector2& vec_a, Vector2& vec_b) co
 Vector2 Vector2::Lerp(const Vector2& min, const Vector2& max, float step) const
 {
 	return{
-		MathUtils::GetClamp(MathUtils::GetPercentValueRange(x, min.x, max.x), min.x, max.x),
-		MathUtils::GetClamp(MathUtils::GetPercentValueRange(y, min.y, max.y), min.y, max.y),
+		MathUtils::Clamp(MathUtils::Lerp(x, min.x, max.x), min.x, max.x),
+		MathUtils::Clamp(MathUtils::Lerp(y, min.y, max.y), min.y, max.y),
 	};
 }
 
@@ -134,26 +134,26 @@ Vector2 Vector2::Lerp(const Vector2& min, const Vector2& max, float step) const
 Vector2 Vector2::LerpUnclamped(const Vector2& min, const Vector2& max, float step) const
 {
 	return{
-		MathUtils::GetPercentValueRange(x, min.x, max.x),
-		MathUtils::GetPercentValueRange(y, min.y, max.y),
+		MathUtils::Lerp(x, min.x, max.x),
+		MathUtils::Lerp(y, min.y, max.y),
 	};
 }
 
 // <ベクトルループ>
-Vector2 Vector2::GetLoop(const Vector2& max) const
+Vector2 Vector2::Loop(const Vector2& max) const
 {
 	return{
-		MathUtils::GetLoop(x, max.x),
-		MathUtils::GetLoop(y, max.y),
+		MathUtils::Loop(x, max.x),
+		MathUtils::Loop(y, max.y),
 	};
 }
 
 // <ベクトルループ>
-Vector2 Vector2::GetLoopRange(const Vector2& min, const Vector2& max) const
+Vector2 Vector2::Loop(const Vector2& min, const Vector2& max) const
 {
 	return{
-		MathUtils::GetLoopRange(x, min.x, max.x),
-		MathUtils::GetLoopRange(y, min.y, max.y),
+		MathUtils::Loop(x, min.x, max.x),
+		MathUtils::Loop(y, min.y, max.y),
 	};
 }
 
@@ -208,13 +208,13 @@ Vector2 Vector2::operator /(float scale) const
 // <ベクトルを剰余>
 Vector2 Vector2::operator%(const Vector2 & scale) const
 {
-	return{ MathUtils::GetLoop(x, scale.x), MathUtils::GetLoop(y, scale.y) };
+	return{ MathUtils::Loop(x, scale.x), MathUtils::Loop(y, scale.y) };
 }
 
 // <ベクトルを剰余>
 Vector2 Vector2::operator%(float scale) const
 {
-	return{ MathUtils::GetLoop(x, scale), MathUtils::GetLoop(y, scale) };
+	return{ MathUtils::Loop(x, scale), MathUtils::Loop(y, scale) };
 }
 
 // <複合代入演算 +=>
@@ -268,16 +268,16 @@ Vector2& Vector2::operator /=(float scale)
 // <複合代入演算 %=>
 Vector2 & Vector2::operator%=(const Vector2 & scale)
 {
-	x = MathUtils::GetLoop(x, scale.x);
-	y = MathUtils::GetLoop(x, scale.y);
+	x = MathUtils::Loop(x, scale.x);
+	y = MathUtils::Loop(x, scale.y);
 	return *this;
 }
 
 // <複合代入演算 %=>
 Vector2 & Vector2::operator%=(float scale)
 {
-	x = MathUtils::GetLoop(x, scale);
-	y = MathUtils::GetLoop(x, scale);
+	x = MathUtils::Loop(x, scale);
+	y = MathUtils::Loop(x, scale);
 	return *this;
 }
 
@@ -296,5 +296,5 @@ Vector2 operator /(float scale, const Vector2& vec)
 // <Vector2 が後にくる 2項 %>
 Vector2 operator %(float scale, const Vector2& vec)
 {
-	return{ MathUtils::GetLoop(scale, vec.x), MathUtils::GetLoop(scale, vec.y) };
+	return{ MathUtils::Loop(scale, vec.x), MathUtils::Loop(scale, vec.y) };
 }

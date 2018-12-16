@@ -274,8 +274,8 @@ void GameObject::Render(const Vector2* translate)
 							sprite.Render(&box_t);
 						break;
 					case Connection::LOOP:
-						float offset_x = GetLoopRange(go_left, sp_left, sp_right) - sp_left;
-						float offset_y = GetLoopRange(go_top, sp_top, sp_bottom) - sp_top;
+						float offset_x = Loop(go_left, sp_left, sp_right) - sp_left;
+						float offset_y = Loop(go_top, sp_top, sp_bottom) - sp_top;
 
 						if (sp_size.x >= 1.f && sp_size.y >= 1.f)
 						{
