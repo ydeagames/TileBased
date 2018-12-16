@@ -15,5 +15,5 @@ public:
 	Transform();
 
 public:
-	Matrix GetMatrix() const;
+	Matrix3 GetMatrix() const;
 };

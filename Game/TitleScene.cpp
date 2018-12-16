@@ -12,8 +12,8 @@ TitleScene::TitleScene()
 	auto& font = GameGlobal::GetInstance().font;
 
 	auto obj = GameObject::Create();
-	obj->transform()->position = SCREEN.Expand(-200).GetCenter();
-	obj->transform()->scale = SCREEN.Expand(-200).GetSize();
+	obj->transform()->position = SCREEN.Expand(-100).GetCenter();
+	obj->transform()->scale = SCREEN.Expand(-100).GetSize();
 	auto renderer = std::make_shared<BoxRenderer>();
 	renderer->material = Material{}.SetBase(Colors::Blue, .2f).SetBorder(Colors::White, 1.f, .5f);
 	obj->AddComponent<BoxRenderer>(renderer);

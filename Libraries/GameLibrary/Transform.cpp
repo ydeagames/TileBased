@@ -12,11 +12,11 @@ Transform::Transform()
 {
 }
 
-Matrix Transform::GetMatrix() const
+Matrix3 Transform::GetMatrix() const
 {
-	Matrix m = Matrix::CreateScale(scale);
-	m *= Matrix::CreateRotationZ(rotation);
-	m *= Matrix::CreateTranslation(position);
+	Matrix3 m = Matrix3::CreateScale(scale);
+	m *= Matrix3::CreateRotationZ(rotation);
+	m *= Matrix3::CreateTranslation(position);
 	return m;
 }
 

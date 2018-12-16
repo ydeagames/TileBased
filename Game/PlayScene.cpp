@@ -77,7 +77,7 @@ PlayScene::PlayScene()
 	std::shared_ptr<TextureResource> texture = std::make_shared<TextureResource>("Protected/Valkyrie_BG_mapChip.png");
 	for (int i = 0; i < 42; i++)
 	{
-		std::shared_ptr<TextureResource> tiletexture = std::make_shared<TextureResource>(texture, Bounds::CreateFromSize(Vec2{ 2 + (16 + 2)*(i % 14), 2 + (16 + 2)*(i / 14) }, Vec2{ 16, 16 }));
+		std::shared_ptr<TextureResource> tiletexture = std::make_shared<TextureResource>(texture, Bounds::CreateFromSize(Vec2{18*(i % 14), 18*(i / 14) }, Vec2{ 20, 20 }).Expand(-2));
 		tileterrain->RegisterTile(i, std::make_unique<Tile>(Texture{ tiletexture }));
 	}
 
@@ -115,14 +115,16 @@ void TileRenderer::Render()
 {
 	Vec2 pos = gameObject()->GetComponent<Player>()->pos;
 	auto terrain = gameObject()->GetComponent<TileTerrain>();
+
 	for (int iy = 0; iy < 16; iy++)
 		for (int ix = 0; ix < 16; ix++)
 		{
 			Quad quad = { Bounds::CreateFromSize(Vec2{ix, iy}, Vec2::one) };
-			quad *= Matrix::CreateScale(terrain->tileSize);
-			quad *= Matrix::CreateTranslation(gameObject()->transform()->position);
-			quad *= Matrix::CreateTranslation(-pos);
-			terrain->GetTile(ix, iy).Render(quad, nullptr);
+			Matrix3 m = Matrix3::CreateIdentity();
+			m *= Matrix3::CreateScale(terrain->tileSize);
+			m *= Matrix3::CreateTranslation(gameObject()->transform()->position);
+			m *= Matrix3::CreateTranslation(-pos);
+			terrain->GetTile(ix, iy).Render(quad * m, nullptr);
 		}
 }
 

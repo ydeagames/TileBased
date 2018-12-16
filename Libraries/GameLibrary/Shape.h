@@ -158,8 +158,8 @@ public:
 
 	Quad Transformed(const Transform& transform) const;
 
-	Quad operator*(const Matrix& matrix) const;
-	Quad& operator*=(const Matrix& matrix);
+	Quad operator*(const Matrix3& matrix) const;
+	Quad& operator*=(const Matrix3& matrix);
 };
 
 class Circle final : public Shape

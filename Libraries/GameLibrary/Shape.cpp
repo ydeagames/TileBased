@@ -92,10 +92,7 @@ bool Bounds::Contains(const Vec2& point) const
 // <Expand the bounds by increasing its size by amount along each side.>
 Bounds Bounds::Expand(const float amount) const
 {
-	return{
-		center,
-		size + Vec2{amount, amount},
-	};
+	return Expand(Vec2::one * amount);
 }
 
 // <Expand the bounds by increasing its size by amount along each side.>
@@ -103,7 +100,7 @@ Bounds Bounds::Expand(const Vec2& amount) const
 {
 	return{
 		center,
-		size + amount,
+		size + amount * 2,
 	};
 }
 
@@ -282,19 +279,19 @@ Quad::Quad(const Bounds& bounds)
 	vertices[3] = bounds.GetCenter() + bounds.GetExtents() / Vec2{ -1, 1 };
 }
 
-Quad Quad::Transformed(const Transform & transform) const
+Quad Quad::Transformed(const Transform& transform) const
 {
-	Matrix m = transform.GetMatrix();
+	Matrix3 m = transform.GetMatrix();
 	return *this * m;
 }
 
-Quad Quad::operator*(const Matrix& matrix) const
+Quad Quad::operator*(const Matrix3& matrix) const
 {
 	Quad quad = *this;
 	return (quad *= matrix);
 }
 
-Quad& Quad::operator*=(const Matrix& matrix)
+Quad& Quad::operator*=(const Matrix3& matrix)
 {
 	for (auto& vertex : vertices)
 		vertex *= matrix;
