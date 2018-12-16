@@ -27,13 +27,13 @@ Matrix3 Matrix3::Inverse() const
 	return det * temp;
 }
 
-Vec2 operator*(const Vec2& v, const Matrix3& m)
+Vector2 operator*(const Vector2& v, const Matrix3& m)
 {
-	Vec2 temp = v;
+	Vector2 temp = v;
 	return (temp *= m);
 }
 
-Vec2& operator*=(Vec2& v, const Matrix3& m)
+Vector2& operator*=(Vector2& v, const Matrix3& m)
 {
 	Matrix<1, 3> temp = {};
 	temp(0, 0) = v.x;
@@ -84,7 +84,7 @@ Matrix3 Matrix3::CreateRotationZ(float radians)
 	return m;
 }
 
-Matrix3 Matrix3::CreateTranslation(const Vec2& translation)
+Matrix3 Matrix3::CreateTranslation(const Vector2& translation)
 {
 	Matrix3 m = CreateIdentity();
 
@@ -94,7 +94,7 @@ Matrix3 Matrix3::CreateTranslation(const Vec2& translation)
 	return m;
 }
 
-Matrix3 Matrix3::CreateScale(const Vec2& scale)
+Matrix3 Matrix3::CreateScale(const Vector2& scale)
 {
 	Matrix3 m = CreateIdentity();
 

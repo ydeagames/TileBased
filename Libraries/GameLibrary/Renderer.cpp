@@ -19,7 +19,7 @@ Material& Material::SetBorder(Color color, float transparency, float thickness)
 void BoxRenderer::Render()
 {
 	auto t = gameObject()->transform();
-	Box box = Box{ Vec2{}, t->scale, 0 }.Transformed(*t);
+	Box box = Box{ Vector2{}, t->scale, 0 }.Transformed(*t);
 
 	if (material.base_transparency > 0)
 	{
@@ -52,7 +52,7 @@ void BoxRenderer::Render()
 void CircleRenderer::Render()
 {
 	auto t = gameObject()->transform();
-	Bounds box = Bounds{ Vec2{}, Vec2{ 1, 1 } }.Transformed(*t);
+	Bounds box = Bounds{ Vector2{}, Vector2{ 1, 1 } }.Transformed(*t);
 
 	if (material.base_transparency > 0)
 	{
@@ -95,7 +95,7 @@ TextRenderer::TextRenderer(const std::string& text)
 
 void TextRenderer::Render()
 {
-	Vec2 pos = gameObject()->transform()->position;
+	Vector2 pos = gameObject()->transform()->position;
 	DrawFormatStringF(pos.x, pos.y, Colors::White, text.c_str());
 }
 
@@ -107,6 +107,6 @@ FontTextRenderer::FontTextRenderer(const std::shared_ptr<FontResource>& font, co
 
 void FontTextRenderer::Render()
 {
-	Vec2 pos = gameObject()->transform()->position;
+	Vector2 pos = gameObject()->transform()->position;
 	DrawFormatStringFToHandle(pos.x, pos.y, Colors::White, font->GetResource(), text.c_str());
 }

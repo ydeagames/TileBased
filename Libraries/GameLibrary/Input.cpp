@@ -103,12 +103,12 @@ void MouseInput::Update()
 	position = { static_cast<float>(mouse_x), static_cast<float>(mouse_y) };
 }
 
-const Vec2& MouseInput::GetPosition()
+const Vector2& MouseInput::GetPosition()
 {
 	return position;
 }
 
-void MouseInput::SetPosition(const Vec2& pos)
+void MouseInput::SetPosition(const Vector2& pos)
 {
 	SetMousePoint(static_cast<int>(pos.x), static_cast<int>(pos.y));
 }

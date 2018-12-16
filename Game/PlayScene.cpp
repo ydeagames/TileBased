@@ -47,8 +47,8 @@ public:
 class TileRenderer : public Component
 {
 public:
-	Vec2 tileSize = { 48, 48 };
-	Vec2 offset = {};
+	Vector2 tileSize = { 48, 48 };
+	Vector2 offset = {};
 
 public:
 	TileRenderer() = default;
@@ -64,9 +64,9 @@ class Player : public Component
 public:
 	float blocks_per_sec = 1.f;
 
-	Vec2 target_pos;
-	Vec2 pos;
-	Vec2 vel;
+	Vector2 target_pos;
+	Vector2 pos;
+	Vector2 vel;
 
 public:
 	Player() = default;
@@ -86,7 +86,7 @@ PlayScene::PlayScene()
 	std::shared_ptr<TextureResource> texture = std::make_shared<TextureResource>("Protected/Valkyrie_BG_mapChip.png");
 	for (int i = 0; i < 42; i++)
 	{
-		std::shared_ptr<TextureResource> tiletexture = std::make_shared<TextureResource>(texture, Bounds::CreateFromSize(Vec2{18*(i % 14), 18*(i / 14) }, Vec2{ 20, 20 }).Expand(-2));
+		std::shared_ptr<TextureResource> tiletexture = std::make_shared<TextureResource>(texture, Bounds::CreateFromSize(Vector2{18*(i % 14), 18*(i / 14) }, Vector2{ 20, 20 }).Expand(-2));
 		tileterrain->RegisterTile(i, std::make_unique<Tile>(Texture{ tiletexture }));
 	}
 
@@ -128,9 +128,9 @@ void TileRenderer::Render()
 	for (int iy = 0; iy < 16; iy++)
 		for (int ix = 0; ix < 16; ix++)
 		{
-			Quad quad = { Bounds::CreateFromSize(Vec2::zero, Vec2::one) };
+			Quad quad = { Bounds::CreateFromSize(Vector2::zero, Vector2::one) };
 			Matrix3 localMatrix = Matrix3::CreateIdentity();
-			localMatrix *= Matrix3::CreateTranslation(Vec2{ ix, iy });
+			localMatrix *= Matrix3::CreateTranslation(Vector2{ ix, iy });
 			terrain->GetTile(ix, iy).Render(quad * localMatrix * matrix, nullptr);
 		}
 }
@@ -144,7 +144,7 @@ Matrix3 TileRenderer::GetMatrix() const
 {
 	Matrix3 m = Matrix3::CreateIdentity();
 	m *= Matrix3::CreateTranslation(offset);
-	m *= Matrix3::CreateTranslation(-Vec2::one * .5f);
+	m *= Matrix3::CreateTranslation(-Vector2::one * .5f);
 	m *= Matrix3::CreateScale(tileSize);
 	m *= Matrix3::CreateTranslation(SCREEN.GetExtents());
 	m *= Matrix3::CreateTranslation(gameObject()->transform()->position);
@@ -168,21 +168,21 @@ void Player::Update()
 {
 	if (pos.Equals(target_pos))
 	{
-		Vec2 input = {};
+		Vector2 input = {};
 		if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_UP))
-			input += Vec2::up;
+			input += Vector2::up;
 		if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_DOWN))
-			input += Vec2::down;
+			input += Vector2::down;
 		if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_LEFT))
-			input += Vec2::left;
+			input += Vector2::left;
 		if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_RIGHT))
-			input += Vec2::right;
+			input += Vector2::right;
 		target_pos += input;
 	}
 
-	Vec2 sub = target_pos - pos;
-	Vec2 vel = sub.Normalized() * blocks_per_sec * Time::deltaTime;Vec2::le
-	Vec2 subvel = {
+	Vector2 sub = target_pos - pos;
+	Vector2 vel = sub.Normalized() * blocks_per_sec * Time::deltaTime;
+	Vector2 subvel = {
 		MathUtils::GetClamp(vel.x, std::floor(vel.x), std::ceil(vel.x)),
 		MathUtils::GetClamp(vel.y, std::floor(vel.y), std::ceil(vel.y))
 	};
@@ -198,7 +198,7 @@ void Player::Render()
 
 	Matrix3 matrix = renderer->GetMatrix();
 
-	Quad quad = { Bounds::CreateFromSize(Vec2::zero, Vec2::one) };
+	Quad quad = { Bounds::CreateFromSize(Vector2::zero, Vector2::one) };
 	Matrix3 localMatrix = Matrix3::CreateIdentity();
 	localMatrix *= Matrix3::CreateTranslation(pos);
 	terrain->tileRegistry[0]->Render(quad * localMatrix * matrix, nullptr);

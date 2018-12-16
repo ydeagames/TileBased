@@ -127,9 +127,6 @@
     <ClCompile Include="Libraries\GameLibrary\Scene.cpp">
       <Filter>ライブラリ\ゲームライブラリ\オブジェクト</Filter>
     </ClCompile>
-    <ClCompile Include="Libraries\GameLibrary\Vec2.cpp">
-      <Filter>ライブラリ\ゲームライブラリ\物理</Filter>
-    </ClCompile>
     <ClCompile Include="Libraries\GameLibrary\MathUtils.cpp">
       <Filter>ライブラリ\ゲームライブラリ\物理</Filter>
     </ClCompile>
@@ -165,6 +162,9 @@
     </ClCompile>
     <ClCompile Include="Libraries\GameLibrary\Time.cpp">
       <Filter>ライブラリ\ゲームライブラリ\ユーティリティ</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\GameLibrary\Vector2.cpp">
+      <Filter>ライブラリ\ゲームライブラリ\物理</Filter>
     </ClCompile>
   </ItemGroup>
   <!-- ヘッダファイル -->
@@ -235,9 +235,6 @@
     <ClInclude Include="Libraries\GameLibrary\Scene.h">
       <Filter>ライブラリ\ゲームライブラリ\オブジェクト</Filter>
     </ClInclude>
-    <ClInclude Include="Libraries\GameLibrary\Vec2.h">
-      <Filter>ライブラリ\ゲームライブラリ\物理</Filter>
-    </ClInclude>
     <ClInclude Include="Libraries\GameLibrary\MathUtils.h">
       <Filter>ライブラリ\ゲームライブラリ\物理</Filter>
     </ClInclude>
@@ -273,6 +270,9 @@
     </ClInclude>
     <ClInclude Include="Libraries\GameLibrary\Time.h">
       <Filter>ライブラリ\ゲームライブラリ\ユーティリティ</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\GameLibrary\Vector2.h">
+      <Filter>ライブラリ\ゲームライブラリ\物理</Filter>
     </ClInclude>
   </ItemGroup>
   <!-- リソースファイル -->

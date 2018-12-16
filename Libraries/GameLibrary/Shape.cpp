@@ -3,7 +3,7 @@
 
 using namespace MathUtils;
 
-Bounds::Bounds(const Vec2& center, const Vec2& size) :
+Bounds::Bounds(const Vector2& center, const Vector2& size) :
 	center(center),
 	size(size)
 {
@@ -42,37 +42,37 @@ float Bounds::GetY(VerticalSide side) const
 }
 
 // <’†S>
-Vec2 Bounds::GetCenter() const
+Vector2 Bounds::GetCenter() const
 {
 	return center;
 }
 
 // <The extents of the Bounding Box. This is always half of the size of the Bounds.>
-Vec2 Bounds::GetExtents() const
+Vector2 Bounds::GetExtents() const
 {
 	return GetSize() / 2;
 }
 
 // <The maximal point of the box. This is always equal to center+extents.>
-Vec2 Bounds::GetMax() const
+Vector2 Bounds::GetMax() const
 {
 	return GetCenter() + GetExtents();
 }
 
 // <The minimal point of the box. This is always equal to center-extents.>
-Vec2 Bounds::GetMin() const
+Vector2 Bounds::GetMin() const
 {
 	return GetCenter() - GetExtents();
 }
 
 // <The total size of the box. This is always twice as large as the extents.>
-Vec2 Bounds::GetSize() const
+Vector2 Bounds::GetSize() const
 {
 	return size;
 }
 
 // <The closest point on the bounding box.>
-Vec2 Bounds::ClosestPoint(const Vec2& point) const
+Vector2 Bounds::ClosestPoint(const Vector2& point) const
 {
 	return{
 		GetClamp(point.x, GetMin().x, GetMax().x),
@@ -81,7 +81,7 @@ Vec2 Bounds::ClosestPoint(const Vec2& point) const
 }
 
 // <Is point contained in the bounding box?>
-bool Bounds::Contains(const Vec2& point) const
+bool Bounds::Contains(const Vector2& point) const
 {
 	return (
 		GetMin().x < point.x && point.x < GetMax().x &&
@@ -92,11 +92,11 @@ bool Bounds::Contains(const Vec2& point) const
 // <Expand the bounds by increasing its size by amount along each side.>
 Bounds Bounds::Expand(const float amount) const
 {
-	return Expand(Vec2::one * amount);
+	return Expand(Vector2::one * amount);
 }
 
 // <Expand the bounds by increasing its size by amount along each side.>
-Bounds Bounds::Expand(const Vec2& amount) const
+Bounds Bounds::Expand(const Vector2& amount) const
 {
 	return{
 		center,
@@ -199,27 +199,27 @@ HorizontalSide Bounds::CollisionHorizontal(const Bounds& field, Connection conne
 	return side_hit;
 }
 
-Bounds Bounds::CreateFromPosition(const Vec2& a, const Vec2& b)
+Bounds Bounds::CreateFromPosition(const Vector2& a, const Vector2& b)
 {
 	return{ (a + b) / 2, (a - b).Abs() };
 }
 
-Bounds Bounds::CreateFromSize(const Vec2& lefttop, const Vec2 & size)
+Bounds Bounds::CreateFromSize(const Vector2& lefttop, const Vector2 & size)
 {
 	return{ lefttop + size / 2, size };
 }
 
-Bounds Bounds::CreateFromCenter(const Vec2& center, const Vec2 & size)
+Bounds Bounds::CreateFromCenter(const Vector2& center, const Vector2 & size)
 {
 	return{ center, size };
 }
 
 Bounds Bounds::CreateFromPosition(float x1, float y1, float x2, float y2)
 {
-	return CreateFromPosition(Vec2{ x1, y1 }, Vec2{ x2, y2 });
+	return CreateFromPosition(Vector2{ x1, y1 }, Vector2{ x2, y2 });
 }
 
-Box::Box(const Vec2& center, const Vec2& size, float angle)
+Box::Box(const Vector2& center, const Vector2& size, float angle)
 	: center(center)
 	, size(size)
 	, angle(angle)
@@ -240,7 +240,7 @@ Box Box::Transformed(const Transform& t) const
 	return{ center + t.position, size/* * t.scale*/, angle + t.rotation };
 }
 
-Circle::Circle(const Vec2 & center, float size)
+Circle::Circle(const Vector2 & center, float size)
 	: center(center)
 	, size(size)
 {
@@ -251,7 +251,7 @@ Circle Circle::Transformed(const Transform & t) const
 	return{ center + t.position, size/* * MathUtils::GetMin(t.scale.x, t.scale.y)*/ };
 }
 
-Line::Line(const Vec2 & p1, const Vec2 & p2)
+Line::Line(const Vector2 & p1, const Vector2 & p2)
 	: p1(p1)
 	, p2(p2)
 {
@@ -259,9 +259,9 @@ Line::Line(const Vec2 & p1, const Vec2 & p2)
 
 Line Line::Transformed(const Transform & t) const
 {
-	Vec2 center = (p1 + p2) / 2;
-	Vec2 q1 = p1 - center;
-	Vec2 q2 = p2 - center;
+	Vector2 center = (p1 + p2) / 2;
+	Vector2 q1 = p1 - center;
+	Vector2 q2 = p2 - center;
 	//q1 *= t.scale;
 	//q2 *= t.scale;
 	q1 = q1.Rotate(t.rotation);
@@ -274,9 +274,9 @@ Line Line::Transformed(const Transform & t) const
 Quad::Quad(const Bounds& bounds)
 {
 	vertices[0] = bounds.GetCenter() + -bounds.GetExtents();
-	vertices[1] = bounds.GetCenter() + bounds.GetExtents() / Vec2{ 1, -1 };
+	vertices[1] = bounds.GetCenter() + bounds.GetExtents() / Vector2{ 1, -1 };
 	vertices[2] = bounds.GetCenter() + bounds.GetExtents();
-	vertices[3] = bounds.GetCenter() + bounds.GetExtents() / Vec2{ -1, 1 };
+	vertices[3] = bounds.GetCenter() + bounds.GetExtents() / Vector2{ -1, 1 };
 }
 
 Quad Quad::Transformed(const Transform& transform) const

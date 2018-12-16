@@ -38,7 +38,7 @@ public:
 
 public:
 	virtual ShapeType GetType() const = 0;
-	virtual Vec2 GetVelocity() const;
+	virtual Vector2 GetVelocity() const;
 	virtual void Apply(const CollisionResult& result) const = 0;
 
 public:

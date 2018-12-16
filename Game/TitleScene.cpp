@@ -19,11 +19,11 @@ TitleScene::TitleScene()
 	obj->AddComponent<BoxRenderer>(renderer);
 
 	auto title = GameObject::Create("Title");
-	title->transform()->position = SCREEN.GetCenter() + Vec2{ -100, -50 };
+	title->transform()->position = SCREEN.GetCenter() + Vector2{ -100, -50 };
 	title->AddNewComponent<FontTextRenderer>(GameGlobal::GetInstance().titlefont, "タイル");
 
 	auto text5 = GameObject::Create();
-	text5->transform()->position = SCREEN.GetCenter() + Vec2{ -200, 50 };
+	text5->transform()->position = SCREEN.GetCenter() + Vector2{ -200, 50 };
 	text5->AddNewComponent<FontTextRenderer>(font, "クリックかスペースキーでスタート！");
 
 	auto director = GameObject::Create("GameDirector");

@@ -1,5 +1,5 @@
 #pragma once
-#include "Vec2.h"
+#include "Vector2.h"
 #include "Transform.h"
 
 // <横位置関係>
@@ -57,11 +57,11 @@ public:
 class Bounds
 {
 private:
-	Vec2 center;
-	Vec2 size;
+	Vector2 center;
+	Vector2 size;
 
 public:
-	Bounds(const Vec2& pos, const Vec2& size);
+	Bounds(const Vector2& pos, const Vector2& size);
 
 public:
 	// <オブジェクトX位置ゲット>
@@ -71,31 +71,31 @@ public:
 	float GetY(VerticalSide side) const;
 
 	// <中心>
-	Vec2 GetCenter() const;
+	Vector2 GetCenter() const;
 
 	// <The extents of the Bounding Box. This is always half of the size of the Bounds.>
-	Vec2 GetExtents() const;
+	Vector2 GetExtents() const;
 
 	// <The maximal point of the box. This is always equal to center+extents.>
-	Vec2 GetMax() const;
+	Vector2 GetMax() const;
 
 	// <The minimal point of the box. This is always equal to center-extents.>
-	Vec2 GetMin() const;
+	Vector2 GetMin() const;
 
 	// <The total size of the box. This is always twice as large as the extents.>
-	Vec2 GetSize() const;
+	Vector2 GetSize() const;
 
 	// <The closest point on the bounding box.>
-	Vec2 ClosestPoint(const Vec2& point) const;
+	Vector2 ClosestPoint(const Vector2& point) const;
 
 	// <Is point contained in the bounding box?>
-	bool Contains(const Vec2& point) const;
+	bool Contains(const Vector2& point) const;
 
 	// <Expand the bounds by increasing its size by amount along each side.>
 	Bounds Expand(const float amount) const;
 
 	// <Expand the bounds by increasing its size by amount along each side.>
-	Bounds Expand(const Vec2& amount) const;
+	Bounds Expand(const Vector2& amount) const;
 
 	// <Transform>
 	Bounds Transformed(const Transform& transform) const;
@@ -107,11 +107,11 @@ public:
 	HorizontalSide CollisionHorizontal(const Bounds& obj, Connection connection, Edge edge);
 
 public:
-	static Bounds CreateFromPosition(const Vec2& a, const Vec2& b);
+	static Bounds CreateFromPosition(const Vector2& a, const Vector2& b);
 
-	static Bounds CreateFromSize(const Vec2& lefttop, const Vec2& size);
+	static Bounds CreateFromSize(const Vector2& lefttop, const Vector2& size);
 
-	static Bounds CreateFromCenter(const Vec2& center, const Vec2& size);
+	static Bounds CreateFromCenter(const Vector2& center, const Vector2& size);
 
 	static Bounds CreateFromPosition(float x1, float y1, float x2, float y2);
 };
@@ -119,12 +119,12 @@ public:
 class Box final : public Shape
 {
 public:
-	Vec2 center;
-	Vec2 size;
+	Vector2 center;
+	Vector2 size;
 	float angle;
 
 public:
-	Box(const Vec2& center, const Vec2& size, float angle = 0);
+	Box(const Vector2& center, const Vector2& size, float angle = 0);
 	virtual ~Box() {}
 
 public:
@@ -142,10 +142,10 @@ public:
 class Quad final : public Shape
 {
 public:
-	std::array<Vec2, 4> vertices;
+	std::array<Vector2, 4> vertices;
 
 public:
-	Quad(const std::array<Vec2, 4>& vertices)
+	Quad(const std::array<Vector2, 4>& vertices)
 		: vertices(vertices) {}
 	Quad(const Bounds& bounds);
 	virtual ~Quad() {}
@@ -165,11 +165,11 @@ public:
 class Circle final : public Shape
 {
 public:
-	Vec2 center;
+	Vector2 center;
 	float size;
 
 public:
-	Circle(const Vec2& center, float size);
+	Circle(const Vector2& center, float size);
 	virtual ~Circle() {}
 
 public:
@@ -184,11 +184,11 @@ public:
 class Line final : public Shape
 {
 public:
-	Vec2 p1;
-	Vec2 p2;
+	Vector2 p1;
+	Vector2 p2;
 
 public:
-	Line(const Vec2& p1, const Vec2& p2);
+	Line(const Vector2& p1, const Vector2& p2);
 	virtual ~Line() {}
 
 public:

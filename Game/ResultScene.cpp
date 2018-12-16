@@ -19,7 +19,7 @@ ResultScene::ResultScene()
 	obj->AddComponent<BoxRenderer>(renderer);
 
 	auto title = GameObject::Create("Title");
-	title->transform()->position = SCREEN.GetCenter() + Vec2{ -250, -100 };
+	title->transform()->position = SCREEN.GetCenter() + Vector2{ -250, -100 };
 	title->AddNewComponent<FontTextRenderer>(GameGlobal::GetInstance().titlefont, "ƒŠƒUƒ‹ƒg");
 
 	auto director = GameObject::Create("GameDirector");

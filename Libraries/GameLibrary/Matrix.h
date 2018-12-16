@@ -1,5 +1,5 @@
 #pragma once
-#include "Vec2.h"
+#include "Vector2.h"
 
 template<int rows_, int cols_>
 class Matrix;
@@ -122,14 +122,14 @@ public:
 	Matrix3 Inverse() const;
 
 public:
-	friend Vec2 operator*(const Vec2& v, const Matrix3& m);
-	friend Vec2& operator*=(Vec2& v, const Matrix3& m);
+	friend Vector2 operator*(const Vector2& v, const Matrix3& m);
+	friend Vector2& operator*=(Vector2& v, const Matrix3& m);
 
 public:
 	static Matrix3 CreateRotationX(float radians);
 	static Matrix3 CreateRotationY(float radians);
 	static Matrix3 CreateRotationZ(float radians);
 
-	static Matrix3 CreateTranslation(const Vec2& translation);
-	static Matrix3 CreateScale(const Vec2& scale);
+	static Matrix3 CreateTranslation(const Vector2& translation);
+	static Matrix3 CreateScale(const Vector2& scale);
 };

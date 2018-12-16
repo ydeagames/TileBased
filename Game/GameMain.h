@@ -17,7 +17,7 @@ const char* const GAME_TITLE = "360°ブロック崩し";
 // <画面>
 
 // 画面のサイズ[pixel]
-const Vec2 SCREEN_SIZE = { 640, 480 };
+const Vector2 SCREEN_SIZE = { 640, 480 };
 
 // 画面
 const Bounds SCREEN = { SCREEN_SIZE / 2, SCREEN_SIZE };

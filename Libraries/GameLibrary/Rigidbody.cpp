@@ -1,7 +1,7 @@
 #include "Rigidbody.h"
 #include "Transform.h"
 
-void Rigidbody::AddForce(const Vec2& velocity)
+void Rigidbody::AddForce(const Vector2& velocity)
 {
 	vel += velocity;
 }

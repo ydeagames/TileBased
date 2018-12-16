@@ -19,7 +19,7 @@ static int g_deltamilliseconds = 0;
 // <<テクスチャ>> ------------------------------------------------------
 
 // <テクスチャ作成>
-Texture::Texture(HGRP texture, const Vec2& anchor, const Vec2& size, const Vec2& pivot) :
+Texture::Texture(HGRP texture, const Vector2& anchor, const Vector2& size, const Vector2& pivot) :
 	texture(texture),
 	anchor(anchor),
 	size(size),
@@ -50,7 +50,7 @@ Texture::Texture(HGRP texture) :
 
 // <テクスチャなし>
 Texture::Texture() :
-	Texture(TEXTURE_NONE, Vec2{}, Vec2{})
+	Texture(TEXTURE_NONE, Vector2{}, Vector2{})
 {
 }
 
@@ -63,7 +63,7 @@ GameSprite::GameSprite(Texture texture, float scale, float angle) :
 	size(texture.size),
 	num_columns(1),
 	frame_index(0),
-	offset(Vec2{}),
+	offset(Vector2{}),
 	scale(scale),
 	angle(angle)
 {
@@ -83,12 +83,12 @@ void GameSprite::SetFrame(int frame)
 }
 
 // <スプライト描画>
-void GameSprite::Render(const Vec2* pos)
+void GameSprite::Render(const Vector2* pos)
 {
 	int column = frame_index%num_columns;
 	int row = frame_index / num_columns;
 
-	Vec2 anchor = texture.anchor + Vec2{ size.x * column, size.y * row };
+	Vector2 anchor = texture.anchor + Vector2{ size.x * column, size.y * row };
 
 	// スプライト描画
 	DrawRectRotaGraph2F(
@@ -179,7 +179,7 @@ void GameTick_Update(void)
 // <<オブジェクト>> ----------------------------------------------------
 
 // <オブジェクト作成>
-GameObject::GameObject(Vec2 pos, Vec2 vel, Vec2 size) :
+GameObject::GameObject(Vector2 pos, Vector2 vel, Vector2 size) :
 	pos(pos),
 	vel(vel),
 	size(size),
@@ -195,10 +195,10 @@ GameObject::GameObject(Vec2 pos, Vec2 vel, Vec2 size) :
 }
 
 // <線オブジェクト作成>
-GameObject GameObject::CreateLine(Vec2 pos1, Vec2 pos2, Vec2 vel)
+GameObject GameObject::CreateLine(Vector2 pos1, Vector2 pos2, Vector2 vel)
 {
-	Vec2 pos = (pos1 + pos2) * .5f;
-	Vec2 size = pos2 - pos1;
+	Vector2 pos = (pos1 + pos2) * .5f;
+	Vector2 size = pos2 - pos1;
 	GameObject obj = GameObject{ pos, vel, size };
 	obj.shape = ShapeType::LINE;
 	return obj;
@@ -230,7 +230,7 @@ Dimension GameObject::GetCollision()
 }
 
 // <オブジェクト描画>
-void GameObject::Render(const Vec2* translate)
+void GameObject::Render(const Vector2* translate)
 {
 	Dimension collision = GetCollision();
 
@@ -240,7 +240,7 @@ void GameObject::Render(const Vec2* translate)
 	float box_yt = collision.GetY(VerticalSide::TOP) + translate->y;
 	float box_ym = collision.GetY(VerticalSide::CENTER) + translate->y;
 	float box_yb = collision.GetY(VerticalSide::BOTTOM) + translate->y;
-	Vec2 box_t = { box_xc, box_ym };
+	Vector2 box_t = { box_xc, box_ym };
 
 	// テクスチャを確認
 	if (sprite.texture.texture != Texture::TEXTURE_NONE)
@@ -253,9 +253,9 @@ void GameObject::Render(const Vec2* translate)
 			case Connection::BARRIER:
 				{
 					// リピートタイル (回転、テクスチャ中心座標 には未対応)
-					Vec2 center_offset = sprite.texture.pivot * sprite.texture.size * sprite.scale;
-					Vec2 sp_pos = box_t + sprite.offset;
-					Vec2 sp_size = sprite.texture.size * sprite.scale;
+					Vector2 center_offset = sprite.texture.pivot * sprite.texture.size * sprite.scale;
+					Vector2 sp_pos = box_t + sprite.offset;
+					Vector2 sp_size = sprite.texture.size * sprite.scale;
 
 					float go_left = box_xl;
 					float go_right = box_xr;
@@ -283,7 +283,7 @@ void GameObject::Render(const Vec2* translate)
 							{
 								for (float ix = go_left + sp_size.x / 2 - offset_x - center_offset.x; ix < go_right; ix += sp_size.x)
 								{
-									sprite.Render(&Vec2{ ix + sp_size.x / 2 - sprite.offset.x, iy + sp_size.y / 2 - sprite.offset.y });
+									sprite.Render(&Vector2{ ix + sp_size.x / 2 - sprite.offset.x, iy + sp_size.y / 2 - sprite.offset.y });
 
 									if (DEBUG_HITBOX)
 										DrawBoxAA(ix, iy, ix + sp_size.x, iy + sp_size.y, sprite.color, FALSE, .5f);
@@ -350,7 +350,7 @@ void GameObject::Render(const Vec2* translate)
 			float r1 = edge;
 			// 線
 			if (DEBUG_HITBOX)
-				Graphics::DrawVector(size, Vec2{ box_xl, box_yt }, sprite.color, .5f);
+				Graphics::DrawVector(size, Vector2{ box_xl, box_yt }, sprite.color, .5f);
 			DrawLineAA(box_xl, box_yt, box_xr, box_yb, sprite.color, r1);
 			break;
 		}
@@ -369,9 +369,9 @@ void GameObject::SetSize(float scale, float objsize)
 // <フィールドオブジェクト作成>
 Field::Field(void) :
 	GameObject(
-		Vec2{ static_cast<float>(SCREEN_CENTER_X), static_cast<float>(SCREEN_CENTER_Y) },
-		Vec2{},
-		Vec2{ static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT) }
+		Vector2{ static_cast<float>(SCREEN_CENTER_X), static_cast<float>(SCREEN_CENTER_Y) },
+		Vector2{},
+		Vector2{ static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT) }
 	)
 {
 }

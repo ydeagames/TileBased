@@ -1,5 +1,5 @@
 #pragma once
-#include "Vec2.h"
+#include "Vector2.h"
 #include <string>
 #include <unordered_map>
 #include <memory>
@@ -98,7 +98,7 @@ public:
 class MouseInput final : public ButtonInput
 {
 private:
-	Vec2 position;
+	Vector2 position;
 
 public:
 	MouseInput();
@@ -108,10 +108,10 @@ public:
 	void Update() override;
 
 	// マウスを座標を取得
-	const Vec2& GetPosition();
+	const Vector2& GetPosition();
 
 	// マウスを座標を設定
-	void SetPosition(const Vec2& pos);
+	void SetPosition(const Vector2& pos);
 };
 
 // <キー入力デバイス>

@@ -122,7 +122,7 @@
     <ClCompile Include="Libraries\GameLibrary\Time.cpp" />
     <ClCompile Include="Libraries\GameLibrary\Timer.cpp" />
     <ClCompile Include="Libraries\GameLibrary\Transform.cpp" />
-    <ClCompile Include="Libraries\GameLibrary\Vec2.cpp" />
+    <ClCompile Include="Libraries\GameLibrary\Vector2.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="Game\GameMain.cpp" />
   </ItemGroup>
@@ -170,7 +170,7 @@
     <ClInclude Include="Libraries\GameLibrary\Time.h" />
     <ClInclude Include="Libraries\GameLibrary\Timer.h" />
     <ClInclude Include="Libraries\GameLibrary\Transform.h" />
-    <ClInclude Include="Libraries\GameLibrary\Vec2.h" />
+    <ClInclude Include="Libraries\GameLibrary\Vector2.h" />
     <ClInclude Include="Libraries\Utilities\MemoryLeakDetector.h" />
     <ClInclude Include="Resources\Icon\Icon.h" />
     <Image Include="Resources\Icon\Icon.ico" />

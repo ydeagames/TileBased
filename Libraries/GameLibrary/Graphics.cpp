@@ -4,7 +4,7 @@
 namespace Graphics
 {
 	// <ƒxƒNƒgƒ‹‚ð•`‰æ>
-	int DrawVector(const Vec2& vector, const Vec2& base, Color color, float Thickness)
+	int DrawVector(const Vector2& vector, const Vector2& base, Color color, float Thickness)
 	{
 		float arrow_length = 10 + Thickness * vector.Length()*.125f;
 		float arrow_rota = vector.Angle();
@@ -21,9 +21,9 @@ namespace Graphics
 	// ‰ñ“]’¼•û‘Ì
 	int DrawBoxRotate(const Box& box, unsigned int Color, int FillFlag, float LineThickness)
 	{
-		Vec2 vertex[4];
+		Vector2 vertex[4];
 		for (int i = 0; i < 4; ++i) {
-			Vec2 c = { (i == 0 || i == 3) ? -1 : 1, (i < 2) ? -1 : 1 };
+			Vector2 c = { (i == 0 || i == 3) ? -1 : 1, (i < 2) ? -1 : 1 };
 			vertex[i] = (box.size / 2 * c).Rotate(box.angle) + box.center;
 		}
 

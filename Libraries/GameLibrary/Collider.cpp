@@ -1,16 +1,16 @@
 #include "Collider.h"
 #include "MathUtils.h"
 
-Vec2 Collider::GetVelocity() const
+Vector2 Collider::GetVelocity() const
 {
 	auto rigidbody = gameObject()->GetComponent<Rigidbody>();
 	if (rigidbody)
 		return rigidbody->vel;
-	return Vec2{};
+	return Vector2{};
 }
 
 // Utils
-static CollisionResult CollisionSegment(const Vec2& _p1, const Vec2& _p2, const Vec2& _p3, const Vec2& _p4) {
+static CollisionResult CollisionSegment(const Vector2& _p1, const Vector2& _p2, const Vector2& _p3, const Vector2& _p4) {
 	float _time = -1;
 
 	//交差判定
@@ -38,7 +38,7 @@ static CollisionResult CollisionSegment(const Vec2& _p1, const Vec2& _p2, const 
 	return{ true, _time, 0 };
 }
 
-static CollisionResult CollisionRayCircle(const Vec2& _ray_pos, const Vec2& _ray_vec, const Vec2& _circle_pos, const float _radius) {
+static CollisionResult CollisionRayCircle(const Vector2& _ray_pos, const Vector2& _ray_vec, const Vector2& _circle_pos, const float _radius) {
 	float _time;
 
 	//エラーチェック
@@ -50,10 +50,10 @@ static CollisionResult CollisionRayCircle(const Vec2& _ray_pos, const Vec2& _ray
 	}
 
 	//オフセットの計算
-	Vec2 ray_pos = _ray_pos - _circle_pos;
+	Vector2 ray_pos = _ray_pos - _circle_pos;
 
 	//レイの方向ベクトルの正規化
-	Vec2 ray_vec = _ray_vec.Normalized();
+	Vector2 ray_vec = _ray_vec.Normalized();
 
 	// 係数を算出
 	float dot = ray_pos.Dot(ray_vec);
@@ -73,7 +73,7 @@ static CollisionResult CollisionRayCircle(const Vec2& _ray_pos, const Vec2& _ray
 	return{ true, _time, 0 };
 }
 
-static CollisionResult CollisionCircleSegment(const Circle& _circle, const Vec2& _circle_vel, const Vec2& _p1, const Vec2& _p2) {
+static CollisionResult CollisionCircleSegment(const Circle& _circle, const Vector2& _circle_vel, const Vector2& _p1, const Vector2& _p2) {
 	float _time = -1;
 
 	//衝突したかの判定
@@ -83,12 +83,12 @@ static CollisionResult CollisionCircleSegment(const Circle& _circle, const Vec2&
 	float cross = (_circle.center - _p1).Cross(_p2 - _p1);
 
 	//円に近い線分の計算
-	Vec2 p3, p4, translate;
+	Vector2 p3, p4, translate;
 	if (cross >= 0) {
-		translate = Vec2::right.Rotate((_p2 - _p1).Angle() - DX_PI_F / 2) * (_circle.size + 1);
+		translate = Vector2::right.Rotate((_p2 - _p1).Angle() - DX_PI_F / 2) * (_circle.size + 1);
 	}
 	else {
-		translate = Vec2::right.Rotate((_p2 - _p1).Angle() + DX_PI_F / 2) * (_circle.size + 1);
+		translate = Vector2::right.Rotate((_p2 - _p1).Angle() + DX_PI_F / 2) * (_circle.size + 1);
 	}
 	p3 = _p1 + translate;
 	p4 = _p2 + translate;
@@ -152,7 +152,7 @@ void BoxCollider::Apply(const CollisionResult & result) const
 	}
 	auto rigidbody = gameObject()->GetComponent<Rigidbody>();
 	if (rigidbody)
-		rigidbody->vel = Vec2::right.Rotate(transform->rotation) * (1.f - result.time);
+		rigidbody->vel = Vector2::right.Rotate(transform->rotation) * (1.f - result.time);
 }
 
 CollisionResult BoxCollider::Collide(const Collider& other) const
@@ -166,10 +166,10 @@ CollisionResult BoxCollider::Collide(const BoxCollider& other) const
 	const Box _rect2 = other.GetShape(*other.gameObject()->transform());
 
 	//各頂点座標の計算
-	Vec2 vertex1[4];
-	Vec2 vertex2[4];
+	Vector2 vertex1[4];
+	Vector2 vertex2[4];
 	for (int i = 0; i < 4; ++i) {
-		Vec2 c = { (i == 0 || i == 3) ? -1 : 1, (i < 2) ? -1 : 1 };
+		Vector2 c = { (i == 0 || i == 3) ? -1 : 1, (i < 2) ? -1 : 1 };
 		vertex1[i] = (_rect1.size / 2 * c).Rotate(_rect1.angle) + _rect1.center;
 		vertex2[i] = (_rect2.size / 2 * c).Rotate(_rect2.angle) + _rect2.center;
 	}
@@ -196,11 +196,11 @@ CollisionResult BoxCollider::Collide(const CircleCollider& other) const
 	float _ref_normal;
 
 	//オフセットの計算
-	const Vec2& rect_rotate_pos = _rect.center;
-	const Vec2& circle_pos = _circle.center;
+	const Vector2& rect_rotate_pos = _rect.center;
+	const Vector2& circle_pos = _circle.center;
 
 	//相対速度の計算
-	Vec2 vel = (_rigid2 != nullptr ? _rigid2->vel : Vec2{}) - (_rigid1 != nullptr ? _rigid1->vel : Vec2{});
+	Vector2 vel = (_rigid2 != nullptr ? _rigid2->vel : Vector2{}) - (_rigid1 != nullptr ? _rigid1->vel : Vector2{});
 
 	//各線分との衝突するまでの時間
 	float t_a, t_b;
@@ -210,11 +210,11 @@ CollisionResult BoxCollider::Collide(const CircleCollider& other) const
 	bool is_collision = false;
 
 	//各頂点座標との距離の計算
-	Vec2 vertex[4];
+	Vector2 vertex[4];
 	float vertex_distance[4];
 	int min_distance_index = 0;
 	for (int i = 0; i < 4; ++i) {
-		Vec2 c = { (i == 0 || i == 3) ? -1 : 1, (i < 2) ? -1 : 1 };
+		Vector2 c = { (i == 0 || i == 3) ? -1 : 1, (i < 2) ? -1 : 1 };
 		vertex[i] = (_rect.size / 2 * c).Rotate(_rect.angle) + rect_rotate_pos;
 		vertex_distance[i] = circle_pos.LengthSquaredTo(vertex[i]);
 		if (vertex_distance[i] < vertex_distance[min_distance_index]) {
@@ -288,7 +288,7 @@ CollisionResult BoxCollider::Collide(const LineCollider& other) const
 void CircleCollider::Apply(const CollisionResult & result) const
 {
 	auto transform = gameObject()->transform();
-	Vec2 vel = GetVelocity();
+	Vector2 vel = GetVelocity();
 	transform->position += vel * result.time;
 	if (!vel.IsZero())
 		transform->rotation = vel.Angle();
@@ -299,7 +299,7 @@ void CircleCollider::Apply(const CollisionResult & result) const
 	}
 	auto rigidbody = gameObject()->GetComponent<Rigidbody>();
 	if (rigidbody)
-		rigidbody->vel = Vec2::right.Rotate(transform->rotation) * vel.Length()/* * (1.f - result.time)*/;
+		rigidbody->vel = Vector2::right.Rotate(transform->rotation) * vel.Length()/* * (1.f - result.time)*/;
 }
 
 CollisionResult CircleCollider::Collide(const Collider& other) const
@@ -325,7 +325,7 @@ CollisionResult CircleCollider::Collide(const LineCollider& other) const
 	const auto _rigid2 = other.gameObject()->GetComponent<Rigidbody>();
 
 	//相対速度の計算
-	Vec2 vel = (_rigid2 != nullptr ? _rigid2->vel : Vec2{}) - (_rigid1 != nullptr ? _rigid1->vel : Vec2{});
+	Vector2 vel = (_rigid2 != nullptr ? _rigid2->vel : Vector2{}) - (_rigid1 != nullptr ? _rigid1->vel : Vector2{});
 
 	CollisionResult result = CollisionCircleSegment(_circle, vel, _line.p1, _line.p2);
 	if (result.hit) {

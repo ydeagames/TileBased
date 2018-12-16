@@ -21,13 +21,13 @@ public:
 
 public:
 	HGRP texture;				// <テクスチャ>
-	Vec2 anchor;				// <テクスチャ基点>
-	Vec2 size;					// <テクスチャサイズ>
-	Vec2 pivot;					// <テクスチャ中心>
+	Vector2 anchor;				// <テクスチャ基点>
+	Vector2 size;					// <テクスチャサイズ>
+	Vector2 pivot;					// <テクスチャ中心>
 
 public:
 	// <テクスチャ作成>
-	Texture(HGRP texture, const Vec2& anchor, const Vec2& size, const Vec2& pivot = Vec2{ .5f, .5f });
+	Texture(HGRP texture, const Vector2& anchor, const Vector2& size, const Vector2& pivot = Vector2{ .5f, .5f });
 
 	// <テクスチャ作成>
 	Texture(HGRP texture);
@@ -39,12 +39,12 @@ public:
 class Transform final
 {
 public:
-	Vec2 position;				// <テクスチャ>
+	Vector2 position;				// <テクスチャ>
 	float rotation;				// <回転>
 	float scale;				// <スケール>
 
 public:
-	Transform(const Vec2& position, float rotation, float scale);
+	Transform(const Vector2& position, float rotation, float scale);
 
 	Transform();
 };
@@ -87,10 +87,10 @@ class GameSprite
 public:
 	Color color;			// <色>
 	Texture texture;		// <テクスチャ>
-	Vec2 size;					// <サイズ>
+	Vector2 size;					// <サイズ>
 	int num_columns;			// <1行あたりのフレーム数>
 	int frame_index;			// <現在のフレームのインデックス>
-	Vec2 offset;				// <オフセット>
+	Vector2 offset;				// <オフセット>
 	float scale;				// <スケール>
 	float angle;				// <回転>
 public:
@@ -105,7 +105,7 @@ public:
 	void SetFrame(int frame);
 
 	// <スプライト描画>
-	void Render(const Vec2* pos);
+	void Render(const Vector2* pos);
 };
 
 // <スプライトアニメーション>
@@ -139,9 +139,9 @@ public:
 	// <デバッグ用当たり判定表示>
 	static bool DEBUG_HITBOX;
 public:
-	Vec2 pos;					// <位置>
-	Vec2 vel;					// <速度>
-	Vec2 size;					// <大きさ>
+	Vector2 pos;					// <位置>
+	Vector2 vel;					// <速度>
+	Vector2 size;					// <大きさ>
 	ShapeType shape;				// <形>
 	GameSprite sprite;			// <スプライト>
 	bool fill;					// <塗りつぶし>
@@ -153,12 +153,12 @@ public:
 	Timer count;				// <カウンタ>
 public:
 	// <オブジェクト作成>
-	GameObject(Vec2 pos = {}, Vec2 vel = {}, Vec2 size = {});
+	GameObject(Vector2 pos = {}, Vector2 vel = {}, Vector2 size = {});
 
 	virtual ~GameObject() {};
 
 	// <線オブジェクト作成>
-	static GameObject CreateLine(Vec2 pos1, Vec2 pos2, Vec2 vel = {});
+	static GameObject CreateLine(Vector2 pos1, Vector2 pos2, Vector2 vel = {});
 
 	// <オブジェクト削除>
 	void Dispose();
@@ -173,7 +173,7 @@ public:
 	Dimension GetCollision();
 
 	// <オブジェクト描画>
-	void Render(const Vec2* translate = &Vec2{});
+	void Render(const Vector2* translate = &Vector2{});
 
 	// <弾オブジェクトサイズ変更>
 	void SetSize(float scale, float size = 10);
