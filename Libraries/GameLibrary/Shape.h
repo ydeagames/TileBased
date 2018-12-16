@@ -109,7 +109,9 @@ public:
 public:
 	static Bounds CreateFromPosition(const Vec2& a, const Vec2& b);
 
-	static Bounds CreateFromSize(const Vec2& center, const Vec2& size);
+	static Bounds CreateFromSize(const Vec2& lefttop, const Vec2& size);
+
+	static Bounds CreateFromCenter(const Vec2& center, const Vec2& size);
 
 	static Bounds CreateFromPosition(float x1, float y1, float x2, float y2);
 };
@@ -135,6 +137,29 @@ public:
 	Bounds GetBounds() const;
 
 	Box Transformed(const Transform& transform) const;
+};
+
+class Quad final : public Shape
+{
+public:
+	std::array<Vec2, 4> vertices;
+
+public:
+	Quad(const std::array<Vec2, 4>& vertices)
+		: vertices(vertices) {}
+	Quad(const Bounds& bounds);
+	virtual ~Quad() {}
+
+public:
+	inline ShapeType GetType() const override
+	{
+		return ShapeType::BOX;
+	}
+
+	Quad Transformed(const Transform& transform) const;
+
+	Quad operator*(const Matrix& matrix) const;
+	Quad& operator*=(const Matrix& matrix);
 };
 
 class Circle final : public Shape

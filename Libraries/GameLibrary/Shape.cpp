@@ -207,7 +207,12 @@ Bounds Bounds::CreateFromPosition(const Vec2& a, const Vec2& b)
 	return{ (a + b) / 2, (a - b).Abs() };
 }
 
-Bounds Bounds::CreateFromSize(const Vec2 & center, const Vec2 & size)
+Bounds Bounds::CreateFromSize(const Vec2& lefttop, const Vec2 & size)
+{
+	return{ lefttop + size / 2, size };
+}
+
+Bounds Bounds::CreateFromCenter(const Vec2& center, const Vec2 & size)
 {
 	return{ center, size };
 }
@@ -267,4 +272,31 @@ Line Line::Transformed(const Transform & t) const
 	q1 += t.position;
 	q2 += t.position;
 	return{ q1 + center, q2 + center };
+}
+
+Quad::Quad(const Bounds& bounds)
+{
+	vertices[0] = bounds.GetCenter() + -bounds.GetExtents();
+	vertices[1] = bounds.GetCenter() + bounds.GetExtents() / Vec2{ 1, -1 };
+	vertices[2] = bounds.GetCenter() + bounds.GetExtents();
+	vertices[3] = bounds.GetCenter() + bounds.GetExtents() / Vec2{ -1, 1 };
+}
+
+Quad Quad::Transformed(const Transform & transform) const
+{
+	Matrix m = transform.GetMatrix();
+	return *this * m;
+}
+
+Quad Quad::operator*(const Matrix& matrix) const
+{
+	Quad quad = *this;
+	return (quad *= matrix);
+}
+
+Quad& Quad::operator*=(const Matrix& matrix)
+{
+	for (auto& vertex : vertices)
+		vertex *= matrix;
+	return *this;
 }

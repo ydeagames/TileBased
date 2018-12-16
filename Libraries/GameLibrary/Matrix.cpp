@@ -1,6 +1,6 @@
 #include "Matrix.h"
 
-#define EPS 1e-10
+#define EPS 1e-10f
 
 using std::ostream;  using std::istream;  using std::endl;
 using std::domain_error;
@@ -100,7 +100,7 @@ Matrix& Matrix::operator*=(const Matrix& m)
 	return (*this = temp);
 }
 
-Matrix& Matrix::operator*=(double num)
+Matrix& Matrix::operator*=(float num)
 {
 	for (int i = 0; i < rows_; ++i) {
 		for (int j = 0; j < cols_; ++j) {
@@ -110,7 +110,7 @@ Matrix& Matrix::operator*=(double num)
 	return *this;
 }
 
-Matrix& Matrix::operator/=(double num)
+Matrix& Matrix::operator/=(float num)
 {
 	for (int i = 0; i < rows_; ++i) {
 		for (int j = 0; j < cols_; ++j) {
@@ -120,15 +120,45 @@ Matrix& Matrix::operator/=(double num)
 	return *this;
 }
 
-Matrix Matrix::operator^(int num)
+Matrix Matrix::operator^(int num) const
 {
-	Matrix temp(*this);
+	Matrix temp = *this;
 	return expHelper(temp, num);
+}
+
+Matrix Matrix::operator+(const Matrix& m2) const
+{
+	Matrix temp = *this;
+	return (temp += m2);
+}
+
+Matrix Matrix::operator-(const Matrix& m2) const
+{
+	Matrix temp = *this;
+	return (temp -= m2);
+}
+
+Matrix Matrix::operator*(const Matrix& m2) const
+{
+	Matrix temp = *this;
+	return (temp *= m2);
+}
+
+Matrix Matrix::operator*(float num) const
+{
+	Matrix temp = *this;
+	return (temp *= num);
+}
+
+Matrix Matrix::operator/(float num) const
+{
+	Matrix temp = *this;
+	return (temp /= num);
 }
 
 void Matrix::swapRows(int r1, int r2)
 {
-	double *temp = p[r1];
+	float *temp = p[r1];
 	p[r1] = p[r2];
 	p[r2] = temp;
 }
@@ -193,7 +223,7 @@ Matrix Matrix::solve(Matrix A, Matrix b)
 	for (int i = x.rows_ - 2; i >= 0; --i) {
 		int sum = 0;
 		for (int j = i + 1; j < x.rows_; ++j) {
-			sum += A.p[i][j] * x.p[j][0];
+			sum += static_cast<int>(A.p[i][j] * x.p[j][0]);
 		}
 		x.p[i][0] = (b.p[i][0] - sum) / A.p[i][i];
 		if (x.p[i][0] < EPS && x.p[i][0] > -1 * EPS)
@@ -229,7 +259,7 @@ Matrix Matrix::bandSolve(Matrix A, Matrix b, int k)
 	for (int i = x.rows_ - 2; i >= 0; --i) {
 		int sum = 0;
 		for (int j = i + 1; j < x.rows_; ++j) {
-			sum += A.p[i][j] * x.p[j][0];
+			sum += static_cast<int>(A.p[i][j] * x.p[j][0]);
 		}
 		x.p[i][0] = (b.p[i][0] - sum) / A.p[i][i];
 	}
@@ -238,9 +268,9 @@ Matrix Matrix::bandSolve(Matrix A, Matrix b, int k)
 }
 
 // functions on VECTORS
-double Matrix::dotProduct(Matrix a, Matrix b)
+float Matrix::dotProduct(Matrix a, Matrix b)
 {
-	double sum = 0;
+	float sum = 0;
 	for (int i = 0; i < a.rows_; ++i) {
 		sum += (a(i, 0) * b(i, 0));
 	}
@@ -284,10 +314,10 @@ Matrix Matrix::gaussianEliminate()
 			}
 			else { // check for a possible swap
 				int max_row = i;
-				double max_val = 0;
+				float max_val = 0;
 				for (int k = i + 1; k < rows; ++k)
 				{
-					double cur_abs = Ab(k, j) >= 0 ? Ab(k, j) : -1 * Ab(k, j);
+					float cur_abs = Ab(k, j) >= 0 ? Ab(k, j) : -1 * Ab(k, j);
 					if (cur_abs > max_val)
 					{
 						max_row = k;
@@ -454,19 +484,78 @@ Matrix Matrix::inverse()
 	return AInverse;
 }
 
+Matrix Matrix::CreateRotationX(float radians)
+{
+	Matrix m = createIdentity(3);
+
+	m.p[1][1] = std::cosf(radians);
+	m.p[2][1] = -std::sinf(radians);
+
+	m.p[1][2] = std::sinf(radians);
+	m.p[2][2] = std::cosf(radians);
+
+	return m;
+}
+
+Matrix Matrix::CreateRotationY(float radians)
+{
+	Matrix m = createIdentity(3);
+
+	m.p[0][0] = std::cosf(radians);
+	m.p[2][0] = std::sinf(radians);
+
+	m.p[0][2] = -std::sinf(radians);
+	m.p[2][2] = std::cosf(radians);
+
+	return m;
+}
+
+Matrix Matrix::CreateRotationZ(float radians)
+{
+	Matrix m = createIdentity(3);
+
+	m.p[0][0] = std::cosf(radians);
+	m.p[1][0] = -std::sinf(radians);
+
+	m.p[0][1] = std::sinf(radians);
+	m.p[1][1] = std::cosf(radians);
+
+	return m;
+}
+
+Matrix Matrix::CreateTranslation(const Vec2& translation)
+{
+	Matrix m = createIdentity(3);
+
+	m.p[2][0] = translation.x;
+	m.p[2][1] = translation.y;
+
+	return m;
+}
+
+Matrix Matrix::CreateScale(const Vec2& scale)
+{
+	Matrix m = createIdentity(3);
+
+	m.p[0][0] = scale.x;
+	m.p[1][1] = scale.y;
+
+	return m;
+}
+
 
 /* PRIVATE HELPER FUNCTIONS
 ********************************/
 
 void Matrix::allocSpace()
 {
-	p = new double*[rows_];
+	p = new float*[rows_];
 	for (int i = 0; i < rows_; ++i) {
-		p[i] = new double[cols_];
+		p[i] = new float[cols_];
 	}
 }
 
-Matrix Matrix::expHelper(const Matrix& m, int num)
+Matrix Matrix::expHelper(const Matrix& m, int num) const
 {
 	if (num == 0) {
 		return createIdentity(m.rows_);
@@ -485,39 +574,27 @@ Matrix Matrix::expHelper(const Matrix& m, int num)
 /* NON-MEMBER FUNCTIONS
 ********************************/
 
-Matrix operator+(const Matrix& m1, const Matrix& m2)
-{
-	Matrix temp(m1);
-	return (temp += m2);
-}
-
-Matrix operator-(const Matrix& m1, const Matrix& m2)
-{
-	Matrix temp(m1);
-	return (temp -= m2);
-}
-
-Matrix operator*(const Matrix& m1, const Matrix& m2)
-{
-	Matrix temp(m1);
-	return (temp *= m2);
-}
-
-Matrix operator*(const Matrix& m, double num)
-{
-	Matrix temp(m);
-	return (temp *= num);
-}
-
-Matrix operator*(double num, const Matrix& m)
+Matrix operator*(float num, const Matrix& m)
 {
 	return (m * num);
 }
 
-Matrix operator/(const Matrix& m, double num)
+Vec2 operator*(const Vec2& vec, const Matrix& matrix)
 {
-	Matrix temp(m);
-	return (temp /= num);
+	Vec2 newvec = vec;
+	return (newvec *= matrix);
+}
+
+Vec2& operator*=(Vec2& vec, const Matrix& matrix)
+{
+	Matrix vecmat = { 1, 3 };
+	vecmat(0, 0) = vec.x;
+	vecmat(0, 1) = vec.y;
+	vecmat(0, 2) = 0;
+	vecmat *= matrix;
+	vec.x = vecmat(0, 0);
+	vec.y = vecmat(0, 1);
+	return vec;
 }
 
 ostream& operator<<(ostream& os, const Matrix& m)

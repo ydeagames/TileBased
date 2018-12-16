@@ -12,6 +12,14 @@ Transform::Transform()
 {
 }
 
+Matrix Transform::GetMatrix() const
+{
+	Matrix m = Matrix::CreateScale(scale);
+	m *= Matrix::CreateRotationZ(rotation);
+	m *= Matrix::CreateTranslation(position);
+	return m;
+}
+
 /*
 Transform Transform::Transformed() const
 {

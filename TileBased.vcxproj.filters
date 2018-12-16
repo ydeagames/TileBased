@@ -161,7 +161,7 @@
       <Filter>ライブラリ\ゲームライブラリ\グラフィック</Filter>
     </ClCompile>
     <ClCompile Include="Libraries\GameLibrary\Matrix.cpp">
-      <Filter>ゲーム</Filter>
+      <Filter>ライブラリ\ゲームライブラリ\物理</Filter>
     </ClCompile>
   </ItemGroup>
   <!-- ヘッダファイル -->
@@ -266,7 +266,7 @@
       <Filter>ライブラリ\ゲームライブラリ\グラフィック</Filter>
     </ClInclude>
     <ClInclude Include="Libraries\GameLibrary\Matrix.h">
-      <Filter>ゲーム</Filter>
+      <Filter>ライブラリ\ゲームライブラリ\物理</Filter>
     </ClInclude>
   </ItemGroup>
   <!-- リソースファイル -->

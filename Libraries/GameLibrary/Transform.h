@@ -1,6 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "Vec2.h"
+#include "Matrix.h"
 
 class Transform final : public Component
 {
@@ -12,4 +13,7 @@ public:
 public:
 	Transform(const Vec2& position, float rotation, const Vec2& scale);
 	Transform();
+
+public:
+	Matrix GetMatrix() const;
 };

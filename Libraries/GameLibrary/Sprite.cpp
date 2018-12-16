@@ -1,11 +1,11 @@
 #include "Sprite.h"
 
-Sprite::Sprite(const Texture& texture, const Transform & transform)
+Sprite::Sprite(const Texture& texture, const Transform& transform)
 	: texture(texture)
 	, transform(transform)
 {
 }
 
-void Sprite::Render(const Transform & tranform)
+void Sprite::Render(const Transform& tranform)
 {
 }

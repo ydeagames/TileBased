@@ -76,7 +76,10 @@ PlayScene::PlayScene()
 	auto tileterrain = terrain->AddNewComponent<TileTerrain>();
 	std::shared_ptr<TextureResource> texture = std::make_shared<TextureResource>("Protected/Valkyrie_BG_mapChip.png");
 	for (int i = 0; i < 42; i++)
-		tileterrain->RegisterTile(i, std::make_unique<Tile>(Texture{ texture, Vec2{2 + (16 + 2)*(i % 14), 2 + (16 + 2)*(i / 14)}, Vec2{16, 16} }));
+	{
+		std::shared_ptr<TextureResource> tiletexture = std::make_shared<TextureResource>(texture, Bounds::CreateFromSize(Vec2{ 2 + (16 + 2)*(i % 14), 2 + (16 + 2)*(i / 14) }, Vec2{ 16, 16 }));
+		tileterrain->RegisterTile(i, std::make_unique<Tile>(Texture{ tiletexture }));
+	}
 
 	int map[16][16] = {
 		{40,40,40,40,40,40,40,40,40,40,40,40,40,40,40, 0, },
@@ -119,7 +122,9 @@ void TileRenderer::Render()
 
 void Tile::Render(const Vec2& pos, const std::unique_ptr<TileEntity>& te) const
 {
-	texture.Render(Transform{ pos, 0, Vec2::one * 3 }, Vec2::zero);
+	Quad quad = { Bounds::CreateFromSize(pos, Vec2::one * 48) };
+	quad *= Matrix::CreateRotationZ(0.1f);
+;	texture.Render(quad);
 }
 
 const Tile& TileTerrain::GetTile(int x, int y)
