@@ -3,22 +3,40 @@
 // <ゲームタイマー>>
 class Timer final
 {
-private:
-	// ミリ秒→秒
-	static const int RESOLUTION = 1000;
+public:
+	// マイクロ秒
+	using TimePoint = long long int;
 
+private:
+	// マイクロ秒→秒
+	static const int RESOLUTION = 1'000'000;
+
+private:
+	// <時刻更新>
+	static TimePoint tick;
+
+private:
 	// 開始時間
-	int start_time;
+	TimePoint start_time;
 	// 終了時間
-	int last_time;
+	TimePoint last_time;
 	// 一時停止
 	bool paused;
 	// 総合時間
 	float total;
+
 public:
 	// <タイマー作成>
 	Timer();
 
+public:
+	// <時刻更新>
+	static void Tick();
+
+	// <時刻取得>
+	static TimePoint GetNow();
+
+public:
 	// <タイマー時間>
 	float GetTime();
 

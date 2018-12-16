@@ -10,6 +10,8 @@
 Game::Game() :
 	m_frame_timer(new FrameTimer)
 {
+	Time::GetInstance().InitializeTime();
+
 	SceneManager& scene_manager = SceneManager::GetInstance();
 
 	scene_manager.AddScene<TitleScene>(SceneID::LOGO);
@@ -30,6 +32,7 @@ Game::~Game()
 void Game::Update(void)
 {
 	m_frame_timer->Update();
+	Time::GetInstance().UpdateTime();
 
 	InputManager::GetInstance().Update();
 

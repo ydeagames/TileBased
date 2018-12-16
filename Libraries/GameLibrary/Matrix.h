@@ -1,4 +1,5 @@
 #pragma once
+#include "Vec2.h"
 
 template<int rows_, int cols_>
 class Matrix;
@@ -116,6 +117,9 @@ public:
 				temp(i, j) = (i == j) ? 1.f : 0.f;
 		return temp;
 	}
+
+public:
+	Matrix3 Inverse() const;
 
 public:
 	friend Vec2 operator*(const Vec2& v, const Matrix3& m);

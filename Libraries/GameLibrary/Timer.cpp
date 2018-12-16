@@ -1,5 +1,8 @@
 #include "Timer.h"
 
+// <時刻更新>
+Timer::TimePoint Timer::tick = -1;
+
 // <タイマー作成>
 Timer::Timer(void) :
 	start_time(-1),
@@ -11,12 +14,26 @@ Timer::Timer(void) :
 	Reset();
 }
 
+// <時刻更新>
+void Timer::Tick()
+{
+	tick = GetNowHiPerformanceCount();
+}
+
+// <時刻取得>
+Timer::TimePoint Timer::GetNow()
+{
+	if (tick < 0)
+		return GetNowHiPerformanceCount();
+	return tick;
+}
+
 // <タイマー時間>
 float Timer::GetTime()
 {
 	// 一時停止されてなければ更新する
 	if (!paused)
-		last_time = GetNowCount() - start_time;
+		last_time = GetNow() - start_time;
 	return static_cast<float>(last_time) / RESOLUTION;
 }
 
@@ -31,7 +48,7 @@ Timer& Timer::Pause()
 {
 	// 一時停止されてなければ更新する
 	if (!paused)
-		last_time = GetNowCount() - start_time;
+		last_time = GetNow() - start_time;
 	paused = TRUE;
 	return *this;
 }
@@ -48,7 +65,7 @@ Timer& Timer::Resume()
 {
 	// 一時停止されていれば再開開始時刻を計算して更新
 	if (paused)
-		start_time = GetNowCount() - last_time;
+		start_time = GetNow() - last_time;
 	paused = FALSE;
 	return *this;
 }
@@ -57,9 +74,9 @@ Timer& Timer::Resume()
 Timer& Timer::Set(float new_time)
 {
 	// ミリ秒
-	int new_time_in_ticks = static_cast<int>(new_time * RESOLUTION);
+	TimePoint new_time_in_ticks = static_cast<TimePoint>(new_time * RESOLUTION);
 	// 開始時刻を計算
-	start_time = GetNowCount() - new_time_in_ticks;
+	start_time = GetNow() - new_time_in_ticks;
 	// 終了時刻を計算
 	last_time = new_time_in_ticks;
 	return *this;
