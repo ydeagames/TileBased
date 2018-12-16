@@ -25,7 +25,7 @@ public:
 	virtual ~Tile() = default;
 
 public:
-	void Render(const Vec2& pos, const std::unique_ptr<TileEntity>& te) const;
+	void Render(const Quad& quad, const std::unique_ptr<TileEntity>& te) const;
 };
 
 class TileTerrain : public Component
@@ -117,14 +117,18 @@ void TileRenderer::Render()
 	auto terrain = gameObject()->GetComponent<TileTerrain>();
 	for (int iy = 0; iy < 16; iy++)
 		for (int ix = 0; ix < 16; ix++)
-			terrain->GetTile(ix, iy).Render(gameObject()->transform()->position - pos + terrain->tileSize * Vec2{ ix, iy }, nullptr);
+		{
+			Quad quad = { Bounds::CreateFromSize(Vec2{ix, iy}, Vec2::one) };
+			quad *= Matrix::CreateScale(terrain->tileSize);
+			quad *= Matrix::CreateTranslation(gameObject()->transform()->position);
+			quad *= Matrix::CreateTranslation(-pos);
+			terrain->GetTile(ix, iy).Render(quad, nullptr);
+		}
 }
 
-void Tile::Render(const Vec2& pos, const std::unique_ptr<TileEntity>& te) const
+void Tile::Render(const Quad& quad, const std::unique_ptr<TileEntity>& te) const
 {
-	Quad quad = { Bounds::CreateFromSize(pos, Vec2::one * 48) };
-	quad *= Matrix::CreateRotationZ(0.1f);
-;	texture.Render(quad);
+	texture.Render(quad);
 }
 
 const Tile& TileTerrain::GetTile(int x, int y)

@@ -590,10 +590,10 @@ Vec2& operator*=(Vec2& vec, const Matrix& matrix)
 	Matrix vecmat = { 1, 3 };
 	vecmat(0, 0) = vec.x;
 	vecmat(0, 1) = vec.y;
-	vecmat(0, 2) = 0;
+	vecmat(0, 2) = 1;
 	vecmat *= matrix;
-	vec.x = vecmat(0, 0);
-	vec.y = vecmat(0, 1);
+	vec.x = vecmat(0, 0) / vecmat(0, 2);
+	vec.y = vecmat(0, 1) / vecmat(0, 2);
 	return vec;
 }
 
