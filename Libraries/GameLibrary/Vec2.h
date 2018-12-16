@@ -73,6 +73,12 @@ public:
 	// <ベクトルを分解>
 	void Decompose(const Vec2& angle, Vec2& vec_a, Vec2& vec_b) const;
 
+	// <線形補間>
+	Vec2 Lerp(const Vec2 & min, const Vec2 & max, float step) const;
+
+	// <線形補間>
+	Vec2 LerpUnclamped(const Vec2 & min, const Vec2 & max, float step) const;
+
 	// <ベクトルループ>
 	Vec2 GetLoop(const Vec2& max) const;
 

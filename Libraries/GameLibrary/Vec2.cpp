@@ -121,6 +121,24 @@ void Vec2::Decompose(const Vec2& angle, Vec2& vec_a, Vec2& vec_b) const
 	vec_b = { vec_b_length * std::cosf(vec_b_rota), vec_b_length * std::sinf(vec_b_rota) };
 }
 
+// <線形補間>
+Vec2 Vec2::Lerp(const Vec2& min, const Vec2& max, float step) const
+{
+	return{
+		MathUtils::GetClamp(MathUtils::GetPercentValueRange(x, min.x, max.x), min.x, max.x),
+		MathUtils::GetClamp(MathUtils::GetPercentValueRange(y, min.y, max.y), min.y, max.y),
+	};
+}
+
+// <線形補間>
+Vec2 Vec2::LerpUnclamped(const Vec2& min, const Vec2& max, float step) const
+{
+	return{
+		MathUtils::GetPercentValueRange(x, min.x, max.x),
+		MathUtils::GetPercentValueRange(y, min.y, max.y),
+	};
+}
+
 // <ベクトルループ>
 Vec2 Vec2::GetLoop(const Vec2& max) const
 {

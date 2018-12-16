@@ -1,8 +1,7 @@
 #include "Matrix.h"
 
-inline Matrix3 Matrix3::Inverse() const
+Matrix3 Matrix3::Inverse() const
 {
-
 	float det =
 		p[0][0] * p[1][1] * p[2][2] +
 		p[0][1] * p[1][2] * p[2][0] +

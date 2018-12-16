@@ -64,6 +64,7 @@ class Player : public Component
 public:
 	float blocks_per_sec = 1.f;
 
+	Vec2 target_pos;
 	Vec2 pos;
 	Vec2 vel;
 
@@ -73,6 +74,7 @@ public:
 
 public:
 	void Update();
+	void Render();
 };
 
 
@@ -142,7 +144,9 @@ Matrix3 TileRenderer::GetMatrix() const
 {
 	Matrix3 m = Matrix3::CreateIdentity();
 	m *= Matrix3::CreateTranslation(offset);
+	m *= Matrix3::CreateTranslation(-Vec2::one * .5f);
 	m *= Matrix3::CreateScale(tileSize);
+	m *= Matrix3::CreateTranslation(SCREEN.GetExtents());
 	m *= Matrix3::CreateTranslation(gameObject()->transform()->position);
 	return m;
 }
@@ -162,6 +166,7 @@ void TileTerrain::RegisterTile(int id, std::unique_ptr<Tile>&& tile)
 
 void Player::Update()
 {
+	if (pos.Equals(target_pos))
 	{
 		Vec2 input = {};
 		if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_UP))
@@ -172,10 +177,29 @@ void Player::Update()
 			input += Vec2::left;
 		if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_RIGHT))
 			input += Vec2::right;
-		vel = input * blocks_per_sec * Time::deltaTime;
+		target_pos += input;
 	}
 
-	pos += vel;
+	Vec2 sub = target_pos - pos;
+	Vec2 vel = sub.Normalized() * blocks_per_sec * Time::deltaTime;Vec2::le
+	Vec2 subvel = {
+		MathUtils::GetClamp(vel.x, std::floor(vel.x), std::ceil(vel.x)),
+		MathUtils::GetClamp(vel.y, std::floor(vel.y), std::ceil(vel.y))
+	};
+	pos += subvel;
 
 	gameObject()->GetComponent<TileRenderer>()->offset = -pos;
+}
+
+void Player::Render()
+{
+	auto terrain = gameObject()->GetComponent<TileTerrain>();
+	auto renderer = gameObject()->GetComponent<TileRenderer>();
+
+	Matrix3 matrix = renderer->GetMatrix();
+
+	Quad quad = { Bounds::CreateFromSize(Vec2::zero, Vec2::one) };
+	Matrix3 localMatrix = Matrix3::CreateIdentity();
+	localMatrix *= Matrix3::CreateTranslation(pos);
+	terrain->tileRegistry[0]->Render(quad * localMatrix * matrix, nullptr);
 }

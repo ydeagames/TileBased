@@ -32,6 +32,7 @@ Game::~Game()
 void Game::Update(void)
 {
 	m_frame_timer->Update();
+	Timer::Tick();
 	Time::GetInstance().UpdateTime();
 
 	InputManager::GetInstance().Update();
