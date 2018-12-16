@@ -148,6 +148,12 @@ Matrix3 TileRenderer::GetMatrix() const
 	m *= Matrix3::CreateScale(tileSize);
 	m *= Matrix3::CreateTranslation(SCREEN.GetExtents());
 	m *= Matrix3::CreateTranslation(gameObject()->transform()->position);
+
+	// TODO
+	Matrix3 inv = m.Inverse();
+	Vector2 lefttop = SCREEN.GetMin() * inv;
+	Vector2 rightbottom = SCREEN.GetMax() * inv;
+
 	return m;
 }
 
