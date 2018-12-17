@@ -203,12 +203,19 @@ void Player::Update()
 
 		if (!input.IsZero())
 		{
-			Vector2 target = (target_pos + input).Snap();
-
 			auto terrain = gameObject()->GetComponent<TileTerrain>();
-			auto tile = terrain->GetTile(static_cast<int>(target.x), static_cast<int>(target.y));
-			if (tile.passable)
-				target_pos = target;
+
+			Vector2 next;
+			next = (target_pos + input).Snap();
+			if (!terrain->GetTile(next.X(), target_pos.Y()).passable)
+				input.x = 0;
+			if (!terrain->GetTile(target_pos.X(), next.Y()).passable)
+				input.y = 0;
+			next = (target_pos + input).Snap();
+			if (!terrain->GetTile(next.X(), next.Y()).passable)
+				input = Vector2::zero;
+			next = (target_pos + input).Snap();
+			target_pos = next;
 		}
 	}
 

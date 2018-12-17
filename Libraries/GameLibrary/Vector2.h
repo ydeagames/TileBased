@@ -35,6 +35,18 @@ public:
 	// <ベクトル作成>
 	Vector2(int x, int y);
 
+	// <整数X>
+	int X() const;
+
+	// <整数Y>
+	int Y() const;
+
+	// <X成分ベクトル>
+	Vector2 VecX() const;
+
+	// <Y成分ベクトル>
+	Vector2 VecY() const;
+
 	// <ベクトルの長さ>
 	float Length() const;
 

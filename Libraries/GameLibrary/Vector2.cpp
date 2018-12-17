@@ -29,6 +29,28 @@ Vector2::Vector2(float x, float y)
 Vector2::Vector2(int x, int y)
 	: Vector2(static_cast<float>(x), static_cast<float>(y)) {}
 
+int Vector2::X() const
+{
+	return static_cast<int>(x);
+}
+
+int Vector2::Y() const
+{
+	return static_cast<int>(y);
+}
+
+// <X成分ベクトル>
+Vector2 Vector2::VecX() const
+{
+	return { x, 0.f };
+}
+
+// <Y成分ベクトル>
+Vector2 Vector2::VecY() const
+{
+	return { 0.f, y };
+}
+
 // <ベクトルの長さ>
 float Vector2::Length() const
 {
