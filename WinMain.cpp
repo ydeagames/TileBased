@@ -61,17 +61,35 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ChangeWindowMode(FALSE);
 #endif
 
+	int DesktopW, DesktopH;
+	int WindowW, WindowH;
+
+	// 最大化ボタンが存在するウインドウモードに変更
+	SetWindowStyleMode(7);
+
+	// 画面サイズをデスクトップのサイズと同じにする
+	GetDefaultState(&DesktopW, &DesktopH, NULL);
+	SetGraphMode(DesktopW, DesktopH, 32);
+
+	// サイズ変更を可能にする
+	SetWindowSizeChangeEnableFlag(TRUE, FALSE);
+
+	// ウインドウサイズはゲーム画面と一致させる
 	// 初期状態の設定
 	Screen::GetInstance();
 
+	// ウインドウの位置は画面中心付近にする
+	SetWindowPosition((DesktopW - static_cast<int>(Screen::Bounds().GetSize().x)) / 2, (DesktopH - static_cast<int>(Screen::Bounds().GetSize().y)) / 2);
+
+	// 常に実行
 	SetAlwaysRunFlag(true);
+
+	// 多重起動可能
 	SetDoubleStartValidFlag(true);
 
 	// DXライブラリの初期化処理
 	if (DxLib_Init() == -1)
-	{
 		return -1;
-	}
 
 	// 描画先を裏画面に設定
 	SetDrawScreen(DX_SCREEN_BACK);
@@ -83,6 +101,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	while (!ProcessMessage() && !CheckHitKey(EXIT_KEY))
 	{
+		// ウインドウサイズ情報の初期化
+		GetWindowSize(&WindowW, &WindowH);
+		Screen::GetInstance().SetSize(Vector2{ WindowW, WindowH });
+
 		// ゲームの更新処理
 		game->Update();
 		// ゲームの描画処理

@@ -55,7 +55,7 @@ Screen::Screen()
 	, size(Vector2{})
 {
 	SetTitle("マップチップ");
-	SetSize(Vector2(640, 480));
+	//SetSize(Vector2(640, 480));
 }
 
 void Screen::SetTitle(const std::string & newtitle)
