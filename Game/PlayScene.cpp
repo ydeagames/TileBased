@@ -27,10 +27,12 @@ class Tile
 {
 public:
 	Texture texture;
+	bool passable;
 
 public:
-	Tile(const Texture& texture)
-		: texture(texture) {}
+	Tile(const Texture& texture, bool passable = true)
+		: texture(texture)
+		, passable(passable) {}
 	virtual ~Tile() = default;
 
 public:
@@ -84,6 +86,8 @@ public:
 public:
 	void Update();
 	void Render();
+
+	void SetSpawn(const Vector2& pos);
 };
 
 
@@ -99,7 +103,7 @@ PlayScene::PlayScene()
 	for (int i = 0; i < 42; i++)
 	{
 		std::shared_ptr<TextureResource> tiletexture = std::make_shared<TextureResource>(texture, Bounds::CreateFromSize(Vector2{18*(i % 14), 18*(i / 14) }, Vector2{ 20, 20 }).Expand(-2));
-		tileterrain->RegisterTile(i, std::make_unique<Tile>(Texture{ tiletexture }));
+		tileterrain->RegisterTile(i, std::make_unique<Tile>(Texture{ tiletexture }, i != 40));
 	}
 
 	int map[16][16] = {
@@ -196,12 +200,19 @@ void Player::Update()
 			input += Vector2::left;
 		if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_RIGHT))
 			input += Vector2::right;
-		target_pos += input;
+
+		if (!input.IsZero())
+		{
+			Vector2 target = target_pos + input;
+
+			auto terrain = gameObject()->GetComponent<TileTerrain>();
+			auto tile = terrain->GetTile(static_cast<int>(target.x), static_cast<int>(target.y));
+			if (tile.passable)
+				target_pos = target;
+		}
 	}
 
-	Vector2 sub = target_pos - pos;
-	Vector2 vel = sub.Normalized() * blocks_per_sec * Time::deltaTime;
-	pos += (vel.LengthSquared() < sub.LengthSquared()) ? vel : sub;
+	pos = Vector2::TranslateTowards(pos, target_pos, blocks_per_sec * Time::deltaTime);
 
 	gameObject()->GetComponent<TileRenderer>()->offset = -pos;
 }

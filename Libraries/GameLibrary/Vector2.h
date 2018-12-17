@@ -55,6 +55,9 @@ public:
 	// <正規化（長さを1にした）ベクトル>
 	Vector2 Normalized() const;
 
+	// <整数にスナップしたベクトル>
+	Vector2 Snap() const;
+
 	// <同値のベクトルか>
 	bool Equals(const Vector2& other, float epsilon = FLOAT_EPSILON) const;
 
@@ -74,10 +77,13 @@ public:
 	void Decompose(const Vector2& angle, Vector2& vec_a, Vector2& vec_b) const;
 
 	// <線形補間>
-	Vector2 Lerp(const Vector2 & min, const Vector2 & max, float step) const;
+	static Vector2 Lerp(const Vector2& min, const Vector2& max, float step);
 
 	// <線形補間>
-	Vector2 LerpUnclamped(const Vector2 & min, const Vector2 & max, float step) const;
+	static Vector2 LerpUnclamped(const Vector2& min, const Vector2& max, float step);
+
+	// <from から to への移動を得ます>
+	static Vector2 TranslateTowards(const Vector2& from, const Vector2& to, float maxDelta);
 
 	// <ベクトルループ>
 	Vector2 Loop(const Vector2& max) const;

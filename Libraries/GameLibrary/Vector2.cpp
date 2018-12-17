@@ -74,6 +74,12 @@ Vector2 Vector2::Normalized() const
 	return{};
 }
 
+// <整数にスナップしたベクトル>
+Vector2 Vector2::Snap() const
+{
+	return{ std::roundf(x), std::roundf(y) };
+}
+
 // <同値のベクトルか>
 bool Vector2::Equals(const Vector2& other, float epsilon) const
 {
@@ -122,21 +128,30 @@ void Vector2::Decompose(const Vector2& angle, Vector2& vec_a, Vector2& vec_b) co
 }
 
 // <線形補間>
-Vector2 Vector2::Lerp(const Vector2& min, const Vector2& max, float step) const
+Vector2 Vector2::Lerp(const Vector2& min, const Vector2& max, float step)
 {
 	return{
-		MathUtils::Clamp(MathUtils::Lerp(x, min.x, max.x), min.x, max.x),
-		MathUtils::Clamp(MathUtils::Lerp(y, min.y, max.y), min.y, max.y),
+		MathUtils::Clamp(MathUtils::Lerp(step, min.x, max.x), min.x, max.x),
+		MathUtils::Clamp(MathUtils::Lerp(step, min.y, max.y), min.y, max.y),
 	};
 }
 
 // <線形補間>
-Vector2 Vector2::LerpUnclamped(const Vector2& min, const Vector2& max, float step) const
+Vector2 Vector2::LerpUnclamped(const Vector2& min, const Vector2& max, float step)
 {
 	return{
-		MathUtils::Lerp(x, min.x, max.x),
-		MathUtils::Lerp(y, min.y, max.y),
+		MathUtils::Lerp(step, min.x, max.x),
+		MathUtils::Lerp(step, min.y, max.y),
 	};
+}
+
+// <from から to への移動を得ます>
+Vector2 Vector2::TranslateTowards(const Vector2& from, const Vector2& to, float maxDelta)
+{
+	Vector2 sub = to - from;
+	Vector2 vel = sub.Normalized() * maxDelta;
+	Vector2 towards = (vel.LengthSquared() < sub.LengthSquared()) ? vel : sub;
+	return from + towards;
 }
 
 // <ベクトルループ>
