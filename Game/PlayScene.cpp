@@ -233,7 +233,7 @@ void Player::Render()
 Matrix3 Camera::GetMatrix()
 {
 	Matrix3 m = Matrix3::CreateIdentity();
-	//m *= Matrix3::CreateScale(Vector2::one * 2);
+	m *= Matrix3::CreateScale(Vector2::one * Screen::GetBounds().GetSize().y / 480);
 	m *= Matrix3::CreateTranslation(Screen::GetBounds().GetExtents());
 	return m;
 }
