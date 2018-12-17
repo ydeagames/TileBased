@@ -87,7 +87,7 @@ public:
 	void Update();
 	void Render();
 
-	void SetSpawn(const Vector2& pos);
+	void SetSpawn(const Vector2& newpos);
 };
 
 
@@ -102,7 +102,7 @@ PlayScene::PlayScene()
 	auto texture = std::make_shared<TextureResource>("Protected/Valkyrie_BG_mapChip.png");
 	for (int i = 0; i < 42; i++)
 	{
-		std::shared_ptr<TextureResource> tiletexture = std::make_shared<TextureResource>(texture, Bounds::CreateFromSize(Vector2{18*(i % 14), 18*(i / 14) }, Vector2{ 20, 20 }).Expand(-2));
+		std::shared_ptr<TextureResource> tiletexture = std::make_shared<TextureResource>(texture, Bounds::CreateFromSize(Vector2{ 18 * (i % 14), 18 * (i / 14) }, Vector2{ 20, 20 }).Expand(-2));
 		tileterrain->RegisterTile(i, std::make_unique<Tile>(Texture{ tiletexture }, i != 40));
 	}
 
@@ -129,7 +129,7 @@ PlayScene::PlayScene()
 			tileterrain->tileMap[iy][ix] = map[iy][ix];
 
 	terrain->AddNewComponent<TileRenderer>();
-	terrain->AddNewComponent<Player>();
+	terrain->AddNewComponent<Player>()->SetSpawn(Vector2{ 5, 5 });
 }
 
 PlayScene::~PlayScene()
@@ -203,7 +203,7 @@ void Player::Update()
 
 		if (!input.IsZero())
 		{
-			Vector2 target = target_pos + input;
+			Vector2 target = (target_pos + input).Snap();
 
 			auto terrain = gameObject()->GetComponent<TileTerrain>();
 			auto tile = terrain->GetTile(static_cast<int>(target.x), static_cast<int>(target.y));
@@ -228,6 +228,12 @@ void Player::Render()
 	Matrix3 localMatrix = Matrix3::CreateIdentity();
 	localMatrix *= Matrix3::CreateTranslation(pos);
 	terrain->tileRegistry[0]->Render(quad * localMatrix * matrix, nullptr);
+}
+
+void Player::SetSpawn(const Vector2 & newpos)
+{
+	pos = newpos;
+	target_pos = newpos.Snap();
 }
 
 Matrix3 Camera::GetMatrix()
