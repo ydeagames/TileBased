@@ -12,14 +12,14 @@ ResultScene::ResultScene()
 	auto& font = GameGlobal::GetInstance().font;
 
 	auto obj = GameObject::Create();
-	obj->transform()->position = Screen::Bounds().Expand(-200).GetCenter();
-	obj->transform()->scale = Screen::Bounds().Expand(-200).GetSize();
+	obj->transform()->position = Screen::GetBounds().Expand(-200).GetCenter();
+	obj->transform()->scale = Screen::GetBounds().Expand(-200).GetSize();
 	auto renderer = std::make_shared<BoxRenderer>();
 	renderer->material = Material{}.SetBase(Colors::Blue, .2f).SetBorder(Colors::White, 1.f, .5f);
 	obj->AddComponent<BoxRenderer>(renderer);
 
 	auto title = GameObject::Create("Title");
-	title->transform()->position = Screen::Bounds().GetCenter() + Vector2{ -250, -100 };
+	title->transform()->position = Screen::GetBounds().GetCenter() + Vector2{ -250, -100 };
 	title->AddNewComponent<FontTextRenderer>(GameGlobal::GetInstance().titlefont, "ƒŠƒUƒ‹ƒg");
 
 	auto director = GameObject::Create("GameDirector");

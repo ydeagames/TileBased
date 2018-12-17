@@ -168,8 +168,8 @@ Matrix3 TileRenderer::GetMatrix() const
 
 	// TODO
 	Matrix3 inv = m.Inverse();
-	Vector2 lefttop = Screen::Bounds().GetMin() * inv;
-	Vector2 rightbottom = Screen::Bounds().GetMax() * inv;
+	Vector2 lefttop = Screen::GetBounds().GetMin() * inv;
+	Vector2 rightbottom = Screen::GetBounds().GetMax() * inv;
 
 	return m;
 }
@@ -234,7 +234,7 @@ Matrix3 Camera::GetMatrix()
 {
 	Matrix3 m = Matrix3::CreateIdentity();
 	//m *= Matrix3::CreateScale(Vector2::one * 2);
-	m *= Matrix3::CreateTranslation(Screen::Bounds().GetExtents());
+	m *= Matrix3::CreateTranslation(Screen::GetBounds().GetExtents());
 	return m;
 }
 

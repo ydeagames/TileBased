@@ -114,6 +114,7 @@
     <ClCompile Include="Libraries\GameLibrary\Rigidbody.cpp" />
     <ClCompile Include="Libraries\GameLibrary\Scene.cpp" />
     <ClCompile Include="Libraries\GameLibrary\SceneManager.cpp" />
+    <ClCompile Include="Libraries\GameLibrary\Screen.cpp" />
     <ClCompile Include="Libraries\GameLibrary\Shape.cpp" />
     <ClCompile Include="Libraries\GameLibrary\Singleton.cpp" />
     <ClCompile Include="Libraries\GameLibrary\Sprite.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="Libraries\GameLibrary\Rigidbody.h" />
     <ClInclude Include="Libraries\GameLibrary\Scene.h" />
     <ClInclude Include="Libraries\GameLibrary\SceneManager.h" />
+    <ClInclude Include="Libraries\GameLibrary\Screen.h" />
     <ClInclude Include="Libraries\GameLibrary\Shape.h" />
     <ClInclude Include="Libraries\GameLibrary\Singleton.h" />
     <ClInclude Include="Libraries\GameLibrary\Sprite.h" />

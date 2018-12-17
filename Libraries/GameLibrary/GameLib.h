@@ -18,6 +18,7 @@
 #include "Scene.h"
 #include "Matrix.h"
 #include "Shape.h"
+#include "Screen.h"
 #include "Singleton.h"
 #include "SystemUtils.h"
 #include "Timer.h"

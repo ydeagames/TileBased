@@ -110,6 +110,12 @@ Vector2 Vector2::Rotate(float rot) const
 	return{ x * std::cosf(rot) - y * std::sinf(rot), x * std::sinf(rot) + y * std::cosf(rot) };
 }
 
+// <最大値と最小値の範囲にクランプ>
+Vector2 Vector2::Clamp(const Vector2& min, const Vector2& max) const
+{
+	return { MathUtils::Clamp(x, min.x, max.x), MathUtils::Clamp(y, min.y, max.y) };
+}
+
 // <ベクトルを分解>
 void Vector2::Decompose(const Vector2& angle, Vector2& vec_a, Vector2& vec_b) const
 {

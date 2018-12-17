@@ -74,6 +74,9 @@ public:
 	// <ベクトルの角度加算>
 	Vector2 Rotate(float rot) const;
 
+	// <最大値と最小値の範囲にクランプ>
+	Vector2 Clamp(const Vector2& min, const Vector2& max) const;
+
 	// <ベクトルを分解>
 	void Decompose(const Vector2& angle, Vector2& vec_a, Vector2& vec_b) const;
 

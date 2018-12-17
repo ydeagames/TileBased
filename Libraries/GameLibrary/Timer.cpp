@@ -49,7 +49,7 @@ Timer& Timer::Pause()
 	// 一時停止されてなければ更新する
 	if (!paused)
 		last_time = GetNow() - start_time;
-	paused = TRUE;
+	paused = true;
 	return *this;
 }
 
@@ -66,7 +66,7 @@ Timer& Timer::Resume()
 	// 一時停止されていれば再開開始時刻を計算して更新
 	if (paused)
 		start_time = GetNow() - last_time;
-	paused = FALSE;
+	paused = false;
 	return *this;
 }
 

@@ -97,9 +97,9 @@ private:
 	std::shared_ptr<FontFileResource> fontfile;
 
 public:
-	FontResource(const std::string& dir, const std::string& file, const std::string& FontName, int Size, int Thick, int FontType = -1, int CharSet = -1, int EdgeSize = -1, int Italic = FALSE);
-	FontResource(const std::string& file, const std::string& FontName, int Size, int Thick, int FontType = -1, int CharSet = -1, int EdgeSize = -1, int Italic = FALSE);
-	FontResource(const std::string& FontName, int Size, int Thick, int FontType = -1, int CharSet = -1, int EdgeSize = -1, int Italic = FALSE);
+	FontResource(const std::string& dir, const std::string& file, const std::string& FontName, int Size, int Thick, int FontType = -1, int CharSet = -1, int EdgeSize = -1, int Italic = false);
+	FontResource(const std::string& file, const std::string& FontName, int Size, int Thick, int FontType = -1, int CharSet = -1, int EdgeSize = -1, int Italic = false);
+	FontResource(const std::string& FontName, int Size, int Thick, int FontType = -1, int CharSet = -1, int EdgeSize = -1, int Italic = false);
 	FontResource(HFNT resource);
 	virtual ~FontResource();
 };

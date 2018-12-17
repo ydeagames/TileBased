@@ -4,6 +4,9 @@
 #include <shlwapi.h>
 #pragma comment( lib , "shlwapi.lib" )
 
+// <ウィンドウハンドル>
+static HWND hWnd;
+
 // <カレントディレクトリの修正>
 static void UpdateCurrentDir(void)
 {
@@ -33,6 +36,23 @@ static void UpdateCurrentDir(void)
 	}
 }
 
+// <プログラムの終了ポイント>
+LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
+{
+	switch (msg)
+	{
+	case WM_CLOSE:
+		if (GetWindowModeFlag())
+		{
+			ShowWindow(hWnd, SW_MINIMIZE);
+			Sleep(500);
+		}
+		break;
+	}
+
+	return 0;
+}
+
 // プログラムのエントリーポイント
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -48,38 +68,36 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #endif
 
 	// デバッグ情報用ログファイルの出力の抑制
-	SetOutApplicationLogValidFlag(FALSE);
+	SetOutApplicationLogValidFlag(false);
 
 	// 起動モードの設定
 #if defined(_DEBUG)
 // ウインドウモードで実行
-	ChangeWindowMode(TRUE);
+	ChangeWindowMode(true);
 	// ウインドウアイコンの設定
 	SetWindowIconID(IDI_ICON1);
 #else
 // フルスクリーンで実行
-	ChangeWindowMode(FALSE);
+	ChangeWindowMode(false);
 #endif
 
-	int DesktopW, DesktopH;
-	int WindowW, WindowH;
-
 	// 最大化ボタンが存在するウインドウモードに変更
-	SetWindowStyleMode(7);
+	SetWindowStyleMode(8);
 
 	// 画面サイズをデスクトップのサイズと同じにする
-	GetDefaultState(&DesktopW, &DesktopH, NULL);
-	SetGraphMode(DesktopW, DesktopH, 32);
+	Screen::SetScreenSize(Screen::GetDisplaySize());
+
+	// 画面サイズ
+	Screen::SetSize(Vector2{640, 480});
+
+	// ウィンドウクラス名
+	SetMainWindowClassName("YdeaGames");
+
+	// タイトル
+	Screen::SetTitle("マップチップ");
 
 	// サイズ変更を可能にする
-	SetWindowSizeChangeEnableFlag(TRUE, FALSE);
-
-	// ウインドウサイズはゲーム画面と一致させる
-	// 初期状態の設定
-	Screen::GetInstance();
-
-	// ウインドウの位置は画面中心付近にする
-	SetWindowPosition((DesktopW - static_cast<int>(Screen::Bounds().GetSize().x)) / 2, (DesktopH - static_cast<int>(Screen::Bounds().GetSize().y)) / 2);
+	SetWindowSizeChangeEnableFlag(true, false);
 
 	// 常に実行
 	SetAlwaysRunFlag(true);
@@ -87,9 +105,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// 多重起動可能
 	SetDoubleStartValidFlag(true);
 
+	// 終了フック
+	SetHookWinProc(WndProc);
+
 	// DXライブラリの初期化処理
 	if (DxLib_Init() == -1)
 		return -1;
+
+	// ウィンドウ取得
+	hWnd = GetMainWindowHandle();
 
 	// 描画先を裏画面に設定
 	SetDrawScreen(DX_SCREEN_BACK);
@@ -101,10 +125,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	while (!ProcessMessage() && !CheckHitKey(EXIT_KEY))
 	{
-		// ウインドウサイズ情報の初期化
-		GetWindowSize(&WindowW, &WindowH);
-		Screen::GetInstance().SetSize(Vector2{ WindowW, WindowH });
-
 		// ゲームの更新処理
 		game->Update();
 		// ゲームの描画処理

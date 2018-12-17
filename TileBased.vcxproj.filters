@@ -166,6 +166,9 @@
     <ClCompile Include="Libraries\GameLibrary\Vector2.cpp">
       <Filter>ライブラリ\ゲームライブラリ\物理</Filter>
     </ClCompile>
+    <ClCompile Include="Libraries\GameLibrary\Screen.cpp">
+      <Filter>ライブラリ\ゲームライブラリ\グラフィック</Filter>
+    </ClCompile>
   </ItemGroup>
   <!-- ヘッダファイル -->
   <ItemGroup>
@@ -273,6 +276,9 @@
     </ClInclude>
     <ClInclude Include="Libraries\GameLibrary\Vector2.h">
       <Filter>ライブラリ\ゲームライブラリ\物理</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\GameLibrary\Screen.h">
+      <Filter>ライブラリ\ゲームライブラリ\グラフィック</Filter>
     </ClInclude>
   </ItemGroup>
   <!-- リソースファイル -->
