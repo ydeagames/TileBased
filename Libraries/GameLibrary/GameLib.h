@@ -26,3 +26,4 @@
 #include "Transform.h"
 #include "Texture.h"
 #include "Vector2.h"
+#include "Sprite.h"

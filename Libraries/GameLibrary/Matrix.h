@@ -1,10 +1,4 @@
 #pragma once
-#include "Vector2.h"
-
-template<int rows_, int cols_>
-class Matrix;
-
-using Matrix3 = Matrix<3, 3>;
 
 template<int rows_, int cols_>
 class Matrix

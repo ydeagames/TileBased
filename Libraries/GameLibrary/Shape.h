@@ -1,6 +1,5 @@
 #pragma once
 #include "Vector2.h"
-#include "Transform.h"
 
 // <‰¡ˆÊ’uŠÖŒW>
 enum class HorizontalSide

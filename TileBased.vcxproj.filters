@@ -280,6 +280,9 @@
     <ClInclude Include="Libraries\GameLibrary\Screen.h">
       <Filter>ライブラリ\ゲームライブラリ\グラフィック</Filter>
     </ClInclude>
+    <ClInclude Include="Libraries\GameLibrary\GameLibClass.h">
+      <Filter>ライブラリ\ゲームライブラリ</Filter>
+    </ClInclude>
   </ItemGroup>
   <!-- リソースファイル -->
   <ItemGroup>

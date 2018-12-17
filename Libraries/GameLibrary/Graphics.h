@@ -1,6 +1,4 @@
 #pragma once
-#include "Vector2.h"
-#include "Shape.h"
 
 namespace Graphics
 {

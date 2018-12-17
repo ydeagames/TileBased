@@ -1,7 +1,6 @@
 #pragma once
-#include "Component.h"
 #include "Shape.h"
-#include "Transform.h"
+#include "Component.h"
 
 class CollisionResult
 {

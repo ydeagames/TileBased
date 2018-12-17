@@ -1,7 +1,4 @@
 #include "MathUtils.h"
-#include <cmath>
-#include <limits>
-#include <utility>
 
 namespace MathUtils
 {

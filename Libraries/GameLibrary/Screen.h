@@ -1,5 +1,4 @@
 #pragma once
-#include "Shape.h"
 
 namespace Screen
 {

@@ -1,7 +1,5 @@
 #include "Easings.h"
 #include "MathUtils.h"
-#include <cmath>
-#include <algorithm>
 
 Easing::Easing(ESG esg) :
 	easing(esg)

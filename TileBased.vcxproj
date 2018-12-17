@@ -56,7 +56,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ForcedIncludeFiles>Dependencies\pch.h;Utilities\MemoryLeakDetector.h;GameLibrary\GameLib.h</ForcedIncludeFiles>
+      <ForcedIncludeFiles>Dependencies\pch.h;Utilities\MemoryLeakDetector.h;GameLibrary\GameLibClass.h;GameLibrary\GameLib.h</ForcedIncludeFiles>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <PrecompiledHeaderFile>Dependencies\pch.h</PrecompiledHeaderFile>
@@ -74,7 +74,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ForcedIncludeFiles>Dependencies\pch.h;Utilities\MemoryLeakDetector.h;GameLibrary\GameLib.h</ForcedIncludeFiles>
+      <ForcedIncludeFiles>Dependencies\pch.h;Utilities\MemoryLeakDetector.h;GameLibrary\GameLibClass.h;GameLibrary\GameLib.h</ForcedIncludeFiles>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <PrecompiledHeaderFile>Dependencies\pch.h</PrecompiledHeaderFile>
@@ -153,6 +153,7 @@
     <ClInclude Include="Libraries\GameLibrary\Easings.h" />
     <ClInclude Include="Libraries\GameLibrary\FrameTimer.h" />
     <ClInclude Include="Libraries\GameLibrary\GameLib.h" />
+    <ClInclude Include="Libraries\GameLibrary\GameLibClass.h" />
     <ClInclude Include="Libraries\GameLibrary\GameObject.h" />
     <ClInclude Include="Libraries\GameLibrary\Graphics.h" />
     <ClInclude Include="Libraries\GameLibrary\Input.h" />

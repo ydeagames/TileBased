@@ -1,9 +1,6 @@
 #include "Game\GameMain.h"
 #include "Resources\Icon\Icon.h"
 
-#include <shlwapi.h>
-#pragma comment( lib , "shlwapi.lib" )
-
 // <ウィンドウハンドル>
 static HWND hWnd;
 

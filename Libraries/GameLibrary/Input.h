@@ -1,22 +1,16 @@
 #pragma once
-#include "Vector2.h"
-#include <string>
-#include <unordered_map>
-#include <memory>
 #include "Singleton.h"
-
-using std::string;
 
 class Input;
 
 class InputButton final
 {
 private:
-	Input* const input;
-	const int button;
+	std::shared_ptr<Input> input;
+	int button;
 
 public:
-	InputButton(Input* input, int button);
+	InputButton(std::shared_ptr<Input> input, int button);
 
 	// 消費
 	void Consume() const;
@@ -32,7 +26,7 @@ public:
 };
 
 // <入力デバイス>
-class Input
+class Input : public std::enable_shared_from_this<Input>
 {
 public:
 	Input();
@@ -141,8 +135,8 @@ public:
 class InputManager final : public Singleton<InputManager>
 {
 private:
-	std::unordered_map<string, std::shared_ptr<Input>> inputsname;
-	std::unordered_map<std::type_index, string> inputstype;
+	std::unordered_map<std::string, std::shared_ptr<Input>> inputsname;
+	std::unordered_map<std::type_index, std::string> inputstype;
 
 public:
 	std::shared_ptr<JoypadInput> joypad;
@@ -154,7 +148,7 @@ private:
 	friend class Singleton<InputManager>;
 
 public:
-	template<class T> std::shared_ptr<T> Register(const string& name, const std::shared_ptr<T> input)
+	template<class T> std::shared_ptr<T> Register(const std::string& name, const std::shared_ptr<T> input)
 	{
 		inputsname[name] = input;
 		if (inputstype.count(typeid(T)) <= 0)
@@ -162,12 +156,12 @@ public:
 		return input;
 	}
 
-	inline void Unregister(const string& name)
+	inline void Unregister(const std::string& name)
 	{
 		inputsname.erase(name);
 	}
 
-	template<class T> std::shared_ptr<T> GetInput(const string& name)
+	template<class T> std::shared_ptr<T> GetInput(const std::string& name)
 	{
 		return std::dynamic_pointer_cast<T, Input>(inputsname[name]);
 	}

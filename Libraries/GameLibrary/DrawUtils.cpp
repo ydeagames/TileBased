@@ -1,6 +1,4 @@
 #include "DrawUtils.h"
-#include <cmath>
-#include <cstdio>
 
 #define DX(exp) if (exp) { return -1; }
 

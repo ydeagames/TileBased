@@ -1,5 +1,4 @@
 ﻿#include "SceneManager.h"
-#include <cassert>
 #include "Scene.h"
 
 // <SceneManagerクラス>

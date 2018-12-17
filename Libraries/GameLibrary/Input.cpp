@@ -1,6 +1,6 @@
 #include "Input.h"
 
-InputButton::InputButton(Input* input, int button) :
+InputButton::InputButton(std::shared_ptr<Input> input, int button) :
 	input(input),
 	button(button)
 {
@@ -37,7 +37,7 @@ Input::~Input()
 // ボタンハンドラ
 InputButton Input::GetInputButton(int button)
 {
-	return{ this, button };
+	return{ shared_from_this(), button };
 }
 
 ButtonInput::ButtonInput() :

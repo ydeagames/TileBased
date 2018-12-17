@@ -11,7 +11,6 @@
 
 #include "Vector2.h"
 #include "MathUtils.h"
-#include <cmath>
 
 const Vector2 Vector2::one = { 1, 1 };
 const Vector2 Vector2::zero = { 0, 0 };

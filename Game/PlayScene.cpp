@@ -1,7 +1,6 @@
 #include "PlayScene.h"
 #include "GameMain.h"
 #include "GameGlobal.h"
-// <ƒV[ƒ“>
 
 class Camera : public Component
 {

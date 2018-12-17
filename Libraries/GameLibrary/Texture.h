@@ -1,5 +1,4 @@
 #pragma once
-#include "Resource.h"
 
 // <テクスチャ>
 class Texture final

@@ -1,5 +1,4 @@
 #pragma once
-#include <functional>
 
 using ESG = std::function<float(float t, float b, float c, float d)>;
 

@@ -1,5 +1,4 @@
 #include "GameMain.h"
-#include <cmath>
 #include "TitleScene.h"
 #include "PlayScene.h"
 #include "ResultScene.h"
