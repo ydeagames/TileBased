@@ -3,6 +3,15 @@
 #include "GameGlobal.h"
 // <ƒV[ƒ“>
 
+class Camera : public Component
+{
+public:
+	Matrix3 GetMatrix();
+
+public:
+	static std::shared_ptr<Camera> main();
+};
+
 class TileEntity
 {
 public:
@@ -81,9 +90,12 @@ public:
 PlayScene::PlayScene()
 	: Scene()
 {
+	auto camera = GameObject::Create("MainCamera");
+	camera->AddNewComponent<Camera>();
+
 	auto terrain = GameObject::Create("Terrain");
 	auto tileterrain = terrain->AddNewComponent<TileTerrain>();
-	std::shared_ptr<TextureResource> texture = std::make_shared<TextureResource>("Protected/Valkyrie_BG_mapChip.png");
+	auto texture = std::make_shared<TextureResource>("Protected/Valkyrie_BG_mapChip.png");
 	for (int i = 0; i < 42; i++)
 	{
 		std::shared_ptr<TextureResource> tiletexture = std::make_shared<TextureResource>(texture, Bounds::CreateFromSize(Vector2{18*(i % 14), 18*(i / 14) }, Vector2{ 20, 20 }).Expand(-2));
@@ -111,6 +123,7 @@ PlayScene::PlayScene()
 	for (int iy = 0; iy < 16; iy++)
 		for (int ix = 0; ix < 16; ix++)
 			tileterrain->tileMap[iy][ix] = map[iy][ix];
+
 	terrain->AddNewComponent<TileRenderer>();
 	terrain->AddNewComponent<Player>();
 }
@@ -146,13 +159,13 @@ Matrix3 TileRenderer::GetMatrix() const
 	m *= Matrix3::CreateTranslation(offset);
 	m *= Matrix3::CreateTranslation(-Vector2::one * .5f);
 	m *= Matrix3::CreateScale(tileSize);
-	m *= Matrix3::CreateTranslation(SCREEN.GetExtents());
 	m *= Matrix3::CreateTranslation(gameObject()->transform()->position);
+	m *= gameObject()->GetComponent<Camera>()->GetMatrix();
 
 	// TODO
 	Matrix3 inv = m.Inverse();
-	Vector2 lefttop = SCREEN.GetMin() * inv;
-	Vector2 rightbottom = SCREEN.GetMax() * inv;
+	Vector2 lefttop = Screen::Bounds().GetMin() * inv;
+	Vector2 rightbottom = Screen::Bounds().GetMax() * inv;
 
 	return m;
 }
@@ -204,4 +217,17 @@ void Player::Render()
 	Matrix3 localMatrix = Matrix3::CreateIdentity();
 	localMatrix *= Matrix3::CreateTranslation(pos);
 	terrain->tileRegistry[0]->Render(quad * localMatrix * matrix, nullptr);
+}
+
+Matrix3 Camera::GetMatrix()
+{
+	Matrix3 m = Matrix3::CreateIdentity();
+	//m *= Matrix3::CreateScale(Vector2::one * 2);
+	m *= Matrix3::CreateTranslation(Screen::Bounds().GetExtents());
+	return m;
+}
+
+std::shared_ptr<Camera> Camera::main()
+{
+	return GameObject::Find("MainCamera")->GetComponent<Camera>();
 }

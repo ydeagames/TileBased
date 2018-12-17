@@ -54,8 +54,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #if defined(_DEBUG)
 // ウインドウモードで実行
 	ChangeWindowMode(TRUE);
-	// ウインドウタイトルの設定
-	SetMainWindowText(GAME_TITLE);
 	// ウインドウアイコンの設定
 	SetWindowIconID(IDI_ICON1);
 #else
@@ -63,8 +61,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ChangeWindowMode(FALSE);
 #endif
 
-	// 初期状態の画面モードの設定
-	SetGraphMode(static_cast<int>(SCREEN.GetSize().x), static_cast<int>(SCREEN.GetSize().y), 32);
+	// 初期状態の設定
+	Screen::GetInstance();
 
 	SetAlwaysRunFlag(true);
 	SetDoubleStartValidFlag(true);

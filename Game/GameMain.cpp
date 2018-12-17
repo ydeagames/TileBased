@@ -49,3 +49,23 @@ void Game::Render(void)
 	DrawFormatString(10, 10, Colors::White, "FPS = %f", m_frame_timer->GetFrameRate());
 #endif
 }
+
+Screen::Screen()
+	: title("")
+	, size(Vector2{})
+{
+	SetTitle("マップチップ");
+	SetSize(Vector2(640, 480));
+}
+
+void Screen::SetTitle(const std::string & newtitle)
+{
+	SetMainWindowText(newtitle.c_str());
+	title = newtitle;
+}
+
+void Screen::SetSize(const Vector2 & newsize)
+{
+	SetWindowSize(static_cast<int>(newsize.x), static_cast<int>(newsize.y));
+	size = newsize;
+}
