@@ -85,7 +85,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	Screen::SetScreenSize(Screen::GetDisplaySize());
 
 	// 画面サイズ
-	Screen::SetSize(Vector2{640, 480});
+	Screen::SetSize(Vector2{ 640, 480 });
+
+	// 最小サイズ
+	Screen::SetMinSize(Vector2{ 480, 320 });
 
 	// ウィンドウクラス名
 	SetMainWindowClassName("YdeaGames");
