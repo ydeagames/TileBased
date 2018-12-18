@@ -35,7 +35,23 @@ public:
 	virtual ~Tile() = default;
 
 public:
-	void Render(const Quad& quad, const std::unique_ptr<TileEntity>& te) const;
+	void Render(const Matrix3& matrix, const std::unique_ptr<TileEntity>& te) const;
+};
+
+class TileChunk
+{
+public:
+	static const int ChunkSize = 16;
+
+public:
+	std::array<std::array<Tile, ChunkSize>, ChunkSize> data;
+
+public:
+	TileChunk() = default;
+	virtual ~TileChunk() = default;
+
+public:
+	void Render(const Matrix3& matrix) const;
 };
 
 class TileTerrain : public Component
@@ -144,16 +160,16 @@ void TileRenderer::Render()
 	for (int iy = 0; iy < 16; iy++)
 		for (int ix = 0; ix < 16; ix++)
 		{
-			Quad quad = { Bounds::CreateFromSize(Vector2::zero, Vector2::one) };
 			Matrix3 localMatrix = Matrix3::CreateIdentity();
 			localMatrix *= Matrix3::CreateTranslation(Vector2{ ix, iy });
-			terrain->GetTile(ix, iy).Render(quad * localMatrix * matrix, nullptr);
+			terrain->GetTile(ix, iy).Render(localMatrix * matrix, nullptr);
 		}
 }
 
-void Tile::Render(const Quad& quad, const std::unique_ptr<TileEntity>& te) const
+void Tile::Render(const Matrix3& matrix, const std::unique_ptr<TileEntity>& te) const
 {
-	texture.Render(quad);
+	static const Quad quad = { Bounds::CreateFromSize(Vector2::zero, Vector2::one) };
+	texture.Render(quad * matrix);
 }
 
 Matrix3 TileRenderer::GetMatrix() const
@@ -186,8 +202,20 @@ void TileTerrain::RegisterTile(int id, std::unique_ptr<Tile>&& tile)
 	tileRegistry[id] = std::move(tile);
 }
 
+static float scale = 1;
+static float rotation = 0;
+
 void Player::Update()
 {
+	if (InputManager::GetInstance().key->GetButton(KEY_INPUT_W))
+		scale *= 1.001f;
+	if (InputManager::GetInstance().key->GetButton(KEY_INPUT_S))
+		scale /= 1.001f;
+	if (InputManager::GetInstance().key->GetButton(KEY_INPUT_A))
+		rotation += MathUtils::ToRadians(1);
+	if (InputManager::GetInstance().key->GetButton(KEY_INPUT_D))
+		rotation -= MathUtils::ToRadians(1);
+
 	if (pos.Equals(target_pos))
 	{
 		Vector2 input = {};
@@ -230,10 +258,9 @@ void Player::Render()
 
 	Matrix3 matrix = renderer->GetMatrix();
 
-	Quad quad = { Bounds::CreateFromSize(Vector2::zero, Vector2::one) };
 	Matrix3 localMatrix = Matrix3::CreateIdentity();
 	localMatrix *= Matrix3::CreateTranslation(pos);
-	terrain->tileRegistry[0]->Render(quad * localMatrix * matrix, nullptr);
+	terrain->tileRegistry[0]->Render(localMatrix * matrix, nullptr);
 }
 
 void Player::SetSpawn(const Vector2 & newpos)
@@ -245,7 +272,8 @@ void Player::SetSpawn(const Vector2 & newpos)
 Matrix3 Camera::GetMatrix()
 {
 	Matrix3 m = Matrix3::CreateIdentity();
-	m *= Matrix3::CreateScale(Vector2::one * Screen::GetBounds().GetSize().y / 480);
+	m *= Matrix3::CreateScale(Vector2::one * Screen::GetBounds().GetSize().y / 480 * scale);
+	m *= Matrix3::CreateRotationZ(rotation);
 	m *= Matrix3::CreateTranslation(Screen::GetBounds().GetExtents());
 	return m;
 }
@@ -253,4 +281,8 @@ Matrix3 Camera::GetMatrix()
 std::shared_ptr<Camera> Camera::main()
 {
 	return GameObject::Find("MainCamera")->GetComponent<Camera>();
+}
+
+void TileChunk::Render(const Matrix3 & matrix) const
+{
 }
