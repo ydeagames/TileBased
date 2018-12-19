@@ -38,36 +38,45 @@ public:
 	void Render(const Matrix3& matrix, const std::unique_ptr<TileEntity>& te) const;
 };
 
+class TileRegistry
+{
+public:
+	std::unique_ptr<Tile> defaultTile = std::make_unique<Tile>(Texture{ TextureResource::GetMissingTexture() });
+	std::unordered_map<int, std::unique_ptr<Tile>> tiles;
+
+public:
+	void RegisterTile(int id, std::unique_ptr<Tile>&& tile);
+
+public:
+	const Tile& GetTile(int id);
+};
+
 class TileChunk
 {
 public:
 	static const int ChunkSize = 16;
 
 public:
-	std::array<std::array<Tile, ChunkSize>, ChunkSize> data;
+	std::array<std::array<int, ChunkSize>, ChunkSize> data;
 
 public:
-	TileChunk() = default;
-	virtual ~TileChunk() = default;
-
-public:
-	void Render(const Matrix3& matrix) const;
+	int& GetTile(int x, int y);
+	void Render(const std::unique_ptr<TileRegistry>& registry, const Matrix3& matrix) const;
 };
 
 class TileTerrain : public Component
 {
 public:
-	std::unique_ptr<Tile> defaultTile = std::make_unique<Tile>(Texture{ TextureResource::GetMissingTexture() });
-	std::unordered_map<int, std::unique_ptr<Tile>> tileRegistry;
-	std::unordered_map<int, std::unordered_map<int, int>> tileMap;
+	std::unique_ptr<TileRegistry> tileRegistry;
+	std::unordered_map<int, std::unordered_map<int, TileChunk>> tileMap;
 
 public:
-	TileTerrain() = default;
+	TileTerrain();
 	virtual ~TileTerrain() = default;
 
 public:
-	const Tile& GetTile(int x, int y);
-	void RegisterTile(int id, std::unique_ptr<Tile>&& tile);
+	int& GetTile(int x, int y);
+	TileChunk& GetChunk(int x, int y);
 };
 
 class TileRenderer : public Component
@@ -118,7 +127,7 @@ PlayScene::PlayScene()
 	for (int i = 0; i < 42; i++)
 	{
 		std::shared_ptr<TextureResource> tiletexture = std::make_shared<TextureResource>(texture, Bounds::CreateFromSize(Vector2{ 18 * (i % 14), 18 * (i / 14) }, Vector2{ 20, 20 }).Expand(-2));
-		tileterrain->RegisterTile(i, std::make_unique<Tile>(Texture{ tiletexture }, i != 40));
+		tileterrain->tileRegistry->RegisterTile(i, std::make_unique<Tile>(Texture{ tiletexture }, i != 40));
 	}
 
 	int map[16][16] = {
@@ -141,7 +150,7 @@ PlayScene::PlayScene()
 	};
 	for (int iy = 0; iy < 16; iy++)
 		for (int ix = 0; ix < 16; ix++)
-			tileterrain->tileMap[iy][ix] = map[iy][ix];
+			tileterrain->GetTile(ix, iy) = map[iy][ix];
 
 	terrain->AddNewComponent<TileRenderer>();
 	terrain->AddNewComponent<Player>()->SetSpawn(Vector2{ 5, 5 });
@@ -157,12 +166,12 @@ void TileRenderer::Render()
 	auto terrain = gameObject()->GetComponent<TileTerrain>();
 	Matrix3 matrix = GetMatrix();
 
-	for (int iy = 0; iy < 16; iy++)
-		for (int ix = 0; ix < 16; ix++)
+	for (int iy = 0; iy < 16; iy += TileChunk::ChunkSize)
+		for (int ix = 0; ix < 16; ix += TileChunk::ChunkSize)
 		{
 			Matrix3 localMatrix = Matrix3::CreateIdentity();
 			localMatrix *= Matrix3::CreateTranslation(Vector2{ ix, iy });
-			terrain->GetTile(ix, iy).Render(localMatrix * matrix, nullptr);
+			terrain->GetChunk(ix, iy).Render(terrain->tileRegistry, localMatrix * matrix);
 		}
 }
 
@@ -189,17 +198,17 @@ Matrix3 TileRenderer::GetMatrix() const
 	return m;
 }
 
-const Tile& TileTerrain::GetTile(int x, int y)
+const Tile& TileRegistry::GetTile(int id)
 {
-	auto& tile = tileRegistry[tileMap[y][x]];
+	auto& tile = tiles[id];
 	if (tile)
 		return *tile;
 	return *defaultTile;
 }
 
-void TileTerrain::RegisterTile(int id, std::unique_ptr<Tile>&& tile)
+void TileRegistry::RegisterTile(int id, std::unique_ptr<Tile>&& tile)
 {
-	tileRegistry[id] = std::move(tile);
+	tiles[id] = std::move(tile);
 }
 
 static float scale = 1;
@@ -234,12 +243,12 @@ void Player::Update()
 
 			Vector2 next;
 			next = (target_pos + input).Snap();
-			if (!terrain->GetTile(next.X(), target_pos.Y()).passable)
+			if (!terrain->tileRegistry->GetTile(terrain->GetTile(next.X(), target_pos.Y())).passable)
 				input.x = 0;
-			if (!terrain->GetTile(target_pos.X(), next.Y()).passable)
+			if (!terrain->tileRegistry->GetTile(terrain->GetTile(target_pos.X(), next.Y())).passable)
 				input.y = 0;
 			next = (target_pos + input).Snap();
-			if (!terrain->GetTile(next.X(), next.Y()).passable)
+			if (!terrain->tileRegistry->GetTile(terrain->GetTile(next.X(), next.Y())).passable)
 				input = Vector2::zero;
 			next = (target_pos + input).Snap();
 			target_pos = next;
@@ -260,7 +269,7 @@ void Player::Render()
 
 	Matrix3 localMatrix = Matrix3::CreateIdentity();
 	localMatrix *= Matrix3::CreateTranslation(pos);
-	terrain->tileRegistry[0]->Render(localMatrix * matrix, nullptr);
+	terrain->tileRegistry->GetTile(0).Render(localMatrix * matrix, nullptr);
 }
 
 void Player::SetSpawn(const Vector2 & newpos)
@@ -283,6 +292,37 @@ std::shared_ptr<Camera> Camera::main()
 	return GameObject::Find("MainCamera")->GetComponent<Camera>();
 }
 
-void TileChunk::Render(const Matrix3 & matrix) const
+int& TileChunk::GetTile(int x, int y)
 {
+	return data[((y % ChunkSize) + ChunkSize) % ChunkSize][((x % ChunkSize) + ChunkSize) % ChunkSize];
+}
+
+void TileChunk::Render(const std::unique_ptr<TileRegistry>& registry, const Matrix3 & matrix) const
+{
+	int iy = 0;
+	for (auto& line : data)
+	{
+		int ix = 0;
+		for (auto& tile : line)
+		{
+			registry->tiles[tile]->Render(Matrix3::CreateTranslation(Vector2{ ix,iy } * matrix), nullptr);
+			ix++;
+		}
+		iy++;
+	}
+}
+
+TileTerrain::TileTerrain()
+	: tileRegistry(std::make_unique<TileRegistry>())
+{
+}
+
+int& TileTerrain::GetTile(int x, int y)
+{
+	return GetChunk(x, y).GetTile(x, y);
+}
+
+TileChunk& TileTerrain::GetChunk(int x, int y)
+{
+	return tileMap[y / TileChunk::ChunkSize][x / TileChunk::ChunkSize];
 }
