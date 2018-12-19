@@ -305,7 +305,7 @@ void TileChunk::Render(const std::unique_ptr<TileRegistry>& registry, const Matr
 		int ix = 0;
 		for (auto& tile : line)
 		{
-			registry->tiles[tile]->Render(Matrix3::CreateTranslation(Vector2{ ix,iy } * matrix), nullptr);
+			registry->tiles[tile]->Render(Matrix3::CreateTranslation(Vector2{ ix,iy }) * matrix, nullptr);
 			ix++;
 		}
 		iy++;
