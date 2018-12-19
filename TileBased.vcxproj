@@ -109,6 +109,7 @@
     <ClCompile Include="Libraries\GameLibrary\Input.cpp" />
     <ClCompile Include="Libraries\GameLibrary\MathUtils.cpp" />
     <ClCompile Include="Libraries\GameLibrary\Matrix.cpp" />
+    <ClCompile Include="Libraries\GameLibrary\Random.cpp" />
     <ClCompile Include="Libraries\GameLibrary\Renderer.cpp" />
     <ClCompile Include="Libraries\GameLibrary\Resource.cpp" />
     <ClCompile Include="Libraries\GameLibrary\Rigidbody.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="Libraries\GameLibrary\Input.h" />
     <ClInclude Include="Libraries\GameLibrary\MathUtils.h" />
     <ClInclude Include="Libraries\GameLibrary\Matrix.h" />
+    <ClInclude Include="Libraries\GameLibrary\Random.h" />
     <ClInclude Include="Libraries\GameLibrary\Renderer.h" />
     <ClInclude Include="Libraries\GameLibrary\Resource.h" />
     <ClInclude Include="Libraries\GameLibrary\Rigidbody.h" />

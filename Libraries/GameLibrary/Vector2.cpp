@@ -28,11 +28,28 @@ Vector2::Vector2(float x, float y)
 Vector2::Vector2(int x, int y)
 	: Vector2(static_cast<float>(x), static_cast<float>(y)) {}
 
+// <コピーコンストラクタ>
+Vector2::Vector2(const Vector2& src)
+	: x(src.x)
+	, y(src.y)
+{
+}
+
+// <代入演算子>
+Vector2& Vector2::operator=(const Vector2& src)
+{
+	x = src.x;
+	y = src.y;
+	return *this;
+}
+
+// <ベクトル作成>
 int Vector2::X() const
 {
 	return static_cast<int>(x);
 }
 
+// <ベクトル作成>
 int Vector2::Y() const
 {
 	return static_cast<int>(y);
@@ -105,6 +122,18 @@ Vector2 Vector2::Snap() const
 bool Vector2::Equals(const Vector2& other, float epsilon) const
 {
 	return fabsf(x - other.x) < epsilon && fabsf(y - other.y) < epsilon;
+}
+
+// <同値のベクトルか>
+Vector2 Vector2::operator==(const Vector2 & other) const
+{
+	return Equals(other);
+}
+
+// <同値のベクトルではないか>
+Vector2 Vector2::operator!=(const Vector2 & other) const
+{
+	return !Equals(other);
 }
 
 // <正にしたベクトル>
@@ -321,6 +350,18 @@ Vector2 & Vector2::operator%=(float scale)
 	x = MathUtils::Loop(x, scale);
 	y = MathUtils::Loop(x, scale);
 	return *this;
+}
+
+// <入力>
+std::istream& operator >>(std::istream& is, Vector2& other)
+{
+	return is >> other.x >> other.y;
+}
+
+// <出力>
+std::ostream& operator<<(std::ostream& os, Vector2& other)
+{
+	return os << "Vector2(" << other.x << ", " << other.y << ")";
 }
 
 // <Vector2 が後にくる 2項 *>

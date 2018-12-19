@@ -12,6 +12,7 @@
 #include "Input.h"
 #include "Resource.h"
 #include "MathUtils.h"
+#include "Random.h"
 #include "Renderer.h"
 #include "Rigidbody.h"
 #include "SceneManager.h"

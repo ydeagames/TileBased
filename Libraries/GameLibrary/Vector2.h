@@ -10,6 +10,7 @@
 */
 
 #pragma once
+#include <iostream>
 
 // <ベクトル>
 class Vector2
@@ -34,6 +35,13 @@ public:
 
 	// <ベクトル作成>
 	Vector2(int x, int y);
+
+	// <コピーコンストラクタ>
+	Vector2(const Vector2& src);
+
+public:
+	// <代入演算子>
+	Vector2& operator =(const Vector2& src);
 
 	// <整数X>
 	int X() const;
@@ -73,6 +81,12 @@ public:
 
 	// <同値のベクトルか>
 	bool Equals(const Vector2& other, float epsilon = FLOAT_EPSILON) const;
+
+	// <同値のベクトルか>
+	Vector2 operator ==(const Vector2& other) const;
+
+	// <同値のベクトルではないか>
+	Vector2 operator !=(const Vector2& other) const;
 
 	// <正にしたベクトル>
 	Vector2 Abs() const;
@@ -160,13 +174,19 @@ public:
 
 	// <複合代入演算 %=>
 	Vector2& operator %=(float scale);
+
+	// <入力>
+	friend std::istream& operator >>(std::istream& is, Vector2& other);
+
+	// <出力>
+	friend std::ostream& operator <<(std::ostream& os, Vector2& other);
+
+	// <Vector2 が後にくる 2項 *>
+	friend Vector2 operator *(float scale, const Vector2& vec);
+
+	// <Vector2 が後にくる 2項 />
+	friend Vector2 operator /(float scale, const Vector2& vec);
+
+	// <Vector2 が後にくる 2項 %>
+	friend Vector2 operator %(float scale, const Vector2& vec);
 };
-
-// <Vector2 が後にくる 2項 *>
-Vector2 operator *(float scale, const Vector2& vec);
-
-// <Vector2 が後にくる 2項 />
-Vector2 operator /(float scale, const Vector2& vec);
-
-// <Vector2 が後にくる 2項 %>
-Vector2 operator %(float scale, const Vector2& vec);
