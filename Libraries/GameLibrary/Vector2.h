@@ -37,11 +37,11 @@ public:
 	Vector2(int x, int y);
 
 	// <コピーコンストラクタ>
-	Vector2(const Vector2& src);
+	//Vector2(const Vector2& src);
 
 public:
 	// <代入演算子>
-	Vector2& operator =(const Vector2& src);
+	//Vector2& operator =(const Vector2& src);
 
 	// <整数X>
 	int X() const;

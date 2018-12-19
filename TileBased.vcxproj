@@ -99,6 +99,7 @@
     </ClCompile>
     <ClCompile Include="Libraries\GameLibrary\Collider.cpp" />
     <ClCompile Include="Libraries\GameLibrary\CollisionEvent.cpp" />
+    <ClCompile Include="Libraries\GameLibrary\Color.cpp" />
     <ClCompile Include="Libraries\GameLibrary\Component.cpp" />
     <ClCompile Include="Libraries\GameLibrary\ComponentContainer.cpp" />
     <ClCompile Include="Libraries\GameLibrary\DrawUtils.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="Libraries\Dependencies\pch.h" />
     <ClInclude Include="Libraries\GameLibrary\Collider.h" />
     <ClInclude Include="Libraries\GameLibrary\CollisionEvent.h" />
+    <ClInclude Include="Libraries\GameLibrary\Color.h" />
     <ClInclude Include="Libraries\GameLibrary\Component.h" />
     <ClInclude Include="Libraries\GameLibrary\ComponentContainer.h" />
     <ClInclude Include="Libraries\GameLibrary\DrawUtils.h" />

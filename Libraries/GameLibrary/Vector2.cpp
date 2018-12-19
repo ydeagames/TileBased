@@ -29,19 +29,23 @@ Vector2::Vector2(int x, int y)
 	: Vector2(static_cast<float>(x), static_cast<float>(y)) {}
 
 // <コピーコンストラクタ>
+/*
 Vector2::Vector2(const Vector2& src)
 	: x(src.x)
 	, y(src.y)
 {
 }
+/**/
 
 // <代入演算子>
+/*
 Vector2& Vector2::operator=(const Vector2& src)
 {
 	x = src.x;
 	y = src.y;
 	return *this;
 }
+/**/
 
 // <ベクトル作成>
 int Vector2::X() const

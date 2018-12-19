@@ -172,6 +172,9 @@
     <ClCompile Include="Libraries\GameLibrary\Random.cpp">
       <Filter>ライブラリ\ゲームライブラリ\物理</Filter>
     </ClCompile>
+    <ClCompile Include="Libraries\GameLibrary\Color.cpp">
+      <Filter>ライブラリ\ゲームライブラリ\物理</Filter>
+    </ClCompile>
   </ItemGroup>
   <!-- ヘッダファイル -->
   <ItemGroup>
@@ -287,6 +290,9 @@
       <Filter>ライブラリ\ゲームライブラリ</Filter>
     </ClInclude>
     <ClInclude Include="Libraries\GameLibrary\Random.h">
+      <Filter>ライブラリ\ゲームライブラリ\物理</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\GameLibrary\Color.h">
       <Filter>ライブラリ\ゲームライブラリ\物理</Filter>
     </ClInclude>
   </ItemGroup>
