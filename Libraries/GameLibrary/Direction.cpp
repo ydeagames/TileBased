@@ -24,6 +24,14 @@ const Direction& Directions::West		= Directions::Values[6];
 const Direction& Directions::NorthWest	= Directions::Values[7];
 const Direction& Directions::None		= Directions::Values[8];
 
+bool Direction::has(const Direction & other) const
+{
+	if (id == -1 || other.id == -1)
+		return false;
+	int diff = MathUtils::Loop(other.id - id, -3, 5);
+	return std::abs(diff) <= 1;
+}
+
 const Direction& Direction::operator+(const Direction& other) const
 {
 	if (id == -1)

@@ -99,7 +99,7 @@ class Player : public Component
 public:
 	float blocks_per_sec = 4.f;
 
-	Vector2 target_pos;
+	int direction;
 	Vector2 pos;
 	Vector2 vel;
 
@@ -227,20 +227,20 @@ void Player::Update()
 	if (InputManager::GetInstance().key->GetButton(KEY_INPUT_D))
 		rotation -= MathUtils::ToRadians(1);
 
-	//*
-	if ((pos-target_pos).IsZeroX() || (pos - target_pos).IsZeroY())
+	/*
+	static bool XFlag = false;
+	Vector2 input = {};
+	if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_UP))
+		input += Vector2::up;
+	if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_DOWN))
+		input += Vector2::down;
+	if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_LEFT))
+		input += Vector2::left;
+	if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_RIGHT))
+		input += Vector2::right;
+	if (XFlag)
 	{
-		Vector2 input = {};
-		if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_UP))
-			input += Vector2::up;
-		if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_DOWN))
-			input += Vector2::down;
-		if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_LEFT))
-			input += Vector2::left;
-		if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_RIGHT))
-			input += Vector2::right;
-
-		if (!input.IsZeroX())
+		if (pos.IsSnappedX() && !input.IsZeroX())
 		{
 			auto terrain = gameObject()->GetComponent<TileTerrain>();
 
@@ -248,18 +248,67 @@ void Player::Update()
 			next = (target_pos + input).Snap();
 			if (!terrain->tileRegistry->GetTile(terrain->GetTile(next.X(), target_pos.Y())).passable)
 				input.x = 0;
-			if (!terrain->tileRegistry->GetTile(terrain->GetTile(target_pos.X(), next.Y())).passable)
-				input.y = 0;
-			next = (target_pos + input).Snap();
-			if (!terrain->tileRegistry->GetTile(terrain->GetTile(next.X(), next.Y())).passable)
-				input = Vector2::zero;
 			next = (target_pos + input).Snap();
 			target_pos = next;
 		}
+		if (!input.IsZeroY())
+		{
+			XFlag = false;
+		}
 
-		pos = Vector2::TranslateTowards(pos, target_pos, blocks_per_sec * Time::deltaTime);
 	}
+	else
+	{
+		if (pos.IsSnappedY() && !input.IsZeroY())
+		{
+			auto terrain = gameObject()->GetComponent<TileTerrain>();
+
+			Vector2 next;
+			next = (target_pos + input).Snap();
+			if (!terrain->tileRegistry->GetTile(terrain->GetTile(target_pos.X(), next.Y())).passable)
+				input.y = 0;
+			next = (target_pos + input).Snap();
+			target_pos = next;
+		}
+		if (!input.IsZeroX())
+		{
+			XFlag = true;
+		}
+
+	}
+
+	if (!input.IsZeroX())
+		pos = Vector2::TranslateTowards(pos, target_pos, blocks_per_sec * Time::deltaTime);
+	else if (!input.IsZeroY())
+		pos = Vector2::TranslateTowards(pos, target_pos, blocks_per_sec * Time::deltaTime);
+
 	/**/
+
+	auto terrain = gameObject()->GetComponent<TileTerrain>();
+
+	const Direction* direction = &Directions::None;
+	if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_UP))
+		direction += Directions::North;
+	if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_DOWN))
+		direction += Directions::South;
+	if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_LEFT))
+		direction += Directions::West;
+	if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_RIGHT))
+		direction += Directions::East;
+
+	//vel = input.pos;
+	Vector2 grid_min = (pos + vel).Snap(std::floor);
+	Vector2 grid_max = (pos + vel).Snap(std::ceil);
+	if (direction->has(Directions::North))
+	{
+		bool hit1 = terrain->tileRegistry->GetTile(terrain->GetTile(grid_min.X(), grid_min.Y())).passable;
+		bool hit2 = terrain->tileRegistry->GetTile(terrain->GetTile(grid_max.X(), grid_min.Y())).passable;
+		if (hit1 && hit2)
+		{
+			pos.y = grid_max.y;
+
+		}
+	}
 
 
 	gameObject()->GetComponent<TileRenderer>()->offset = -pos;
@@ -280,7 +329,7 @@ void Player::Render()
 void Player::SetSpawn(const Vector2 & newpos)
 {
 	pos = newpos;
-	target_pos = newpos.Snap();
+	//target_pos = newpos.Snap();
 }
 
 Matrix3 Camera::GetMatrix()

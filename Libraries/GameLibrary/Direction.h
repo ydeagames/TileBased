@@ -23,8 +23,11 @@ private:
 	Direction& operator=(Direction &&) = delete;
 
 public:
+	bool has(const Direction& other) const;
 	const Direction& operator+(const Direction& other) const;
+	friend const Direction& operator+=(const Direction* base, const Direction& other) { base = &(*base + other); };
 	inline const Direction& operator-() const { return *opposite; }
+	inline const bool operator==(const Direction& other) const { return id == other.id; }
 };
 
 class Directions final
