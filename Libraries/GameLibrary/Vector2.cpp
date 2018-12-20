@@ -41,37 +41,37 @@ Vector2 Vector2::Normalized() const
 }
 
 // <Xを整数にスナップしたベクトル>
-Vector2 Vector2::SnapX() const
+Vector2 Vector2::SnapX(round func) const
 {
-	return{ std::roundf(x), y };
+	return{ func(x), y };
 }
 
 // <Yを整数にスナップしたベクトル>
-Vector2 Vector2::SnapY() const
+Vector2 Vector2::SnapY(round func) const
 {
-	return{ x, std::roundf(y) };
+	return{ x, func(y) };
 }
 
 // <整数にスナップしたベクトル>
-Vector2 Vector2::Snap() const
+Vector2 Vector2::Snap(round func) const
 {
-	return{ std::roundf(x), std::roundf(y) };
+	return{ func(x), func(y) };
 }
 
 // <Xを整数にスナップしたベクトルか>
-bool Vector2::IsSnappedX() const
+bool Vector2::IsSnappedX(round func) const
 {
-	return MathUtils::FloatEquals(x, std::roundf(x));
+	return MathUtils::FloatEquals(x, func(x));
 }
 
 // <Yを整数にスナップしたベクトルか>
-bool Vector2::IsSnappedY() const
+bool Vector2::IsSnappedY(round func) const
 {
-	return MathUtils::FloatEquals(y, std::roundf(y));
+	return MathUtils::FloatEquals(y, func(y));
 }
 
 // <整数にスナップしたベクトルか>
-bool Vector2::IsSnapped() const
+bool Vector2::IsSnapped(round func) const
 {
 	return Snap().Equals(*this);
 }

@@ -24,6 +24,9 @@ public:
 	static const Vector2 down;
 
 public:
+	using round = float(*)(float);
+
+public:
 	float x;	// X座標
 	float y;	// Y座標
 
@@ -76,22 +79,22 @@ public:
 	Vector2 Normalized() const;
 
 	// <Xを整数にスナップしたベクトル>
-	Vector2 SnapX() const;
+	Vector2 SnapX(round func = std::roundf) const;
 
 	// <Yを整数にスナップしたベクトル>
-	Vector2 SnapY() const;
+	Vector2 SnapY(round func = std::roundf) const;
 
 	// <整数にスナップしたベクトル>
-	Vector2 Snap() const;
+	Vector2 Snap(round func = std::roundf) const;
 
 	// <Xを整数にスナップしたベクトルか>
-	bool IsSnappedX() const;
+	bool IsSnappedX(round func = std::roundf) const;
 
 	// <Yを整数にスナップしたベクトルか>
-	bool IsSnappedY() const;
+	bool IsSnappedY(round func = std::roundf) const;
 
 	// <整数にスナップしたベクトルか>
-	bool IsSnapped() const;
+	bool IsSnapped(round func = std::roundf) const;
 
 	// <同値のベクトルか>
 	bool Equals(const Vector2& other) const;
