@@ -19,92 +19,16 @@ const Vector2 Vector2::up = { 0, -1 };
 const Vector2 Vector2::right = { 1, 0 };
 const Vector2 Vector2::down = { 0, 1 };
 
-// <ベクトル作成>
-Vector2::Vector2(float x, float y)
-	: x(x)
-	, y(y) {}
-
-// <ベクトル作成>
-Vector2::Vector2(int x, int y)
-	: Vector2(static_cast<float>(x), static_cast<float>(y)) {}
-
-// <コピーコンストラクタ>
-/*
-Vector2::Vector2(const Vector2& src)
-	: x(src.x)
-	, y(src.y)
-{
-}
-/**/
-
-// <代入演算子>
-/*
-Vector2& Vector2::operator=(const Vector2& src)
-{
-	x = src.x;
-	y = src.y;
-	return *this;
-}
-/**/
-
-// <ベクトル作成>
-int Vector2::X() const
-{
-	return static_cast<int>(x);
-}
-
-// <ベクトル作成>
-int Vector2::Y() const
-{
-	return static_cast<int>(y);
-}
-
-// <X成分ベクトル>
-Vector2 Vector2::VecX() const
-{
-	return { x, 0.f };
-}
-
-// <Y成分ベクトル>
-Vector2 Vector2::VecY() const
-{
-	return { 0.f, y };
-}
-
 // <ベクトルの長さ>
 float Vector2::Length() const
 {
 	return std::sqrtf(LengthSquared());
 }
 
-// <ベクトルの長さの二乗>
-float Vector2::LengthSquared() const
-{
-	return x * x + y * y;
-}
-
-// <もう一方のベクトルとの内積>
-float Vector2::Dot(const Vector2& other) const
-{
-	return x * other.x + y * other.y;
-}
-
-// <もう一方のベクトルとの外積>
-float Vector2::Cross(const Vector2& other) const
-{
-	return x * other.y - y * other.x;
-}
-
 // <もう一方のベクトルとの距離>
 float Vector2::LengthTo(const Vector2& other) const
 {
 	return std::sqrtf(LengthSquaredTo(other));
-}
-
-// <もう一方のベクトルとの距離の二乗>
-float Vector2::LengthSquaredTo(const Vector2& other) const
-{
-	return (other.x - x) * (other.x - x) + (other.y - y) * (other.y - y);
 }
 
 // <正規化（長さを1にした）ベクトル>
@@ -125,17 +49,17 @@ Vector2 Vector2::Snap() const
 // <同値のベクトルか>
 bool Vector2::Equals(const Vector2& other, float epsilon) const
 {
-	return fabsf(x - other.x) < epsilon && fabsf(y - other.y) < epsilon;
+	return std::fabsf(x - other.x) < epsilon && std::fabsf(y - other.y) < epsilon;
 }
 
 // <同値のベクトルか>
-Vector2 Vector2::operator==(const Vector2 & other) const
+bool Vector2::operator==(const Vector2 & other) const
 {
 	return Equals(other);
 }
 
 // <同値のベクトルではないか>
-Vector2 Vector2::operator!=(const Vector2 & other) const
+bool Vector2::operator!=(const Vector2 & other) const
 {
 	return !Equals(other);
 }
@@ -143,7 +67,7 @@ Vector2 Vector2::operator!=(const Vector2 & other) const
 // <正にしたベクトル>
 Vector2 Vector2::Abs() const
 {
-	return{ std::abs(x), std::abs(y) };
+	return{ std::fabsf(x), std::fabsf(y) };
 }
 
 // <0ベクトルか>
@@ -155,7 +79,7 @@ bool Vector2::IsZero() const
 // <ベクトルの角度>
 float Vector2::Angle() const
 {
-	return atan2f(y, x);
+	return std::atan2f(y, x);
 }
 
 // <ベクトルの角度加算>
@@ -232,54 +156,6 @@ Vector2 Vector2::Loop(const Vector2& min, const Vector2& max) const
 	};
 }
 
-// <ベクトルはそのまま>
-Vector2 Vector2::operator +() const
-{
-	return *this;
-}
-
-// <ベクトルを反転>
-Vector2 Vector2::operator -() const
-{
-	return *this*-1;
-}
-
-// <ベクトルを加算>
-Vector2 Vector2::operator +(const Vector2& other) const
-{
-	return{ x + other.x, y + other.y };
-}
-
-// <ベクトルを減算>
-Vector2 Vector2::operator -(const Vector2& other) const
-{
-	return{ x - other.x, y - other.y };
-}
-
-// <ベクトルをスケール>
-Vector2 Vector2::operator *(const Vector2& scale) const
-{
-	return{ x * scale.x, y * scale.y };
-}
-
-// <ベクトルをスケール>
-Vector2 Vector2::operator *(float scale) const
-{
-	return{ x * scale, y * scale };
-}
-
-// <ベクトルをスケール>
-Vector2 Vector2::operator/(const Vector2 & scale) const
-{
-	return{ x / scale.x, y / scale.y };
-}
-
-// <ベクトルをスケール>
-Vector2 Vector2::operator /(float scale) const
-{
-	return{ x / scale, y / scale };
-}
-
 // <ベクトルを剰余>
 Vector2 Vector2::operator%(const Vector2 & scale) const
 {
@@ -290,54 +166,6 @@ Vector2 Vector2::operator%(const Vector2 & scale) const
 Vector2 Vector2::operator%(float scale) const
 {
 	return{ MathUtils::Loop(x, scale), MathUtils::Loop(y, scale) };
-}
-
-// <複合代入演算 +=>
-Vector2& Vector2::operator +=(const Vector2& other)
-{
-	x += other.x;
-	y += other.y;
-	return *this;
-}
-
-// <複合代入演算 -=>
-Vector2& Vector2::operator -=(const Vector2& other)
-{
-	x -= other.x;
-	y -= other.y;
-	return *this;
-}
-
-// <複合代入演算 *=>
-Vector2& Vector2::operator *=(const Vector2& scale)
-{
-	x *= scale.x;
-	y *= scale.y;
-	return *this;
-}
-
-// <複合代入演算 *=>
-Vector2& Vector2::operator *=(float scale)
-{
-	x *= scale;
-	y *= scale;
-	return *this;
-}
-
-// <複合代入演算 /=>
-Vector2 & Vector2::operator/=(const Vector2 & scale)
-{
-	x /= scale.x;
-	y /= scale.y;
-	return *this;
-}
-
-// <複合代入演算 /=>
-Vector2& Vector2::operator /=(float scale)
-{
-	x /= scale;
-	y /= scale;
-	return *this;
 }
 
 // <複合代入演算 %=>
@@ -366,18 +194,6 @@ std::istream& operator >>(std::istream& is, Vector2& other)
 std::ostream& operator<<(std::ostream& os, Vector2& other)
 {
 	return os << "Vector2(" << other.x << ", " << other.y << ")";
-}
-
-// <Vector2 が後にくる 2項 *>
-Vector2 operator *(float scale, const Vector2& vec)
-{
-	return{ scale * vec.x, scale * vec.y };
-}
-
-// <Vector2 が後にくる 2項 />
-Vector2 operator /(float scale, const Vector2& vec)
-{
-	return{ scale / vec.x, scale / vec.y };
 }
 
 // <Vector2 が後にくる 2項 %>
