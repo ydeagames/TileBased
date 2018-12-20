@@ -175,6 +175,9 @@
     <ClCompile Include="Libraries\GameLibrary\Color.cpp">
       <Filter>ライブラリ\ゲームライブラリ\物理</Filter>
     </ClCompile>
+    <ClCompile Include="Libraries\GameLibrary\Direction.cpp">
+      <Filter>ライブラリ\ゲームライブラリ\物理</Filter>
+    </ClCompile>
   </ItemGroup>
   <!-- ヘッダファイル -->
   <ItemGroup>
@@ -293,6 +296,9 @@
       <Filter>ライブラリ\ゲームライブラリ\物理</Filter>
     </ClInclude>
     <ClInclude Include="Libraries\GameLibrary\Color.h">
+      <Filter>ライブラリ\ゲームライブラリ\物理</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\GameLibrary\Direction.h">
       <Filter>ライブラリ\ゲームライブラリ\物理</Filter>
     </ClInclude>
   </ItemGroup>

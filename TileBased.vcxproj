@@ -102,6 +102,7 @@
     <ClCompile Include="Libraries\GameLibrary\Color.cpp" />
     <ClCompile Include="Libraries\GameLibrary\Component.cpp" />
     <ClCompile Include="Libraries\GameLibrary\ComponentContainer.cpp" />
+    <ClCompile Include="Libraries\GameLibrary\Direction.cpp" />
     <ClCompile Include="Libraries\GameLibrary\DrawUtils.cpp" />
     <ClCompile Include="Libraries\GameLibrary\Easings.cpp" />
     <ClCompile Include="Libraries\GameLibrary\FrameTimer.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="Libraries\GameLibrary\Color.h" />
     <ClInclude Include="Libraries\GameLibrary\Component.h" />
     <ClInclude Include="Libraries\GameLibrary\ComponentContainer.h" />
+    <ClInclude Include="Libraries\GameLibrary\Direction.h" />
     <ClInclude Include="Libraries\GameLibrary\DrawUtils.h" />
     <ClInclude Include="Libraries\GameLibrary\Easings.h" />
     <ClInclude Include="Libraries\GameLibrary\FrameTimer.h" />
