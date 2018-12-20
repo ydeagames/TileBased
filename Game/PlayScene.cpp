@@ -296,7 +296,7 @@ void Player::Update()
 	if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_RIGHT))
 		direction += Directions::East;
 
-	//vel = input.pos;
+	Vector2 vel = direction->pos;
 	Vector2 grid_min = (pos + vel).Snap(std::floor);
 	Vector2 grid_max = (pos + vel).Snap(std::ceil);
 	if (direction->has(Directions::North))
@@ -305,12 +305,12 @@ void Player::Update()
 		bool hit2 = terrain->tileRegistry->GetTile(terrain->GetTile(grid_max.X(), grid_min.Y())).passable;
 		if (hit1 && hit2)
 		{
-			pos.y = grid_max.y;
-
+			pos.y = grid_max.y + 1;
+			vel.y = 0;
 		}
 	}
 
-
+	pos += vel;
 	gameObject()->GetComponent<TileRenderer>()->offset = -pos;
 }
 
