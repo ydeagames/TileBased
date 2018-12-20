@@ -211,11 +211,13 @@ void TileRegistry::RegisterTile(int id, std::unique_ptr<Tile>&& tile)
 	tiles[id] = std::move(tile);
 }
 
+// テストコード
 static float scale = 1;
 static float rotation = 0;
 
 void Player::Update()
 {
+	// テストコード
 	if (InputManager::GetInstance().key->GetButton(KEY_INPUT_W))
 		scale *= 1.001f;
 	if (InputManager::GetInstance().key->GetButton(KEY_INPUT_S))
@@ -225,7 +227,8 @@ void Player::Update()
 	if (InputManager::GetInstance().key->GetButton(KEY_INPUT_D))
 		rotation -= MathUtils::ToRadians(1);
 
-	if (pos.Equals(target_pos))
+	//*
+	if ((pos-target_pos).IsZeroX() || (pos - target_pos).IsZeroY())
 	{
 		Vector2 input = {};
 		if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_UP))
@@ -237,7 +240,7 @@ void Player::Update()
 		if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_RIGHT))
 			input += Vector2::right;
 
-		if (!input.IsZero())
+		if (!input.IsZeroX())
 		{
 			auto terrain = gameObject()->GetComponent<TileTerrain>();
 
@@ -253,9 +256,11 @@ void Player::Update()
 			next = (target_pos + input).Snap();
 			target_pos = next;
 		}
-	}
 
-	pos = Vector2::TranslateTowards(pos, target_pos, blocks_per_sec * Time::deltaTime);
+		pos = Vector2::TranslateTowards(pos, target_pos, blocks_per_sec * Time::deltaTime);
+	}
+	/**/
+
 
 	gameObject()->GetComponent<TileRenderer>()->offset = -pos;
 }
@@ -281,8 +286,12 @@ void Player::SetSpawn(const Vector2 & newpos)
 Matrix3 Camera::GetMatrix()
 {
 	Matrix3 m = Matrix3::CreateIdentity();
-	m *= Matrix3::CreateScale(Vector2::one * Screen::GetBounds().GetSize().y / 480 * scale);
+	m *= Matrix3::CreateScale(Vector2::one * Screen::GetBounds().GetSize().y / 480);
+
+	// テストコード
+	m *= Matrix3::CreateScale(Vector2::one * scale);
 	m *= Matrix3::CreateRotationZ(rotation);
+
 	m *= Matrix3::CreateTranslation(Screen::GetBounds().GetExtents());
 	return m;
 }
