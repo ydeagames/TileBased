@@ -16,8 +16,6 @@
 class Vector2
 {
 public:
-	static constexpr float FLOAT_EPSILON = 10e-6f;
-
 	static const Vector2 one;
 	static const Vector2 zero;
 	static const Vector2 left;
@@ -77,11 +75,26 @@ public:
 	// <正規化（長さを1にした）ベクトル>
 	Vector2 Normalized() const;
 
+	// <Xを整数にスナップしたベクトル>
+	Vector2 SnapX() const;
+
+	// <Yを整数にスナップしたベクトル>
+	Vector2 SnapY() const;
+
 	// <整数にスナップしたベクトル>
 	Vector2 Snap() const;
 
+	// <Xを整数にスナップしたベクトルか>
+	bool IsSnappedX() const;
+
+	// <Yを整数にスナップしたベクトルか>
+	bool IsSnappedY() const;
+
+	// <整数にスナップしたベクトルか>
+	bool IsSnapped() const;
+
 	// <同値のベクトルか>
-	bool Equals(const Vector2& other, float epsilon = FLOAT_EPSILON) const;
+	bool Equals(const Vector2& other) const;
 
 	// <同値のベクトルか>
 	bool operator ==(const Vector2& other) const;
@@ -91,6 +104,12 @@ public:
 
 	// <正にしたベクトル>
 	Vector2 Abs() const;
+
+	// <X軸上か>
+	bool IsZeroX() const;
+
+	// <Y軸上か>
+	bool IsZeroY() const;
 
 	// <0ベクトルか>
 	bool IsZero() const;

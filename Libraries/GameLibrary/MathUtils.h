@@ -2,6 +2,8 @@
 
 namespace MathUtils
 {
+	static constexpr float FloatEpsilon = 10e-6f;
+
 	// ”ÍˆÍ“à‚É§ŒÀ
 	template<class T> T Clamp(T x, T min, T max)
 	{

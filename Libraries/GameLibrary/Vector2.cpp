@@ -40,16 +40,46 @@ Vector2 Vector2::Normalized() const
 	return{};
 }
 
+// <Xを整数にスナップしたベクトル>
+Vector2 Vector2::SnapX() const
+{
+	return{ std::roundf(x), y };
+}
+
+// <Yを整数にスナップしたベクトル>
+Vector2 Vector2::SnapY() const
+{
+	return{ x, std::roundf(y) };
+}
+
 // <整数にスナップしたベクトル>
 Vector2 Vector2::Snap() const
 {
 	return{ std::roundf(x), std::roundf(y) };
 }
 
-// <同値のベクトルか>
-bool Vector2::Equals(const Vector2& other, float epsilon) const
+// <Xを整数にスナップしたベクトルか>
+bool Vector2::IsSnappedX() const
 {
-	return std::fabsf(x - other.x) < epsilon && std::fabsf(y - other.y) < epsilon;
+	return MathUtils::FloatEquals(x, std::roundf(x));
+}
+
+// <Yを整数にスナップしたベクトルか>
+bool Vector2::IsSnappedY() const
+{
+	return MathUtils::FloatEquals(y, std::roundf(y));
+}
+
+// <整数にスナップしたベクトルか>
+bool Vector2::IsSnapped() const
+{
+	return Snap().Equals(*this);
+}
+
+// <同値のベクトルか>
+bool Vector2::Equals(const Vector2& other) const
+{
+	return MathUtils::FloatEquals(x, other.x) && MathUtils::FloatEquals(y, other.y);
 }
 
 // <同値のベクトルか>
@@ -68,6 +98,18 @@ bool Vector2::operator!=(const Vector2 & other) const
 Vector2 Vector2::Abs() const
 {
 	return{ std::fabsf(x), std::fabsf(y) };
+}
+
+// <X軸上か>
+bool Vector2::IsZeroX() const
+{
+	return MathUtils::FloatEquals(x, 0);
+}
+
+// <Y軸上か>
+bool Vector2::IsZeroY() const
+{
+	return MathUtils::FloatEquals(y, 0);
 }
 
 // <0ベクトルか>

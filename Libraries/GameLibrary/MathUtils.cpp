@@ -33,7 +33,7 @@ namespace MathUtils
 	// 浮動小数点数型の誤差を考慮に入れた比較
 	bool FloatEquals(float a, float b)
 	{
-		return std::abs(a - b) <= std::numeric_limits<float>::epsilon();
+		return std::fabsf(a - b) <= FloatEpsilon;
 	}
 
 	// 角度の単位変換([度]→[ラジアン])
