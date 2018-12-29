@@ -316,7 +316,9 @@ void Player::Update()
 
 void Player::Render()
 {
-	auto terrain = gameObject()->GetComponent<TileTerrain>();
+	DrawFormatStringF(10, 25, Colors::White, "pos (x = %.2f, y = %.2f)", pos.x, pos.y);
+
+		auto terrain = gameObject()->GetComponent<TileTerrain>();
 	auto renderer = gameObject()->GetComponent<TileRenderer>();
 
 	Matrix3 matrix = renderer->GetMatrix();

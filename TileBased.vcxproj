@@ -109,6 +109,7 @@
     <ClCompile Include="Libraries\GameLibrary\GameObject.cpp" />
     <ClCompile Include="Libraries\GameLibrary\Graphics.cpp" />
     <ClCompile Include="Libraries\GameLibrary\Input.cpp" />
+    <ClCompile Include="Libraries\GameLibrary\Json.cpp" />
     <ClCompile Include="Libraries\GameLibrary\MathUtils.cpp" />
     <ClCompile Include="Libraries\GameLibrary\Matrix.cpp" />
     <ClCompile Include="Libraries\GameLibrary\Random.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="Libraries\GameLibrary\GameObject.h" />
     <ClInclude Include="Libraries\GameLibrary\Graphics.h" />
     <ClInclude Include="Libraries\GameLibrary\Input.h" />
+    <ClInclude Include="Libraries\GameLibrary\Json.h" />
     <ClInclude Include="Libraries\GameLibrary\MathUtils.h" />
     <ClInclude Include="Libraries\GameLibrary\Matrix.h" />
     <ClInclude Include="Libraries\GameLibrary\Random.h" />

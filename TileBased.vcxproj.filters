@@ -178,6 +178,9 @@
     <ClCompile Include="Libraries\GameLibrary\Direction.cpp">
       <Filter>ライブラリ\ゲームライブラリ\物理</Filter>
     </ClCompile>
+    <ClCompile Include="Libraries\GameLibrary\Json.cpp">
+      <Filter>ライブラリ\ゲームライブラリ\ユーティリティ</Filter>
+    </ClCompile>
   </ItemGroup>
   <!-- ヘッダファイル -->
   <ItemGroup>
@@ -300,6 +303,9 @@
     </ClInclude>
     <ClInclude Include="Libraries\GameLibrary\Direction.h">
       <Filter>ライブラリ\ゲームライブラリ\物理</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\GameLibrary\Json.h">
+      <Filter>ライブラリ\ゲームライブラリ\ユーティリティ</Filter>
     </ClInclude>
   </ItemGroup>
   <!-- リソースファイル -->
