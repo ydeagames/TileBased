@@ -7,4 +7,10 @@ namespace Graphics
 
 	// ‰ñ“]’¼•û‘Ì
 	int DrawBoxRotate(const Box& box, unsigned int Color, int FillFlag, float LineThickness = 1.0f);
+
+	// ŽlŠpŒ`‰æ‘œ
+	int DrawQuadGraph(const Quad& quad, const std::shared_ptr<TextureResource>& texture);
+
+	// ŽlŠpŒ`
+	int DrawQuad(const Quad& quad, unsigned int Color, int FillFlag, float LineThickness = 1.0f);
 }

@@ -93,6 +93,8 @@ class MouseInput final : public ButtonInput
 {
 private:
 	Vector2 position;
+	float wheel_pos;
+	float wheel_delta;
 
 public:
 	MouseInput();
@@ -106,6 +108,12 @@ public:
 
 	// マウスを座標を設定
 	void SetPosition(const Vector2& pos);
+
+	// マウスの回転量を取得
+	float GetWheel();
+
+	// マウスの回転量の差を取得
+	float GetDeltaWheel();
 };
 
 // <キー入力デバイス>

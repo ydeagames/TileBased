@@ -86,6 +86,7 @@ void JoypadInput::Update()
 }
 
 MouseInput::MouseInput()
+	: wheel_pos(0)
 {
 }
 
@@ -101,6 +102,8 @@ void MouseInput::Update()
 	int mouse_x, mouse_y;
 	GetMousePoint(&mouse_x, &mouse_y);
 	position = { static_cast<float>(mouse_x), static_cast<float>(mouse_y) };
+
+	wheel_pos += wheel_delta = GetMouseWheelRotVolF();
 }
 
 const Vector2& MouseInput::GetPosition()
@@ -111,6 +114,16 @@ const Vector2& MouseInput::GetPosition()
 void MouseInput::SetPosition(const Vector2& pos)
 {
 	SetMousePoint(static_cast<int>(pos.x), static_cast<int>(pos.y));
+}
+
+float MouseInput::GetWheel()
+{
+	return wheel_pos;
+}
+
+float MouseInput::GetDeltaWheel()
+{
+	return wheel_delta;
 }
 
 KeyInput::KeyInput()

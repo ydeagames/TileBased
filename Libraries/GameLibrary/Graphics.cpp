@@ -30,4 +30,31 @@ namespace Graphics
 		DX(DrawQuadrangleAA(vertex[0].x, vertex[0].y, vertex[1].x, vertex[1].y, vertex[2].x, vertex[2].y, vertex[3].x, vertex[3].y, Color, FillFlag, LineThickness));
 		return 0;
 	}
+
+	// 四角形画像
+	int DrawQuadGraph(const Quad& quad, const std::shared_ptr<TextureResource>& texture)
+	{
+		DX(DrawModiGraphF(
+			quad.vertices[0].x, quad.vertices[0].y,
+			quad.vertices[1].x, quad.vertices[1].y,
+			quad.vertices[2].x, quad.vertices[2].y,
+			quad.vertices[3].x, quad.vertices[3].y,
+			texture->GetResource(),
+			true
+		));
+		return 0;
+	}
+	
+	// 四角形
+	int DrawQuad(const Quad & quad, unsigned int Color, int FillFlag, float LineThickness)
+	{
+		DX(DrawQuadrangleAA(
+			quad.vertices[0].x, quad.vertices[0].y,
+			quad.vertices[1].x, quad.vertices[1].y,
+			quad.vertices[2].x, quad.vertices[2].y,
+			quad.vertices[3].x, quad.vertices[3].y,
+			Color, FillFlag, LineThickness
+		));
+		return 0;
+	}
 }

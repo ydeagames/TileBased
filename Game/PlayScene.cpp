@@ -5,10 +5,23 @@
 class Camera : public Component
 {
 public:
-	Matrix3 GetMatrix();
+	float wheel_target = 0;
+	float wheel = 0;
+	float scale = 1;
+	float rotation = 0;
+	Vector2 offset = {};
+	Vector2 offset_start = {};
+	Vector2 drag_start = {};
+	bool dragged = false;
 
 public:
 	static std::shared_ptr<Camera> main();
+
+public:
+	Matrix3 GetMatrix();
+
+	void Update();
+	void Render();
 };
 
 class TileEntity
@@ -83,7 +96,6 @@ class TileRenderer : public Component
 {
 public:
 	Vector2 tileSize = { 48, 48 };
-	Vector2 offset = {};
 
 public:
 	TileRenderer() = default;
@@ -94,33 +106,44 @@ public:
 	void Render();
 };
 
-class Player : public Component
+class Entity
 {
 public:
 	float blocks_per_sec = 4.f;
 
-	int direction;
+	Vector2 target_pos;
 	Vector2 pos;
 	Vector2 vel;
 
 public:
-	Player() = default;
-	virtual ~Player() = default;
+	Entity() = default;
+	virtual ~Entity() = default;
 
 public:
 	void Update();
-	void Render();
+	void Render(const Matrix3& matrix);
+};
 
-	void SetSpawn(const Vector2& newpos);
+class EntityList : public Component
+{
+public:
+	std::vector<std::shared_ptr<Entity>> entities;
+
+public:
+	EntityList() = default;
+	virtual ~EntityList() = default;
+
+public:
+	void AddEntity(const std::shared_ptr<Entity>& entity);
+
+	void Update();
+	void Render();
 };
 
 
 PlayScene::PlayScene()
 	: Scene()
 {
-	auto camera = GameObject::Create("MainCamera");
-	camera->AddNewComponent<Camera>();
-
 	auto terrain = GameObject::Create("Terrain");
 	auto tileterrain = terrain->AddNewComponent<TileTerrain>();
 	auto texture = std::make_shared<TextureResource>("Protected/Valkyrie_BG_mapChip.png");
@@ -153,7 +176,13 @@ PlayScene::PlayScene()
 			tileterrain->GetTile(ix, iy) = map[iy][ix];
 
 	terrain->AddNewComponent<TileRenderer>();
-	terrain->AddNewComponent<Player>()->SetSpawn(Vector2{ 5, 5 });
+	auto& elist = terrain->AddNewComponent<EntityList>();
+	auto entity = std::make_shared<Entity>();
+	entity->pos = Vector2{ 5, 5 };
+	elist->AddEntity(entity);
+
+	auto camera = GameObject::Create("MainCamera");
+	camera->AddNewComponent<Camera>();
 }
 
 PlayScene::~PlayScene()
@@ -169,8 +198,7 @@ void TileRenderer::Render()
 	for (int iy = 0; iy < 16; iy += TileChunk::ChunkSize)
 		for (int ix = 0; ix < 16; ix += TileChunk::ChunkSize)
 		{
-			Matrix3 localMatrix = Matrix3::CreateIdentity();
-			localMatrix *= Matrix3::CreateTranslation(Vector2{ ix, iy });
+			Matrix3 localMatrix = Matrix3::CreateTranslation(Vector2{ ix, iy });
 			terrain->GetChunk(ix, iy).Render(terrain->tileRegistry, localMatrix * matrix);
 		}
 }
@@ -184,11 +212,10 @@ void Tile::Render(const Matrix3& matrix, const std::unique_ptr<TileEntity>& te) 
 Matrix3 TileRenderer::GetMatrix() const
 {
 	Matrix3 m = Matrix3::CreateIdentity();
-	m *= Matrix3::CreateTranslation(offset);
 	m *= Matrix3::CreateTranslation(-Vector2::one * .5f);
 	m *= Matrix3::CreateScale(tileSize);
 	m *= Matrix3::CreateTranslation(gameObject()->transform()->position);
-	m *= gameObject()->GetComponent<Camera>()->GetMatrix();
+	m *= Camera::main()->GetMatrix();
 
 	// TODO
 	Matrix3 inv = m.Inverse();
@@ -211,132 +238,49 @@ void TileRegistry::RegisterTile(int id, std::unique_ptr<Tile>&& tile)
 	tiles[id] = std::move(tile);
 }
 
-// テストコード
-static float scale = 1;
-static float rotation = 0;
-
-void Player::Update()
+void EntityList::AddEntity(const std::shared_ptr<Entity>& entity)
 {
-	// テストコード
-	if (InputManager::GetInstance().key->GetButton(KEY_INPUT_W))
-		scale *= 1.001f;
-	if (InputManager::GetInstance().key->GetButton(KEY_INPUT_S))
-		scale /= 1.001f;
-	if (InputManager::GetInstance().key->GetButton(KEY_INPUT_A))
-		rotation += MathUtils::ToRadians(1);
-	if (InputManager::GetInstance().key->GetButton(KEY_INPUT_D))
-		rotation -= MathUtils::ToRadians(1);
-
-	/*
-	static bool XFlag = false;
-	Vector2 input = {};
-	if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_UP))
-		input += Vector2::up;
-	if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_DOWN))
-		input += Vector2::down;
-	if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_LEFT))
-		input += Vector2::left;
-	if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_RIGHT))
-		input += Vector2::right;
-	if (XFlag)
-	{
-		if (pos.IsSnappedX() && !input.IsZeroX())
-		{
-			auto terrain = gameObject()->GetComponent<TileTerrain>();
-
-			Vector2 next;
-			next = (target_pos + input).Snap();
-			if (!terrain->tileRegistry->GetTile(terrain->GetTile(next.X(), target_pos.Y())).passable)
-				input.x = 0;
-			next = (target_pos + input).Snap();
-			target_pos = next;
-		}
-		if (!input.IsZeroY())
-		{
-			XFlag = false;
-		}
-
-	}
-	else
-	{
-		if (pos.IsSnappedY() && !input.IsZeroY())
-		{
-			auto terrain = gameObject()->GetComponent<TileTerrain>();
-
-			Vector2 next;
-			next = (target_pos + input).Snap();
-			if (!terrain->tileRegistry->GetTile(terrain->GetTile(target_pos.X(), next.Y())).passable)
-				input.y = 0;
-			next = (target_pos + input).Snap();
-			target_pos = next;
-		}
-		if (!input.IsZeroX())
-		{
-			XFlag = true;
-		}
-
-	}
-
-	if (!input.IsZeroX())
-		pos = Vector2::TranslateTowards(pos, target_pos, blocks_per_sec * Time::deltaTime);
-	else if (!input.IsZeroY())
-		pos = Vector2::TranslateTowards(pos, target_pos, blocks_per_sec * Time::deltaTime);
-
-	/**/
-
-	auto terrain = gameObject()->GetComponent<TileTerrain>();
-
-	const Direction* direction = &Directions::None;
-	if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_UP))
-		direction += Directions::North;
-	if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_DOWN))
-		direction += Directions::South;
-	if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_LEFT))
-		direction += Directions::West;
-	if (InputManager::GetInstance().joypad->GetButton(PAD_INPUT_RIGHT))
-		direction += Directions::East;
-
-	Vector2 vel = direction->pos;
-	Vector2 grid_min = (pos + vel).Snap(std::floor);
-	Vector2 grid_max = (pos + vel).Snap(std::ceil);
-	if (direction->has(Directions::North))
-	{
-		bool hit1 = terrain->tileRegistry->GetTile(terrain->GetTile(grid_min.X(), grid_min.Y())).passable;
-		bool hit2 = terrain->tileRegistry->GetTile(terrain->GetTile(grid_max.X(), grid_min.Y())).passable;
-		if (hit1 && hit2)
-		{
-			pos.y = grid_max.y + 1;
-			vel.y = 0;
-		}
-	}
-
-	pos += vel;
-	gameObject()->GetComponent<TileRenderer>()->offset = -pos;
+	entities.push_back(entity);
 }
 
-void Player::Render()
+void EntityList::Update()
 {
-	DrawFormatStringF(10, 25, Colors::White, "pos (x = %.2f, y = %.2f)", pos.x, pos.y);
+	for (auto& entity : entities)
+		entity->Update();
+}
 
-		auto terrain = gameObject()->GetComponent<TileTerrain>();
+void EntityList::Render()
+{
 	auto renderer = gameObject()->GetComponent<TileRenderer>();
 
 	Matrix3 matrix = renderer->GetMatrix();
 
-	Matrix3 localMatrix = Matrix3::CreateIdentity();
-	localMatrix *= Matrix3::CreateTranslation(pos);
-	terrain->tileRegistry->GetTile(0).Render(localMatrix * matrix, nullptr);
+	for (auto& entity : entities)
+		entity->Render(matrix);
 }
 
-void Player::SetSpawn(const Vector2 & newpos)
+void Entity::Update()
 {
-	pos = newpos;
-	//target_pos = newpos.Snap();
+
+}
+
+void Entity::Render(const Matrix3& matrix)
+{
+	static const Quad quad =
+	{ {
+		Vector2{ .5f, 0.f },
+		Vector2{ 1.f, .5f },
+		Vector2{ .5f, 1.f },
+		Vector2{ 0.f, .5f },
+	} };
+	Matrix3 localMatrix = Matrix3::CreateTranslation(pos);
+	Graphics::DrawQuad(quad * localMatrix * matrix, Colors::Blue, true);
 }
 
 Matrix3 Camera::GetMatrix()
 {
 	Matrix3 m = Matrix3::CreateIdentity();
+	m *= Matrix3::CreateTranslation(offset);
 	m *= Matrix3::CreateScale(Vector2::one * Screen::GetBounds().GetSize().y / 480);
 
 	// テストコード
@@ -345,6 +289,43 @@ Matrix3 Camera::GetMatrix()
 
 	m *= Matrix3::CreateTranslation(Screen::GetBounds().GetExtents());
 	return m;
+}
+
+void Camera::Update()
+{
+	// テストコード
+	if (InputManager::GetInstance().key->GetButton(KEY_INPUT_A))
+		rotation += MathUtils::ToRadians(1);
+	if (InputManager::GetInstance().key->GetButton(KEY_INPUT_D))
+		rotation -= MathUtils::ToRadians(1);
+
+	wheel_target += InputManager::GetInstance().mouse->GetDeltaWheel();
+	float sub = wheel_target - wheel;
+	wheel = wheel_target - sub * .8f;
+
+	scale = std::powf(1.1f, wheel);
+
+	if (InputManager::GetInstance().mouse->GetButtonDown(MOUSE_INPUT_1))
+	{
+		drag_start = InputManager::GetInstance().mouse->GetPosition();
+		offset_start = offset;
+		dragged = true;
+	}
+	if (dragged)
+	{
+		auto sub = InputManager::GetInstance().mouse->GetPosition() - drag_start;
+		offset = offset_start + sub;
+	}
+	if (!InputManager::GetInstance().mouse->GetButton(MOUSE_INPUT_1))
+	{
+		dragged = false;
+	}
+}
+
+void Camera::Render()
+{
+	DrawFormatStringF(10, 25, Colors::White, "offset (x = %.2f, y = %.2f)", offset.x, offset.y);
+	DrawFormatStringF(10, 40, Colors::White, "scale (%.2f)", scale);
 }
 
 std::shared_ptr<Camera> Camera::main()
