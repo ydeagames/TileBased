@@ -7,22 +7,40 @@ void EntityList::AddEntity(const std::shared_ptr<Entity>& entity)
 
 void EntityList::Update()
 {
-	for (auto& entity : entities)
-		entity->Update();
+	time += Time::deltaTime;
+	if (time > 1)
+	{
+		time -= 1;
+		for (auto& entity : entities)
+			entity->UpdateTick();
+	}
 }
 
 void EntityList::Render(const Matrix3& world)
 {
 	for (auto& entity : entities)
-		entity->Render(world);
+		entity->Render(world, time);
 }
 
-void Entity::Update()
+void Entity::SetLocation(Vector2 pos)
 {
-
+	next_pos = pos;
 }
 
-void Entity::Render(const Matrix3& matrix)
+void Entity::SetLocationImmediately(Vector2 pos)
+{
+	next_pos = pos;
+	last_pos = pos;
+}
+
+void Entity::UpdateTick()
+{
+	last_pos = next_pos;
+
+	next_pos += Vector2::one;
+}
+
+void Entity::Render(const Matrix3& matrix, float partialTicks)
 {
 	static const Quad quad =
 	{ {
@@ -31,6 +49,6 @@ void Entity::Render(const Matrix3& matrix)
 			Vector2{ .5f, 1.f },
 			Vector2{ 0.f, .5f },
 		} };
-	Matrix3 localMatrix = Matrix3::CreateTranslation(pos);
+	Matrix3 localMatrix = Matrix3::CreateTranslation(Vector2::Lerp(last_pos, next_pos, partialTicks));
 	Graphics::DrawQuad(quad * localMatrix * matrix, Colors::Blue, true);
 }

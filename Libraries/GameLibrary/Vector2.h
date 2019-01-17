@@ -75,6 +75,18 @@ public:
 	// <もう一方のベクトルとの距離の二乗>
 	constexpr inline float LengthSquaredTo(const Vector2& other) const { return (other.x - x) * (other.x - x) + (other.y - y) * (other.y - y); }
 
+	// <短い辺>
+	constexpr inline float Min() const { return std::min(x, y); }
+
+	// <長い辺>
+	constexpr inline float Max() const { return std::max(x, y); }
+
+	// <短い辺の正方形>
+	constexpr inline Vector2 VecMin() const { return one * Min(); }
+
+	// <長い辺の正方形>
+	constexpr inline Vector2 VecMax() const { return one * Max(); }
+
 	// <正規化（長さを1にした）ベクトル>
 	Vector2 Normalized() const;
 

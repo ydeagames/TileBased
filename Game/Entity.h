@@ -5,23 +5,28 @@ class Entity
 public:
 	float blocks_per_sec = 4.f;
 
-	Vector2 target_pos;
-	Vector2 pos;
-	Vector2 vel;
+	Vector2 last_pos;
+	Vector2 next_pos;
 
 public:
 	Entity() = default;
 	virtual ~Entity() = default;
 
 public:
-	void Update();
-	void Render(const Matrix3& matrix);
+	void SetLocation(Vector2 pos);
+	void SetLocationImmediately(Vector2 pos);
+	void UpdateTick();
+	void Render(const Matrix3& matrix, float partialTicks);
 };
 
 class EntityList : public Component
 {
 public:
+	constexpr static float speed = .8f;
+
+public:
 	std::vector<std::shared_ptr<Entity>> entities;
+	float time;
 
 public:
 	EntityList() = default;

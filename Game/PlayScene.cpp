@@ -43,7 +43,7 @@ PlayScene::PlayScene()
 	terrain->AddNewComponent<WorldRenderer>();
 	auto& elist = terrain->AddNewComponent<EntityList>();
 	auto entity = std::make_shared<Entity>();
-	entity->pos = Vector2{ 5, 5 };
+	entity->SetLocationImmediately(Vector2{ 5, 5 });
 	elist->AddEntity(entity);
 
 	auto camera = GameObject::Create("MainCamera");
