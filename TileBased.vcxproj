@@ -89,11 +89,15 @@
   </ItemDefinitionGroup>
   <!-- ソースファイル -->
   <ItemGroup>
+    <ClCompile Include="Game\Camera.cpp" />
+    <ClCompile Include="Game\Entity.cpp" />
     <ClCompile Include="Game\GameGlobal.cpp" />
     <ClCompile Include="Game\GameObjectLegacy.cpp" />
     <ClCompile Include="Game\PlayScene.cpp" />
     <ClCompile Include="Game\ResultScene.cpp" />
+    <ClCompile Include="Game\Tile.cpp" />
     <ClCompile Include="Game\TitleScene.cpp" />
+    <ClCompile Include="Game\WorldRenderer.cpp" />
     <ClCompile Include="Libraries\Dependencies\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
@@ -133,6 +137,8 @@
   </ItemGroup>
   <!-- ヘッダファイル -->
   <ItemGroup>
+    <ClInclude Include="Game\Camera.h" />
+    <ClInclude Include="Game\Entity.h" />
     <ClInclude Include="Game\GameGlobal.h" />
     <ClInclude Include="Game\GameMain.h" />
   </ItemGroup>
@@ -147,7 +153,9 @@
     <ClInclude Include="Game\GameObjectLegacy.h" />
     <ClInclude Include="Game\PlayScene.h" />
     <ClInclude Include="Game\ResultScene.h" />
+    <ClInclude Include="Game\Tile.h" />
     <ClInclude Include="Game\TitleScene.h" />
+    <ClInclude Include="Game\WorldRenderer.h" />
     <ClInclude Include="Libraries\Dependencies\pch.h" />
     <ClInclude Include="Libraries\GameLibrary\Collider.h" />
     <ClInclude Include="Libraries\GameLibrary\CollisionEvent.h" />

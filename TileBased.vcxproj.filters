@@ -181,6 +181,18 @@
     <ClCompile Include="Libraries\GameLibrary\Json.cpp">
       <Filter>ライブラリ\ゲームライブラリ\ユーティリティ</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Camera.cpp">
+      <Filter>ゲーム\オブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Tile.cpp">
+      <Filter>ゲーム\オブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Entity.cpp">
+      <Filter>ゲーム\オブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\WorldRenderer.cpp">
+      <Filter>ゲーム</Filter>
+    </ClCompile>
   </ItemGroup>
   <!-- ヘッダファイル -->
   <ItemGroup>
@@ -306,6 +318,18 @@
     </ClInclude>
     <ClInclude Include="Libraries\GameLibrary\Json.h">
       <Filter>ライブラリ\ゲームライブラリ\ユーティリティ</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Camera.h">
+      <Filter>ゲーム\オブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Tile.h">
+      <Filter>ゲーム\オブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Entity.h">
+      <Filter>ゲーム\オブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\WorldRenderer.h">
+      <Filter>ゲーム</Filter>
     </ClInclude>
   </ItemGroup>
   <!-- リソースファイル -->
