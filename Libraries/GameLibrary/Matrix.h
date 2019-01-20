@@ -113,6 +113,9 @@ public:
 	}
 
 public:
+	static const Matrix3 Identity;
+
+public:
 	Matrix3 Inverse() const;
 
 public:
