@@ -109,6 +109,7 @@
     <ClCompile Include="Libraries\GameLibrary\Direction.cpp" />
     <ClCompile Include="Libraries\GameLibrary\DrawUtils.cpp" />
     <ClCompile Include="Libraries\GameLibrary\Easings.cpp" />
+    <ClCompile Include="Libraries\GameLibrary\EventBus.cpp" />
     <ClCompile Include="Libraries\GameLibrary\FrameTimer.cpp" />
     <ClCompile Include="Libraries\GameLibrary\GameObject.cpp" />
     <ClCompile Include="Libraries\GameLibrary\Graphics.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="Libraries\GameLibrary\Direction.h" />
     <ClInclude Include="Libraries\GameLibrary\DrawUtils.h" />
     <ClInclude Include="Libraries\GameLibrary\Easings.h" />
+    <ClInclude Include="Libraries\GameLibrary\EventBus.h" />
     <ClInclude Include="Libraries\GameLibrary\FrameTimer.h" />
     <ClInclude Include="Libraries\GameLibrary\GameLib.h" />
     <ClInclude Include="Libraries\GameLibrary\GameLibClass.h" />

@@ -193,6 +193,9 @@
     <ClCompile Include="Game\WorldRenderer.cpp">
       <Filter>ゲーム</Filter>
     </ClCompile>
+    <ClCompile Include="Libraries\GameLibrary\EventBus.cpp">
+      <Filter>ライブラリ\ゲームライブラリ\オブジェクト</Filter>
+    </ClCompile>
   </ItemGroup>
   <!-- ヘッダファイル -->
   <ItemGroup>
@@ -330,6 +333,9 @@
     </ClInclude>
     <ClInclude Include="Game\WorldRenderer.h">
       <Filter>ゲーム</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\GameLibrary\EventBus.h">
+      <Filter>ライブラリ\ゲームライブラリ\オブジェクト</Filter>
     </ClInclude>
   </ItemGroup>
   <!-- リソースファイル -->
