@@ -3,14 +3,9 @@
 Matrix3 Camera::GetMatrix()
 {
 	Matrix3 m = Matrix3::CreateIdentity();
-	m *= Matrix3::CreateTranslation(offset);
+	m *= Matrix3::CreateTranslation(Vector2::one);
 	m *= Matrix3::CreateScale(Vector2::one * Screen::GetBounds().GetSize().y / 480);
-
-	// テストコード
-	m *= Matrix3::CreateScale(Vector2::one * scale);
-	m *= Matrix3::CreateRotationZ(rotation);
-
-	m *= Matrix3::CreateTranslation(Screen::GetBounds().GetExtents());
+	m *= world;
 	return m;
 }
 
@@ -23,9 +18,9 @@ void Camera::Update()
 {
 	// テストコード
 	if (InputManager::GetInstance().key->GetButton(KEY_INPUT_A))
-		rotation += MathUtils::ToRadians(1);
+		world *= Matrix3::CreateRotationZ(MathUtils::ToRadians(1));
 	if (InputManager::GetInstance().key->GetButton(KEY_INPUT_D))
-		rotation -= MathUtils::ToRadians(1);
+		world *= Matrix3::CreateRotationZ(MathUtils::ToRadians(-1));
 
 	wheel_target += InputManager::GetInstance().mouse->GetDeltaWheel();
 	float lastwheel = wheel;
@@ -33,30 +28,25 @@ void Camera::Update()
 	wheel = wheel_target - sub * .8f;
 	float deltawheel = wheel - lastwheel;
 
-	scale = std::powf(1.1f, wheel);
+	auto mouse = InputManager::GetInstance().mouse->GetPosition();
+	world *= Matrix3::CreateTranslation(-mouse);
+	world *= Matrix3::CreateScale(Vector2::one * std::powf(1.1f, deltawheel));
+	world *= Matrix3::CreateTranslation(mouse);
 
-	//{
-	//	Matrix3 matrix_mul = GetMatrix();
-	//	Matrix3 matrix_div = matrix_mul.Inverse();
-	//	Vector2 mouse_pos1 = InputManager::GetInstance().mouse->GetPosition();
-	//	Vector2 mouse_pos2 = mouse_pos1 * matrix_div;
-	//	Vector2 mouse_pos3 = mouse_pos2 * deltawheel;
-	//	offset += mouse_pos3;
-	//}
-	//offset = mouse_pos;
-
-	if (InputManager::GetInstance().mouse->GetButtonDown(MOUSE_INPUT_1))
+	if (InputManager::GetInstance().mouse->GetButtonDown(MOUSE_INPUT_2)
+		|| InputManager::GetInstance().mouse->GetButtonDown(MOUSE_INPUT_3))
 	{
-		drag_start = InputManager::GetInstance().mouse->GetPosition();
-		offset_start = offset;
+		drag_start = mouse;
 		dragged = true;
 	}
 	if (dragged)
 	{
-		auto sub = InputManager::GetInstance().mouse->GetPosition() - drag_start;
-		offset = offset_start + sub / scale;
+		auto sub = mouse - drag_start;
+		drag_start = mouse;
+		world *= Matrix3::CreateTranslation(sub);
 	}
-	if (!InputManager::GetInstance().mouse->GetButton(MOUSE_INPUT_1))
+	if (!(InputManager::GetInstance().mouse->GetButton(MOUSE_INPUT_2)
+		|| InputManager::GetInstance().mouse->GetButton(MOUSE_INPUT_3)))
 	{
 		dragged = false;
 	}
@@ -71,8 +61,6 @@ static void DrawMatrix(float x, float y, const Matrix3& m)
 
 void Camera::Render()
 {
-	DrawFormatStringF(10, 25, Colors::White, "offset (x = %.2f, y = %.2f)", offset.x, offset.y);
-	DrawFormatStringF(10, 40, Colors::White, "scale (%.2f)", scale);
 	Vector2 screen_mouse = InputManager::GetInstance().mouse->GetPosition();
 	Vector2 world_mouse = GetWorldFromScreenPosition(screen_mouse);
 	DrawFormatStringF(10, 55, Colors::White, "cursor (x = %.2f, y = %.2f)", world_mouse.x, world_mouse.y);

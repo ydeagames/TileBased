@@ -103,6 +103,9 @@ public:
 	}
 
 public:
+	static const Matrix3 Identity;
+
+public:
 	static Matrix CreateIdentity()
 	{
 		Matrix temp = {};

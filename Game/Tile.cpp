@@ -5,7 +5,7 @@ void TileTerrain::Render(const Matrix3& world)
 	for (int iy = 0; iy < 16; iy += TileChunk::ChunkSize)
 		for (int ix = 0; ix < 16; ix += TileChunk::ChunkSize)
 		{
-			GetChunk(ix, iy).Render(tileRegistry, Matrix3::CreateTranslation(Vector2{ ix, iy }*TileChunk::ChunkSize) * world);
+			GetChunk(ix, iy).Render(tileRegistry, Matrix3::CreateTranslation(Vector2{ ix, iy }*static_cast<float>(TileChunk::ChunkSize)) * world);
 		}
 }
 

@@ -1,5 +1,7 @@
 #include "Matrix.h"
 
+const Matrix3 Matrix3::Identity = CreateIdentity();
+
 Matrix3 Matrix3::Inverse() const
 {
 	float det =
