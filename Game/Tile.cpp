@@ -2,10 +2,12 @@
 
 void TileTerrain::Render(const Matrix3& world)
 {
-	for (int iy = 0; iy < 16; iy += TileChunk::ChunkSize)
-		for (int ix = 0; ix < 16; ix += TileChunk::ChunkSize)
+	for (int iy = 0; iy < 16 / TileChunk::ChunkSize; iy++)
+		for (int ix = 0; ix < 16 / TileChunk::ChunkSize; ix++)
 		{
-			GetChunk(ix, iy).Render(tileRegistry, Matrix3::CreateTranslation(Vector2{ ix, iy }*static_cast<float>(TileChunk::ChunkSize)) * world);
+			GetChunk({ ix, iy }).Render(
+				tileRegistry,
+				Matrix3::CreateTranslation(Vector2{ ix, iy }*static_cast<float>(TileChunk::ChunkSize)) * world);
 		}
 }
 
@@ -28,9 +30,9 @@ void TileRegistry::RegisterTile(int id, std::unique_ptr<Tile>&& tile)
 	tiles[id] = std::move(tile);
 }
 
-int& TileChunk::GetTile(int x, int y)
+int& TileChunk::GetTile(const TileLocalPos& localPos)
 {
-	return data[((y % ChunkSize) + ChunkSize) % ChunkSize][((x % ChunkSize) + ChunkSize) % ChunkSize];
+	return data[localPos.y][localPos.x];
 }
 
 void TileChunk::Render(const std::unique_ptr<TileRegistry>& registry, const Matrix3 & matrix) const
@@ -53,12 +55,8 @@ TileTerrain::TileTerrain()
 {
 }
 
-int& TileTerrain::GetTile(int x, int y)
+TileChunk& TileTerrain::GetChunk(const ChunkPos& chunkPos)
 {
-	return GetChunk(x, y).GetTile(x, y);
+	return tileMap[chunkPos];
 }
 
-TileChunk& TileTerrain::GetChunk(int x, int y)
-{
-	return tileMap[y / TileChunk::ChunkSize][x / TileChunk::ChunkSize];
-}

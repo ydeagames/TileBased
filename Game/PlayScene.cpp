@@ -38,7 +38,7 @@ PlayScene::PlayScene()
 	};
 	for (int iy = 0; iy < 16; iy++)
 		for (int ix = 0; ix < 16; ix++)
-			tileterrain->GetTile(ix, iy) = map[iy][ix];
+			tileterrain->GetChunk(TilePos{ ix, iy }).GetTile(TilePos{ ix, iy }) = map[iy][ix];
 
 	terrain->AddNewComponent<WorldRenderer>();
 	auto& elist = terrain->AddNewComponent<EntityList>();

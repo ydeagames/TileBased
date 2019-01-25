@@ -193,6 +193,9 @@
     <ClCompile Include="Game\WorldRenderer.cpp">
       <Filter>ゲーム</Filter>
     </ClCompile>
+    <ClCompile Include="Game\TileChunkPos.cpp">
+      <Filter>ゲーム\オブジェクト</Filter>
+    </ClCompile>
   </ItemGroup>
   <!-- ヘッダファイル -->
   <ItemGroup>
@@ -330,6 +333,9 @@
     </ClInclude>
     <ClInclude Include="Game\WorldRenderer.h">
       <Filter>ゲーム</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TileChunkPos.h">
+      <Filter>ゲーム\オブジェクト</Filter>
     </ClInclude>
   </ItemGroup>
   <!-- リソースファイル -->

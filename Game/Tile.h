@@ -1,4 +1,5 @@
 #pragma once
+#include "TileChunkPos.h"
 
 class TileEntity
 {
@@ -40,32 +41,44 @@ public:
 	const Tile& GetTile(int id);
 };
 
+class TileChunkLoader;
+
 class TileChunk
 {
 public:
 	static const int ChunkSize = 16;
+	static const std::unique_ptr<TileChunkLoader> loader;
 
 public:
 	std::array<std::array<int, ChunkSize>, ChunkSize> data;
 
 public:
-	int& GetTile(int x, int y);
+	int& GetTile(const TileLocalPos& localPos);
 	void Render(const std::unique_ptr<TileRegistry>& registry, const Matrix3& matrix) const;
+};
+
+class TileChunkLoader
+{
+public:
+	static const std::string savesDir;
+
+public:
+	TileChunk Load(const ChunkPos& chunkPos) const;
+	void Save(const ChunkPos& chunkPos) const;
 };
 
 class TileTerrain : public Component
 {
 public:
 	std::unique_ptr<TileRegistry> tileRegistry;
-	std::unordered_map<int, std::unordered_map<int, TileChunk>> tileMap;
+	std::unordered_map<ChunkPos, TileChunk> tileMap;
 
 public:
 	TileTerrain();
 	virtual ~TileTerrain() = default;
 
 public:
-	int& GetTile(int x, int y);
-	TileChunk& GetChunk(int x, int y);
+	TileChunk& GetChunk(const ChunkPos& chunkPos);
 
 public:
 	void Render(const Matrix3& world);

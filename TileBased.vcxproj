@@ -96,6 +96,7 @@
     <ClCompile Include="Game\PlayScene.cpp" />
     <ClCompile Include="Game\ResultScene.cpp" />
     <ClCompile Include="Game\Tile.cpp" />
+    <ClCompile Include="Game\TileChunkPos.cpp" />
     <ClCompile Include="Game\TitleScene.cpp" />
     <ClCompile Include="Game\WorldRenderer.cpp" />
     <ClCompile Include="Libraries\Dependencies\pch.cpp">
@@ -142,6 +143,7 @@
   <!-- ヘッダファイル -->
   <ItemGroup>
     <ClInclude Include="Game\Camera.h" />
+    <ClInclude Include="Game\TileChunkPos.h" />
     <ClInclude Include="Game\Entity.h" />
     <ClInclude Include="Game\GameGlobal.h" />
     <ClInclude Include="Game\GameMain.h" />
