@@ -64,7 +64,7 @@ public:
 
 public:
 	TileChunk Load(const ChunkPos& chunkPos) const;
-	void Save(const ChunkPos& chunkPos) const;
+	void Save(const ChunkPos& chunkPos, const TileChunk& chunk) const;
 };
 
 class TileTerrain : public Component

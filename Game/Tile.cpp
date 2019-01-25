@@ -60,3 +60,12 @@ TileChunk& TileTerrain::GetChunk(const ChunkPos& chunkPos)
 	return tileMap[chunkPos];
 }
 
+TileChunk TileChunkLoader::Load(const ChunkPos& chunkPos) const
+{
+	//LoadSoftImage(String::Format("%s/r.%d.%d.png", savesDir, chunkPos.x, chunkPos.y));
+	return TileChunk();
+}
+
+void TileChunkLoader::Save(const ChunkPos & chunkPos, const TileChunk& chunk) const
+{
+}
