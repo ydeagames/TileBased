@@ -17,6 +17,12 @@ PlayScene::PlayScene()
 		std::shared_ptr<TextureResource> tiletexture = std::make_shared<TextureResource>(texture, Bounds::CreateFromSize(Vector2{ 18 * (i % 14), 18 * (i / 14) }, Vector2{ 20, 20 }).Expand(-2));
 		tileterrain->tileRegistry->RegisterTile(i, std::make_unique<Tile>(Texture{ tiletexture }, i != 40));
 	}
+	auto tileloader = TileLoader{ "Resources/Blocks" };
+	auto tiles = tileloader.LoadAll();
+	for (auto& tile : tiles)
+	{
+		tileterrain->tileRegistry->RegisterTile(tile->id, std::move(tile));
+	}
 
 	//int map[16][16] = {
 	//	{40,40,40,40,40,40,40,40,40,40,40,40,40,40,40, 0, },

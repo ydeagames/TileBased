@@ -126,3 +126,45 @@ void TileChunkLoader::Save(const ChunkPos& chunkPos, const TileChunk& chunk) con
 		DeleteSoftImage(data);
 	}
 }
+
+TileLoader::TileLoader(const std::string& blocksDir)
+	: blocksDir(blocksDir)
+{
+}
+
+std::unique_ptr<Tile> TileLoader::Load(const std::string& name) const
+{
+	auto path = String::Format("%s/%s.json", blocksDir.c_str(), name.c_str());
+	std::ifstream t(path.operator std::string());
+	std::string str = {
+		std::istreambuf_iterator<char>(t),
+		std::istreambuf_iterator<char>()
+	};
+
+	json::Json data = json::Json::Load(str);
+
+	auto tilename = data["name"].ToString();
+	auto passable = data["passable"].ToBool();
+	auto texture = data["texture"].ToString();
+	auto floor = data["floor"].ToInt();
+	auto id = data["id"].ToInt();
+
+	auto tiletexture = std::make_shared<TextureResource>(texture);
+	auto tile = std::make_unique<Tile>(tiletexture, passable);
+	tile->name = tilename;
+	tile->floor = static_cast<int>(floor);
+	tile->id = id;
+
+	return tile;
+}
+
+std::vector<std::unique_ptr<Tile>> TileLoader::LoadAll() const
+{
+	std::vector<std::unique_ptr<Tile>> result;
+	for (const auto& entry : std::experimental::filesystem::directory_iterator(blocksDir))
+	{
+		if (entry.path().extension().string() == ".json")
+			result.push_back(Load(entry.path().stem().string()));
+	}
+	return result;
+}

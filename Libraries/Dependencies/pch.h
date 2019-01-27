@@ -17,6 +17,9 @@
 
 #include <string>
 #include <cstdio>
+#include <fstream>
+#include <streambuf>
+#include <filesystem>
 
 #include <functional>
 #include <typeindex>
@@ -29,4 +32,15 @@
 #include <deque>
 #include <queue>
 
+// Json.h
+#include <cstdint>
+#include <cmath>
+#include <cctype>
+#include <string>
+#include <deque>
+#include <map>
+#include <type_traits>
+#include <initializer_list>
+#include <ostream>
+#include <iostream>
 

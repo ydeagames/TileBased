@@ -17,6 +17,9 @@ class Tile
 public:
 	Texture texture;
 	bool passable;
+	std::string name = "none";
+	int floor = 0;
+	int id = 0;
 
 public:
 	Tile(const Texture& texture, bool passable = true)
@@ -26,6 +29,19 @@ public:
 
 public:
 	void Render(const Matrix3& matrix, const std::unique_ptr<TileEntity>& te) const;
+};
+
+class TileLoader
+{
+private:
+	const std::string blocksDir;
+
+public:
+	TileLoader(const std::string& blocksDir);
+
+public:
+	std::unique_ptr<Tile> Load(const std::string& name) const;
+	std::vector<std::unique_ptr<Tile>> LoadAll() const;
 };
 
 class TileRegistry
