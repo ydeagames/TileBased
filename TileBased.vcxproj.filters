@@ -217,6 +217,9 @@
     <ClCompile Include="Libraries\GameLibrary\Astar.cpp">
       <Filter>ライブラリ\ゲームライブラリ\ユーティリティ</Filter>
     </ClCompile>
+    <ClCompile Include="Game\LogoScene.cpp">
+      <Filter>ゲーム\シーン</Filter>
+    </ClCompile>
   </ItemGroup>
   <!-- ヘッダファイル -->
   <ItemGroup>
@@ -375,6 +378,9 @@
     </ClInclude>
     <ClInclude Include="Libraries\GameLibrary\Astar.h">
       <Filter>ライブラリ\ゲームライブラリ\ユーティリティ</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\LogoScene.h">
+      <Filter>ゲーム\シーン</Filter>
     </ClInclude>
   </ItemGroup>
   <!-- リソースファイル -->

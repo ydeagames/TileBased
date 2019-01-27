@@ -96,6 +96,7 @@
     <ClCompile Include="Game\EntityPlacer.cpp" />
     <ClCompile Include="Game\GameGlobal.cpp" />
     <ClCompile Include="Game\GameObjectLegacy.cpp" />
+    <ClCompile Include="Game\LogoScene.cpp" />
     <ClCompile Include="Game\PlayScene.cpp" />
     <ClCompile Include="Game\ResultScene.cpp" />
     <ClCompile Include="Game\Tile.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="Game\EntityAttacker.h" />
     <ClInclude Include="Game\EntityBomb.h" />
     <ClInclude Include="Game\EntityPlacer.h" />
+    <ClInclude Include="Game\LogoScene.h" />
     <ClInclude Include="Game\TileChunkPos.h" />
     <ClInclude Include="Game\Entity.h" />
     <ClInclude Include="Game\GameGlobal.h" />

@@ -1,4 +1,5 @@
 #include "GameMain.h"
+#include "LogoScene.h"
 #include "TitleScene.h"
 #include "PlayScene.h"
 #include "ResultScene.h"
@@ -13,7 +14,7 @@ Game::Game() :
 
 	SceneManager& scene_manager = SceneManager::GetInstance();
 
-	scene_manager.AddScene<TitleScene>(SceneID::LOGO);
+	scene_manager.AddScene<LogoScene>(SceneID::LOGO);
 	scene_manager.AddScene<TitleScene>(SceneID::TITLE);
 	scene_manager.AddScene<PlayScene>(SceneID::PLAY);
 	scene_manager.AddScene<ResultScene>(SceneID::RESULT);
