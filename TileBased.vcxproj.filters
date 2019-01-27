@@ -63,6 +63,12 @@
     <Filter Include="ライブラリ\ゲームライブラリ\オブジェクト">
       <UniqueIdentifier>{d0f8aacc-0996-41a2-998e-e939188357cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ゲーム\オブジェクト\エンティティ">
+      <UniqueIdentifier>{b35745f5-3909-404a-874b-96b62e2dd2ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ゲーム\オブジェクト\タイル">
+      <UniqueIdentifier>{43c379b9-131d-438e-a9f8-a2e05bef5252}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <!-- ソースファイル -->
   <ItemGroup>
@@ -184,23 +190,32 @@
     <ClCompile Include="Game\Camera.cpp">
       <Filter>ゲーム\オブジェクト</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Tile.cpp">
-      <Filter>ゲーム\オブジェクト</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Entity.cpp">
-      <Filter>ゲーム\オブジェクト</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\TileChunkPos.cpp">
-      <Filter>ゲーム\オブジェクト</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\TileTerrainEditor.cpp">
-      <Filter>ゲーム\オブジェクト</Filter>
-    </ClCompile>
     <ClCompile Include="Game\WorldRenderer.cpp">
       <Filter>ゲーム\オブジェクト</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Entity.cpp">
+      <Filter>ゲーム\オブジェクト\エンティティ</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\EntityAttacker.cpp">
+      <Filter>ゲーム\オブジェクト\エンティティ</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\EntityBomb.cpp">
+      <Filter>ゲーム\オブジェクト\エンティティ</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Tile.cpp">
+      <Filter>ゲーム\オブジェクト\タイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TileChunkPos.cpp">
+      <Filter>ゲーム\オブジェクト\タイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TileTerrainEditor.cpp">
+      <Filter>ゲーム\オブジェクト\タイル</Filter>
+    </ClCompile>
     <ClCompile Include="Game\EntityPlacer.cpp">
-      <Filter>ゲーム\オブジェクト</Filter>
+      <Filter>ゲーム\オブジェクト\エンティティ</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\GameLibrary\Astar.cpp">
+      <Filter>ライブラリ\ゲームライブラリ\ユーティリティ</Filter>
     </ClCompile>
   </ItemGroup>
   <!-- ヘッダファイル -->
@@ -331,26 +346,35 @@
     <ClInclude Include="Game\Camera.h">
       <Filter>ゲーム\オブジェクト</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Tile.h">
-      <Filter>ゲーム\オブジェクト</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Entity.h">
-      <Filter>ゲーム\オブジェクト</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\TileChunkPos.h">
-      <Filter>ゲーム\オブジェクト</Filter>
-    </ClInclude>
     <ClInclude Include="Libraries\GameLibrary\String.h">
       <Filter>ライブラリ\ゲームライブラリ\オブジェクト</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\TileTerrainEditor.h">
-      <Filter>ゲーム\オブジェクト</Filter>
     </ClInclude>
     <ClInclude Include="Game\WorldRenderer.h">
       <Filter>ゲーム\オブジェクト</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Entity.h">
+      <Filter>ゲーム\オブジェクト\エンティティ</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\EntityAttacker.h">
+      <Filter>ゲーム\オブジェクト\エンティティ</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\EntityBomb.h">
+      <Filter>ゲーム\オブジェクト\エンティティ</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Tile.h">
+      <Filter>ゲーム\オブジェクト\タイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TileChunkPos.h">
+      <Filter>ゲーム\オブジェクト\タイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TileTerrainEditor.h">
+      <Filter>ゲーム\オブジェクト\タイル</Filter>
+    </ClInclude>
     <ClInclude Include="Game\EntityPlacer.h">
-      <Filter>ゲーム\オブジェクト</Filter>
+      <Filter>ゲーム\オブジェクト\エンティティ</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\GameLibrary\Astar.h">
+      <Filter>ライブラリ\ゲームライブラリ\ユーティリティ</Filter>
     </ClInclude>
   </ItemGroup>
   <!-- リソースファイル -->

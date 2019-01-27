@@ -1,7 +1,7 @@
 {
 	"id" : 1,
 	"name" : "Blank (Layer1)",
-	"passable" : false,
+	"passable" : true,
 	"texture" : "blank.png",
 	"placeable" : false,
 	"unit" : -1,

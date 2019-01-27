@@ -31,3 +31,4 @@
 #include "Sprite.h"
 #include "String.h"
 #include "Json.h"
+#include "Astar.h"

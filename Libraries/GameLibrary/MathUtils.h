@@ -7,6 +7,8 @@ namespace MathUtils
 	// ”ÍˆÍ“à‚É§ŒÀ
 	template<class T> T Clamp(T x, T min, T max)
 	{
+		if (max < min)
+			std::swap(min, max);
 		return std::min(std::max(x, min), max);
 	}
 

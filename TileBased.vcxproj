@@ -91,6 +91,8 @@
   <ItemGroup>
     <ClCompile Include="Game\Camera.cpp" />
     <ClCompile Include="Game\Entity.cpp" />
+    <ClCompile Include="Game\EntityAttacker.cpp" />
+    <ClCompile Include="Game\EntityBomb.cpp" />
     <ClCompile Include="Game\EntityPlacer.cpp" />
     <ClCompile Include="Game\GameGlobal.cpp" />
     <ClCompile Include="Game\GameObjectLegacy.cpp" />
@@ -105,6 +107,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Libraries\GameLibrary\Astar.cpp" />
     <ClCompile Include="Libraries\GameLibrary\Collider.cpp" />
     <ClCompile Include="Libraries\GameLibrary\CollisionEvent.cpp" />
     <ClCompile Include="Libraries\GameLibrary\Color.cpp" />
@@ -145,6 +148,8 @@
   <!-- ヘッダファイル -->
   <ItemGroup>
     <ClInclude Include="Game\Camera.h" />
+    <ClInclude Include="Game\EntityAttacker.h" />
+    <ClInclude Include="Game\EntityBomb.h" />
     <ClInclude Include="Game\EntityPlacer.h" />
     <ClInclude Include="Game\TileChunkPos.h" />
     <ClInclude Include="Game\Entity.h" />
@@ -167,6 +172,7 @@
     <ClInclude Include="Game\TitleScene.h" />
     <ClInclude Include="Game\WorldRenderer.h" />
     <ClInclude Include="Libraries\Dependencies\pch.h" />
+    <ClInclude Include="Libraries\GameLibrary\Astar.h" />
     <ClInclude Include="Libraries\GameLibrary\Collider.h" />
     <ClInclude Include="Libraries\GameLibrary\CollisionEvent.h" />
     <ClInclude Include="Libraries\GameLibrary\Color.h" />

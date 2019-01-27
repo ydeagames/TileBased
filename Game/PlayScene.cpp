@@ -7,6 +7,8 @@
 #include "WorldRenderer.h"
 #include "TileTerrainEditor.h"
 #include "EntityPlacer.h"
+#include "EntityAttacker.h"
+#include "EntityBomb.h"
 
 PlayScene::PlayScene()
 	: Scene()
@@ -28,8 +30,13 @@ PlayScene::PlayScene()
 	terrain->AddNewComponent<WorldRenderer>();
 
 	auto& elist = terrain->AddNewComponent<EntityList>();
-	elist->entityRegistry->RegisterEntity(0, []() {
-			return std::make_shared<Entity>();
+	auto attackertexture = Texture{ std::make_shared<TextureResource>("attacker.png") };
+	elist->entityRegistry->RegisterEntity(0, [attackertexture]() {
+		return std::make_shared<EntityAttacker>(attackertexture);
+		});
+	auto bombtexture = Texture{ std::make_shared<TextureResource>("bomb.png") };
+	elist->entityRegistry->RegisterEntity(1, [bombtexture]() {
+		return std::make_shared<EntityBomb>(bombtexture);
 		});
 
 	auto editor = GameObject::Create("TerrainEditor");

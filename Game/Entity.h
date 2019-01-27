@@ -8,14 +8,17 @@ public:
 	Vector2 last_pos;
 	Vector2 next_pos;
 
+	Texture texture;
+
 public:
-	Entity() = default;
+	Entity(const Texture& te)
+		: texture(te) {}
 	virtual ~Entity() = default;
 
 public:
 	void SetLocation(Vector2 pos);
 	void SetLocationImmediately(Vector2 pos);
-	void UpdateTick();
+	virtual void UpdateTick();
 	void Render(const Matrix3& matrix, float partialTicks);
 };
 
@@ -43,7 +46,8 @@ public:
 
 public:
 	EntityList()
-		: entityRegistry(std::make_unique<EntityRegistry>()) {}
+		: entityRegistry(std::make_unique<EntityRegistry>())
+		, time(0) {}
 	virtual ~EntityList() = default;
 
 public:

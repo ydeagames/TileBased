@@ -1,0 +1,9 @@
+{
+	"id" : 8,
+	"name" : "Target",
+	"passable" : false,
+	"texture" : "target.png",
+	"placeable" : false,
+	"unit" : -1,
+	"floor" : 1
+}
