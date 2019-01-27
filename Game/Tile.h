@@ -54,7 +54,7 @@ public:
 	void RegisterTile(int id, std::unique_ptr<Tile>&& tile);
 
 public:
-	const Tile& GetTile(int id);
+	const std::unique_ptr<Tile>& GetTile(int id);
 };
 
 class TileChunkLoader;

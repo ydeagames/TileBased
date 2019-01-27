@@ -1,4 +1,5 @@
 #pragma once
+#include "String.h"
 
 namespace Graphics
 {
@@ -13,4 +14,7 @@ namespace Graphics
 
 	// 四角形
 	int DrawQuad(const Quad& quad, unsigned int Color, int FillFlag, float LineThickness = 1.0f);
+
+	// 四角形フォント
+	int DrawQuadString(const Quad & quad, unsigned int Color, const std::shared_ptr<FontResource>& font, String str);
 }

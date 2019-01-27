@@ -1,7 +1,8 @@
 {
-	"id" : 1,
-	"name" : "草",
+	"id" : 2,
+	"name" : "Grass",
 	"passable" : true,
 	"texture" : "grass.png",
+	"placeable" : true,
 	"floor" : 0
 }

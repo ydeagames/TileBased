@@ -1,0 +1,8 @@
+{
+	"id" : 5,
+	"name" : "Wall",
+	"passable" : false,
+	"texture" : "block.png",
+	"placeable" : false,
+	"floor" : 1
+}

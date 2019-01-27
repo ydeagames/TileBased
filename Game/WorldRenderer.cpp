@@ -5,7 +5,7 @@
 
 Matrix3 WorldRenderer::GetMatrix() const
 {
-	Matrix3 m = Matrix3::CreateIdentity();
+	Matrix3 m = Matrix3::Identity;
 	m *= Matrix3::CreateTranslation(-Vector2::one * .5f);
 	m *= Matrix3::CreateScale(tileSize);
 	m *= Matrix3::CreateTranslation(gameObject()->transform()->position);

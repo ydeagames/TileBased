@@ -5,18 +5,13 @@
 #include "Tile.h"
 #include "Entity.h"
 #include "WorldRenderer.h"
+#include "TileTerrainEditor.h"
 
 PlayScene::PlayScene()
 	: Scene()
 {
 	auto terrain = GameObject::Create("Terrain");
 	auto tileterrain = terrain->AddNewComponent<TileTerrain>();
-	auto texture = std::make_shared<TextureResource>("Protected/Valkyrie_BG_mapChip.png");
-	for (int i = 0; i < 42; i++)
-	{
-		std::shared_ptr<TextureResource> tiletexture = std::make_shared<TextureResource>(texture, Bounds::CreateFromSize(Vector2{ 18 * (i % 14), 18 * (i / 14) }, Vector2{ 20, 20 }).Expand(-2));
-		tileterrain->tileRegistry->RegisterTile(i, std::make_unique<Tile>(Texture{ tiletexture }, i != 40));
-	}
 	auto tileloader = TileLoader{ "Resources/Blocks" };
 	auto tiles = tileloader.LoadAll();
 	for (auto& tile : tiles)
@@ -24,35 +19,17 @@ PlayScene::PlayScene()
 		tileterrain->tileRegistry->RegisterTile(tile->id, std::move(tile));
 	}
 
-	//int map[16][16] = {
-	//	{40,40,40,40,40,40,40,40,40,40,40,40,40,40,40, 0, },
-	//	{40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,40, 0, 0, },
-	//	{40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,40, 0, 0, },
-	//	{40, 0, 0, 0, 0,36,37, 0, 0, 0, 0, 0, 0,40, 0, 0, },
-	//	{40, 0, 0, 0, 0,38,39, 0, 0, 0, 0, 0, 0,40, 0, 0, },
-	//	{40, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0,40, 0, 0, },
-	//	{40, 0,14,15,16, 0, 0, 0, 0, 0, 0, 0, 0,40, 0, 0, },
-	//	{40, 0,17,18,19, 0, 0, 0, 0, 0, 0, 0, 0,40, 0, 0, },
-	//	{40, 0,20,21,22, 0, 0, 0, 0, 0, 0, 0, 0,40, 0, 0, },
-	//	{40, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-	//	{40,40,40,40,40,40,40,40,40,40,40,40,40,40, 0, 0, },
-	//	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-	//	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-	//	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-	//	{ 0,40,40,40,40,40,40,40,40,40,40,40,40,40, 0, 0, },
-	//	{ 0,40,40,40,40,40,40,40,40,40,40,40,40,40, 0, 0, },
-	//};
-	//for (int iy = 0; iy < 16; iy++)
-	//	for (int ix = 0; ix < 16; ix++)
-	//		tileterrain->GetChunk(TilePos{ ix, iy }).GetTile(TilePos{ ix, iy }) = map[iy][ix];
-	//tileterrain->SaveChunk(ChunkPos{ 0, 0 });
 	tileterrain->LoadChunk(ChunkPos{ 0, 0 });
+	tileterrain->LoadChunk(ChunkPos{ 1, 0 });
 
 	terrain->AddNewComponent<WorldRenderer>();
 	auto& elist = terrain->AddNewComponent<EntityList>();
 	auto entity = std::make_shared<Entity>();
 	entity->SetLocationImmediately(Vector2{ 5, 5 });
 	elist->AddEntity(entity);
+
+	auto editor = GameObject::Create("TerrainEditor");
+	editor->AddNewComponent<TileTerrainEditor>();
 
 	auto camera = GameObject::Create("MainCamera");
 	camera->AddNewComponent<Camera>();

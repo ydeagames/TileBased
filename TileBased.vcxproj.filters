@@ -190,10 +190,13 @@
     <ClCompile Include="Game\Entity.cpp">
       <Filter>ゲーム\オブジェクト</Filter>
     </ClCompile>
-    <ClCompile Include="Game\WorldRenderer.cpp">
-      <Filter>ゲーム</Filter>
-    </ClCompile>
     <ClCompile Include="Game\TileChunkPos.cpp">
+      <Filter>ゲーム\オブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TileTerrainEditor.cpp">
+      <Filter>ゲーム\オブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\WorldRenderer.cpp">
       <Filter>ゲーム\オブジェクト</Filter>
     </ClCompile>
   </ItemGroup>
@@ -331,14 +334,17 @@
     <ClInclude Include="Game\Entity.h">
       <Filter>ゲーム\オブジェクト</Filter>
     </ClInclude>
-    <ClInclude Include="Game\WorldRenderer.h">
-      <Filter>ゲーム</Filter>
-    </ClInclude>
     <ClInclude Include="Game\TileChunkPos.h">
       <Filter>ゲーム\オブジェクト</Filter>
     </ClInclude>
     <ClInclude Include="Libraries\GameLibrary\String.h">
       <Filter>ライブラリ\ゲームライブラリ\オブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TileTerrainEditor.h">
+      <Filter>ゲーム\オブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\WorldRenderer.h">
+      <Filter>ゲーム\オブジェクト</Filter>
     </ClInclude>
   </ItemGroup>
   <!-- リソースファイル -->

@@ -1,0 +1,8 @@
+{
+	"id" : 1,
+	"name" : "Blank (Layer1)",
+	"passable" : false,
+	"texture" : "blank.png",
+	"placeable" : false,
+	"floor" : 1
+}

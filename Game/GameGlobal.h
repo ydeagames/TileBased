@@ -13,4 +13,3 @@ private:
 public:
 	~GameGlobal();
 };
-

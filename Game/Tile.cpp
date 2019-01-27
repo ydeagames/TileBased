@@ -6,9 +6,8 @@ void TileTerrain::Render(const Matrix3& world)
 	{
 		chunk.second.Render(
 			tileRegistry,
-			Matrix3::CreateTranslation(
-				static_cast<Vector2>(static_cast<TilePos>(chunk.first))
-				*static_cast<float>(ChunkPos::ChunkSize)) * world);
+			Matrix3::CreateTranslation((Vector2)(TilePos)chunk.first)
+			* world);
 	}
 }
 
@@ -18,12 +17,12 @@ void Tile::Render(const Matrix3& matrix, const std::unique_ptr<TileEntity>& te) 
 	texture.Render(quad * matrix);
 }
 
-const Tile& TileRegistry::GetTile(int id)
+const std::unique_ptr<Tile>& TileRegistry::GetTile(int id)
 {
 	auto& tile = tiles[id];
 	if (tile)
-		return *tile;
-	return *defaultTile;
+		return tile;
+	return defaultTile;
 }
 
 void TileRegistry::RegisterTile(int id, std::unique_ptr<Tile>&& tile)

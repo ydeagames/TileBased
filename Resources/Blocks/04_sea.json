@@ -1,0 +1,8 @@
+{
+	"id" : 4,
+	"name" : "Sea",
+	"passable" : false,
+	"texture" : "sea.png",
+	"placeable" : false,
+	"floor" : 0
+}

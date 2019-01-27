@@ -46,10 +46,10 @@ public:
 
 public:
 	// <®”X>
-	constexpr inline int X() const { return static_cast<int>(x); }
+	inline int X() const { return static_cast<int>(std::floor(x)); }
 
 	// <®”Y>
-	constexpr inline int Y() const { return static_cast<int>(y); }
+	inline int Y() const { return static_cast<int>(std::floor(y)); }
 
 	// <X¬•ªƒxƒNƒgƒ‹>
 	constexpr inline Vector2 VecX() const { return { x, 0.f }; }

@@ -1,0 +1,8 @@
+{
+	"id" : 3,
+	"name" : "Grass (Not Placeable)",
+	"passable" : true,
+	"texture" : "grass_noplace.png",
+	"placeable" : false,
+	"floor" : 0
+}

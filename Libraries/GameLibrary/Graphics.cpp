@@ -44,7 +44,7 @@ namespace Graphics
 		));
 		return 0;
 	}
-	
+
 	// 四角形
 	int DrawQuad(const Quad & quad, unsigned int Color, int FillFlag, float LineThickness)
 	{
@@ -55,6 +55,22 @@ namespace Graphics
 			quad.vertices[3].x, quad.vertices[3].y,
 			Color, FillFlag, LineThickness
 		));
+		return 0;
+	}
+
+	// 四角形フォント
+	int DrawQuadString(const Quad& quad, unsigned int Color, const std::shared_ptr<FontResource>& font, String str)
+	{
+		if (DrawStringFToHandle(quad.vertices[0].x, quad.vertices[0].y, str.operator LPCSTR(), Color, font->GetResource(), 0U, false))
+			return -1;
+		//if (DrawModiStringFToHandle(
+		//	quad.vertices[0].x, quad.vertices[0].y,
+		//	quad.vertices[1].x, quad.vertices[1].y,
+		//	quad.vertices[2].x, quad.vertices[2].y,
+		//	quad.vertices[3].x, quad.vertices[3].y,
+		//	Color, font->GetResource(), 0U, false, str.operator LPCSTR()
+		//))
+			return -1;
 		return 0;
 	}
 }
