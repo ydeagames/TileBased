@@ -53,4 +53,6 @@ void EntityAttacker::UpdateTick()
 		auto& last = path.at(path.size() - 2);
 		SetLocation({ last.x, last.y });
 	}
+	if (last_pos.X() == target.x && last_pos.Y() == target.y)
+		SceneManager::GetInstance().RequestScene(SceneID::RESULT);
 }

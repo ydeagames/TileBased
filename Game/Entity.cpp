@@ -7,7 +7,7 @@ void EntityList::AddEntity(const std::shared_ptr<Entity>& entity)
 
 void EntityList::Update()
 {
-	time += Time::deltaTime;
+	time += Time::deltaTime * speed;
 	if (time > 1)
 	{
 		time -= 1;

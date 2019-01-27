@@ -3,8 +3,6 @@
 class Entity
 {
 public:
-	float blocks_per_sec = 4.f;
-
 	Vector2 last_pos;
 	Vector2 next_pos;
 
@@ -37,7 +35,7 @@ public:
 class EntityList : public Component
 {
 public:
-	constexpr static float speed = .8f;
+	constexpr static float speed = 2.0f;
 
 public:
 	std::vector<std::shared_ptr<Entity>> entities;

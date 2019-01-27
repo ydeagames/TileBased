@@ -3,6 +3,7 @@
 #include "WorldRenderer.h"
 #include "GameGlobal.h"
 #include "Entity.h"
+#include "TileTerrainEditor.h"
 
 void EntityPlacer::Start()
 {
@@ -57,9 +58,17 @@ void EntityPlacer::Update()
 
 			auto renderer = terrain->GetComponent<WorldRenderer>();
 			Vector2 mpos = pos * renderer->GetMatrix().Inverse();
-			TilePos tpos = TilePos{ mpos.X(), mpos.Y(), spawner->floor };
-			entity->SetLocationImmediately(tpos);
-			elist->AddEntity(entity);
+			TilePos tpos = TilePos{ mpos.X(), mpos.Y(), 0 };
+			auto& tile = tileterrain->tileRegistry->GetTile(tileterrain->GetChunk(tpos).GetTile(tpos));
+			if (tile->passable && tile->placeable)
+			{
+				auto editor = GameObject::Find("TerrainEditor");
+				if (!editor->GetComponent<TileTerrainEditor>()->enabled)
+				{
+					entity->SetLocationImmediately(tpos);
+					elist->AddEntity(entity);
+				}
+			}
 		}
 	}
 }
