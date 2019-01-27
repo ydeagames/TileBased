@@ -15,6 +15,25 @@ PlayScene::PlayScene()
 {
 	InputManager::GetInstance().mouse->Consume(MOUSE_INPUT_1);
 
+	class Background : public Component
+	{
+		Texture texture = GameGlobal::GetInstance().background;
+
+		void Update()
+		{
+			gameObject()->transform()->position.x = (std::sinf(Time::time) - 1) * 10;
+		}
+
+		void Render()
+		{
+			static const Quad quad = { Bounds::CreateFromSize(Vector2::zero, Vector2::one) };
+			texture.Render(quad * gameObject()->transform()->GetMatrix());
+		}
+	};
+	auto bg = GameObject::Create();
+	bg->transform()->scale = Screen::GetBounds().Expand(Vector2::one * 20).GetSize();
+	bg->AddNewComponent<Background>();
+
 	auto terrain = GameObject::Create("Terrain");
 	auto tileterrain = terrain->AddNewComponent<TileTerrain>();
 	auto tileloader = TileLoader{ "Resources/Blocks" };

@@ -1,5 +1,6 @@
 #include "EntityAttacker.h"
 #include "Tile.h"
+#include "GameGlobal.h"
 
 EntityAttacker::EntityAttacker(const Texture& te)
 	: Entity(te)
@@ -54,5 +55,8 @@ void EntityAttacker::UpdateTick()
 		SetLocation({ last.x, last.y });
 	}
 	if (last_pos.X() == target.x && last_pos.Y() == target.y)
+	{
+		PlaySoundMem(GameGlobal::GetInstance().se02->GetResource(), DX_PLAYTYPE_BACK);
 		SceneManager::GetInstance().RequestScene(SceneID::RESULT);
+	}
 }

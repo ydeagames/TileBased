@@ -94,7 +94,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetMainWindowClassName("YdeaGames");
 
 	// タイトル
-	Screen::SetTitle("マップチップ");
+	Screen::SetTitle("鉄壁城");
 
 	// サイズ変更を可能にする
 	SetWindowSizeChangeEnableFlag(true, false);

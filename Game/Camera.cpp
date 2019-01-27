@@ -61,6 +61,7 @@ static void DrawMatrix(float x, float y, const Matrix3& m)
 
 void Camera::Render()
 {
+#ifdef _DEBUG
 	Vector2 screen_mouse = InputManager::GetInstance().mouse->GetPosition();
 	Vector2 world_mouse = GetWorldFromScreenPosition(screen_mouse);
 	DrawFormatStringF(10, 55, Colors::White, "cursor (x = %.2f, y = %.2f)", world_mouse.x, world_mouse.y);
@@ -72,6 +73,7 @@ void Camera::Render()
 	DrawMatrix(10 + 200 * 0, 70, m1);
 	DrawMatrix(10 + 200 * 1, 70, m2);
 	DrawMatrix(10 + 200 * 2, 70, m3);
+#endif
 }
 
 std::shared_ptr<Camera> Camera::main()

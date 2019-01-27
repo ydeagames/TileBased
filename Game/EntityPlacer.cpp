@@ -67,6 +67,7 @@ void EntityPlacer::Update()
 				{
 					entity->SetLocationImmediately(tpos);
 					elist->AddEntity(entity);
+					PlaySoundMem(GameGlobal::GetInstance().se03->GetResource(), DX_PLAYTYPE_BACK);
 				}
 			}
 		}
