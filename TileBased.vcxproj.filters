@@ -337,6 +337,9 @@
     <ClInclude Include="Game\TileChunkPos.h">
       <Filter>ゲーム\オブジェクト</Filter>
     </ClInclude>
+    <ClInclude Include="Libraries\GameLibrary\String.h">
+      <Filter>ライブラリ\ゲームライブラリ\オブジェクト</Filter>
+    </ClInclude>
   </ItemGroup>
   <!-- リソースファイル -->
   <ItemGroup>

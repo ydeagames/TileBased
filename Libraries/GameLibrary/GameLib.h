@@ -29,3 +29,4 @@
 #include "Vector2.h"
 #include "Direction.h"
 #include "Sprite.h"
+#include "String.h"

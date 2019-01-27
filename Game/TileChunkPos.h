@@ -9,15 +9,18 @@ class TilePos
 public:
 	int x;
 	int y;
+	int z;
 
 public:
-	TilePos(int x, int y)
+	TilePos(int x, int y, int z)
 		: x(x)
-		, y(y) {}
+		, y(y)
+		, z(z) {}
 
 public:
 	operator ChunkPos() const;
 	operator TileLocalPos() const;
+	operator Vector2() const;
 };
 
 class ChunkPos
@@ -67,11 +70,13 @@ class TileLocalPos
 public:
 	int x;
 	int y;
+	int z;
 
 public:
-	TileLocalPos(int x, int y)
+	TileLocalPos(int x, int y, int z)
 		: x(x)
-		, y(y) {}
+		, y(y)
+		, z(z) {}
 };
 
 TilePos operator+(const ChunkPos& chunkPos, const TileLocalPos& localPos);

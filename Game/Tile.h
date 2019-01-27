@@ -46,21 +46,25 @@ class TileChunkLoader;
 class TileChunk
 {
 public:
-	static const int ChunkSize = 16;
+	static const int ChunkHeight = 2;
 	static const std::unique_ptr<TileChunkLoader> loader;
 
 public:
-	std::array<std::array<int, ChunkSize>, ChunkSize> data;
+	std::array<std::array<std::array<int, ChunkPos::ChunkSize>, ChunkPos::ChunkSize>, ChunkHeight> data;
 
 public:
 	int& GetTile(const TileLocalPos& localPos);
+	const int & GetTile(const TileLocalPos & localPos) const;
 	void Render(const std::unique_ptr<TileRegistry>& registry, const Matrix3& matrix) const;
 };
 
 class TileChunkLoader
 {
+private:
+	const std::string savesDir;
+
 public:
-	static const std::string savesDir;
+	TileChunkLoader(const std::string& savesDir);
 
 public:
 	TileChunk Load(const ChunkPos& chunkPos) const;
@@ -72,6 +76,7 @@ class TileTerrain : public Component
 public:
 	std::unique_ptr<TileRegistry> tileRegistry;
 	std::unordered_map<ChunkPos, TileChunk> tileMap;
+	TileChunkLoader loader;
 
 public:
 	TileTerrain();
@@ -79,6 +84,9 @@ public:
 
 public:
 	TileChunk& GetChunk(const ChunkPos& chunkPos);
+	const TileChunk& GetChunk(const ChunkPos& chunkPos) const;
+	void LoadChunk(const ChunkPos& chunkPos);
+	void SaveChunk(const ChunkPos& chunkPos) const;
 
 public:
 	void Render(const Matrix3& world);
