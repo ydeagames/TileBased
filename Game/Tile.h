@@ -20,6 +20,8 @@ public:
 	std::string name = "none";
 	int floor = 0;
 	int id = 0;
+	bool placeable = false;
+	int unit = -1;
 
 public:
 	Tile(const Texture& texture, bool passable = true)

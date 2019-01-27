@@ -52,3 +52,13 @@ void Entity::Render(const Matrix3& matrix, float partialTicks)
 	Matrix3 localMatrix = Matrix3::CreateTranslation(Vector2::Lerp(last_pos, next_pos, partialTicks));
 	Graphics::DrawQuad(quad * localMatrix * matrix, Colors::Blue, true);
 }
+
+void EntityRegistry::RegisterEntity(int id, const std::function<std::shared_ptr<Entity>()>& entity)
+{
+	entities[id] = entity;
+}
+
+std::shared_ptr<Entity> EntityRegistry::GetEntity(int id)
+{
+	return entities[id]();
+}

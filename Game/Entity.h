@@ -19,6 +19,18 @@ public:
 	void Render(const Matrix3& matrix, float partialTicks);
 };
 
+class EntityRegistry
+{
+public:
+	std::unordered_map<int, std::function<std::shared_ptr<Entity>()>> entities;
+
+public:
+	void RegisterEntity(int id, const std::function<std::shared_ptr<Entity>()>& entity);
+
+public:
+	std::shared_ptr<Entity> GetEntity(int id);
+};
+
 class EntityList : public Component
 {
 public:
@@ -26,10 +38,12 @@ public:
 
 public:
 	std::vector<std::shared_ptr<Entity>> entities;
+	std::unique_ptr<EntityRegistry> entityRegistry;
 	float time;
 
 public:
-	EntityList() = default;
+	EntityList()
+		: entityRegistry(std::make_unique<EntityRegistry>()) {}
 	virtual ~EntityList() = default;
 
 public:

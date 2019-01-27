@@ -4,5 +4,6 @@
 	"passable" : true,
 	"texture" : "grass.png",
 	"placeable" : true,
+	"unit" : -1,
 	"floor" : 0
 }

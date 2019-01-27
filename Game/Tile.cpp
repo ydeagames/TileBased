@@ -147,12 +147,16 @@ std::unique_ptr<Tile> TileLoader::Load(const std::string& name) const
 	auto texture = data["texture"].ToString();
 	auto floor = data["floor"].ToInt();
 	auto id = data["id"].ToInt();
+	auto placeable = data["placeable"].ToBool();
+	auto unit = data["unit"].ToInt();
 
 	auto tiletexture = std::make_shared<TextureResource>(texture);
 	auto tile = std::make_unique<Tile>(tiletexture, passable);
 	tile->name = tilename;
 	tile->floor = static_cast<int>(floor);
 	tile->id = id;
+	tile->placeable = placeable;
+	tile->unit = static_cast<int>(unit);
 
 	return tile;
 }

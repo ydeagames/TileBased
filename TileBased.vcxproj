@@ -91,6 +91,7 @@
   <ItemGroup>
     <ClCompile Include="Game\Camera.cpp" />
     <ClCompile Include="Game\Entity.cpp" />
+    <ClCompile Include="Game\EntityPlacer.cpp" />
     <ClCompile Include="Game\GameGlobal.cpp" />
     <ClCompile Include="Game\GameObjectLegacy.cpp" />
     <ClCompile Include="Game\PlayScene.cpp" />
@@ -144,6 +145,7 @@
   <!-- ヘッダファイル -->
   <ItemGroup>
     <ClInclude Include="Game\Camera.h" />
+    <ClInclude Include="Game\EntityPlacer.h" />
     <ClInclude Include="Game\TileChunkPos.h" />
     <ClInclude Include="Game\Entity.h" />
     <ClInclude Include="Game\GameGlobal.h" />

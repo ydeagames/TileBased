@@ -1,0 +1,9 @@
+{
+	"id" : 7,
+	"name" : "Spawn Bomb",
+	"passable" : false,
+	"texture" : "bomb.png",
+	"placeable" : true,
+	"unit" : 1,
+	"floor" : 1
+}

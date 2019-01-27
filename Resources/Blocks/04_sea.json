@@ -4,5 +4,6 @@
 	"passable" : false,
 	"texture" : "sea.png",
 	"placeable" : false,
+	"unit" : -1,
 	"floor" : 0
 }

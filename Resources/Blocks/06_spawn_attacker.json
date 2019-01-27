@@ -1,0 +1,9 @@
+{
+	"id" : 6,
+	"name" : "Spawn Attacker",
+	"passable" : false,
+	"texture" : "attacker.png",
+	"placeable" : true,
+	"unit" : 0,
+	"floor" : 1
+}

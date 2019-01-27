@@ -199,6 +199,9 @@
     <ClCompile Include="Game\WorldRenderer.cpp">
       <Filter>ゲーム\オブジェクト</Filter>
     </ClCompile>
+    <ClCompile Include="Game\EntityPlacer.cpp">
+      <Filter>ゲーム\オブジェクト</Filter>
+    </ClCompile>
   </ItemGroup>
   <!-- ヘッダファイル -->
   <ItemGroup>
@@ -344,6 +347,9 @@
       <Filter>ゲーム\オブジェクト</Filter>
     </ClInclude>
     <ClInclude Include="Game\WorldRenderer.h">
+      <Filter>ゲーム\オブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\EntityPlacer.h">
       <Filter>ゲーム\オブジェクト</Filter>
     </ClInclude>
   </ItemGroup>

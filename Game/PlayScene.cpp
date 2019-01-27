@@ -6,10 +6,13 @@
 #include "Entity.h"
 #include "WorldRenderer.h"
 #include "TileTerrainEditor.h"
+#include "EntityPlacer.h"
 
 PlayScene::PlayScene()
 	: Scene()
 {
+	InputManager::GetInstance().mouse->Consume(MOUSE_INPUT_1);
+
 	auto terrain = GameObject::Create("Terrain");
 	auto tileterrain = terrain->AddNewComponent<TileTerrain>();
 	auto tileloader = TileLoader{ "Resources/Blocks" };
@@ -23,13 +26,17 @@ PlayScene::PlayScene()
 	tileterrain->LoadChunk(ChunkPos{ 1, 0 });
 
 	terrain->AddNewComponent<WorldRenderer>();
+
 	auto& elist = terrain->AddNewComponent<EntityList>();
-	auto entity = std::make_shared<Entity>();
-	entity->SetLocationImmediately(Vector2{ 5, 5 });
-	elist->AddEntity(entity);
+	elist->entityRegistry->RegisterEntity(0, []() {
+			return std::make_shared<Entity>();
+		});
 
 	auto editor = GameObject::Create("TerrainEditor");
 	editor->AddNewComponent<TileTerrainEditor>();
+
+	auto placer = GameObject::Create("EntityPlacer");
+	placer->AddNewComponent<EntityPlacer>();
 
 	auto camera = GameObject::Create("MainCamera");
 	camera->AddNewComponent<Camera>();

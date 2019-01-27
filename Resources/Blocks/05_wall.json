@@ -4,5 +4,6 @@
 	"passable" : false,
 	"texture" : "block.png",
 	"placeable" : false,
+	"unit" : -1,
 	"floor" : 1
 }
