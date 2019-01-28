@@ -5,5 +5,7 @@
 	"texture" : "sea.png",
 	"placeable" : false,
 	"unit" : -1,
+	"selectable" : false,
+	"count" : 0,
 	"floor" : 0
 }

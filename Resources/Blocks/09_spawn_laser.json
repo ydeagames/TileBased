@@ -1,0 +1,11 @@
+{
+	"id" : 9,
+	"name" : "Spawn Laser",
+	"passable" : true,
+	"texture" : "laser.png",
+	"placeable" : true,
+	"unit" : 2,
+	"selectable" : false,
+	"count" : 0,
+	"floor" : 1
+}

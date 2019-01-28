@@ -93,6 +93,7 @@
     <ClCompile Include="Game\Entity.cpp" />
     <ClCompile Include="Game\EntityAttacker.cpp" />
     <ClCompile Include="Game\EntityBomb.cpp" />
+    <ClCompile Include="Game\EntityLaser.cpp" />
     <ClCompile Include="Game\EntityPlacer.cpp" />
     <ClCompile Include="Game\GameGlobal.cpp" />
     <ClCompile Include="Game\GameObjectLegacy.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="Game\Camera.h" />
     <ClInclude Include="Game\EntityAttacker.h" />
     <ClInclude Include="Game\EntityBomb.h" />
+    <ClInclude Include="Game\EntityLaser.h" />
     <ClInclude Include="Game\EntityPlacer.h" />
     <ClInclude Include="Game\LogoScene.h" />
     <ClInclude Include="Game\TileChunkPos.h" />

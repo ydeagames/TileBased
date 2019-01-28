@@ -5,5 +5,7 @@
 	"texture" : "bomb.png",
 	"placeable" : true,
 	"unit" : 1,
+	"selectable" : true,
+	"count" : 3,
 	"floor" : 1
 }

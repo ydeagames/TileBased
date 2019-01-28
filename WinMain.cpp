@@ -68,15 +68,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetOutApplicationLogValidFlag(false);
 
 	// 起動モードの設定
-#if defined(_DEBUG)
+//#if defined(_DEBUG)
 // ウインドウモードで実行
 	ChangeWindowMode(true);
 	// ウインドウアイコンの設定
 	SetWindowIconID(IDI_ICON1);
-#else
-// フルスクリーンで実行
-	ChangeWindowMode(false);
-#endif
+//#else
+//// フルスクリーンで実行
+//	ChangeWindowMode(false);
+//#endif
 
 	// 最大化ボタンが存在するウインドウモードに変更
 	SetWindowStyleMode(8);

@@ -5,5 +5,7 @@
 	"texture" : "attacker.png",
 	"placeable" : true,
 	"unit" : 0,
+	"selectable" : true,
+	"count" : 2,
 	"floor" : 1
 }

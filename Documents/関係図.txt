@@ -1,0 +1,22 @@
+@startuml
+set namespaceSeparator ::
+
+Scene <|-- LogoScene::LogoScene
+Scene <|-- TitleScene::TitleScene
+Scene <|-- PlayScene::PlayScene
+Scene <|-- ResultScene::ResultScene
+
+PlayScene o-- TileTerrain
+TileTerrain o-- TileRegistry
+TileTerrain o-- ChunkPos
+TileTerrain o-- TileChunk
+TileTerrain o-- TileChunkLoader
+TileChunk o-- Tile
+
+PlayScene o-- WorldRenderer
+PlayScene o-- EntityList
+EntityList o-- Entity
+EntityList o-- EntityRegistry
+
+Entity <|-- EntityBoom
+Entity <|-- EntityPlacer

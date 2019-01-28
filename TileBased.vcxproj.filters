@@ -220,6 +220,9 @@
     <ClCompile Include="Game\LogoScene.cpp">
       <Filter>ゲーム\シーン</Filter>
     </ClCompile>
+    <ClCompile Include="Game\EntityLaser.cpp">
+      <Filter>ゲーム\オブジェクト\エンティティ</Filter>
+    </ClCompile>
   </ItemGroup>
   <!-- ヘッダファイル -->
   <ItemGroup>
@@ -381,6 +384,9 @@
     </ClInclude>
     <ClInclude Include="Game\LogoScene.h">
       <Filter>ゲーム\シーン</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\EntityLaser.h">
+      <Filter>ゲーム\オブジェクト\エンティティ</Filter>
     </ClInclude>
   </ItemGroup>
   <!-- リソースファイル -->

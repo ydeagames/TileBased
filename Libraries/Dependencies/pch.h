@@ -31,6 +31,7 @@
 #include <unordered_set>
 #include <deque>
 #include <queue>
+#include <tuple>
 
 // Json.h
 #include <cstdint>
