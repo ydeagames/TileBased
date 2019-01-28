@@ -50,7 +50,8 @@ void TileChunk::Render(const std::unique_ptr<TileRegistry>& registry, const Matr
 			int ix = 0;
 			for (auto& tile : line)
 			{
-				registry->tiles[tile]->Render(Matrix3::CreateTranslation(Vector2{ ix, iy }) * matrix, nullptr);
+				if (registry->tiles[tile]->unit < 0)
+					registry->tiles[tile]->Render(Matrix3::CreateTranslation(Vector2{ ix, iy }) * matrix, nullptr);
 				ix++;
 			}
 			iy++;
@@ -149,6 +150,8 @@ std::unique_ptr<Tile> TileLoader::Load(const std::string& name) const
 	auto id = data["id"].ToInt();
 	auto placeable = data["placeable"].ToBool();
 	auto unit = data["unit"].ToInt();
+	auto selectable = data["selectable"].ToBool();
+	auto count = data["count"].ToInt();
 
 	auto tiletexture = std::make_shared<TextureResource>(texture);
 	auto tile = std::make_unique<Tile>(tiletexture, passable);
@@ -157,6 +160,8 @@ std::unique_ptr<Tile> TileLoader::Load(const std::string& name) const
 	tile->id = id;
 	tile->placeable = placeable;
 	tile->unit = static_cast<int>(unit);
+	tile->selectable = selectable;
+	tile->count = static_cast<int>(count);
 
 	return tile;
 }

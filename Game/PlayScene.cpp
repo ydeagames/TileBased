@@ -9,6 +9,7 @@
 #include "EntityPlacer.h"
 #include "EntityAttacker.h"
 #include "EntityBomb.h"
+#include "EntityLaser.h"
 
 PlayScene::PlayScene()
 	: Scene()
@@ -50,13 +51,17 @@ PlayScene::PlayScene()
 
 	auto& elist = terrain->AddNewComponent<EntityList>();
 	auto attackertexture = Texture{ std::make_shared<TextureResource>("attacker.png") };
-	elist->entityRegistry->RegisterEntity(0, [attackertexture]() {
-		return std::make_shared<EntityAttacker>(attackertexture);
+	elist->entityRegistry->RegisterEntity(0, [attackertexture](const TilePos& pos) {
+		return std::make_shared<EntityAttacker>(attackertexture, pos);
 		});
 	auto bombtexture = Texture{ std::make_shared<TextureResource>("bomb.png") };
-	elist->entityRegistry->RegisterEntity(1, [bombtexture]() {
-		return std::make_shared<EntityBomb>(bombtexture);
+	elist->entityRegistry->RegisterEntity(1, [bombtexture](const TilePos& pos) {
+		return std::make_shared<EntityBomb>(bombtexture, pos);
 		});
+	auto lasertexture = Texture{ std::make_shared<TextureResource>("laser.png") };
+	elist->entityRegistry->RegisterEntity(2, [lasertexture](const TilePos& pos) {
+		return std::make_shared<EntityLaser>(lasertexture, pos);
+	});
 
 	auto editor = GameObject::Create("TerrainEditor");
 	editor->AddNewComponent<TileTerrainEditor>();

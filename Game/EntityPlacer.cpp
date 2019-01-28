@@ -4,16 +4,40 @@
 #include "GameGlobal.h"
 #include "Entity.h"
 #include "TileTerrainEditor.h"
+#include "EntityLaser.h"
 
 void EntityPlacer::Start()
 {
 	selected = 0;
 	auto terrain = GameObject::Find("Terrain");
 	auto tileterrain = terrain->GetComponent<TileTerrain>();
+	auto elist = terrain->GetComponent<EntityList>();
 	for (auto& pairs : tileterrain->tileRegistry->tiles)
 	{
-		if (pairs.second->unit >= 0)
+		if (pairs.second->selectable)
+		{
 			entities.push_back(&pairs.second);
+			remaining[pairs.second->id] = pairs.second->count;
+		}
+	}
+	for (auto& chunk : tileterrain->tileMap)
+	{
+		for (auto& floor : chunk.second.data)
+		{
+			int iy = 0;
+			for (auto& line : floor)
+			{
+				int ix = 0;
+				for (auto& tile : line)
+				{
+					int unit = tileterrain->tileRegistry->tiles[tile]->unit;
+					if (unit >= 0)
+						elist->AddEntity(elist->entityRegistry->GetEntity(unit, chunk.first + TileLocalPos{ ix, iy, 1 }));
+					ix++;
+				}
+				iy++;
+			}
+		}
 	}
 }
 
@@ -30,7 +54,7 @@ void EntityPlacer::Update()
 		int total = 0;
 		for (auto& pairs : tileterrain->tileRegistry->tiles)
 		{
-			if (pairs.second->unit >= 0)
+			if (pairs.second->selectable)
 				total++;
 		}
 		float size = 80;
@@ -54,23 +78,56 @@ void EntityPlacer::Update()
 		{
 			auto& spawner = *entities[selected];
 
-			auto entity = elist->entityRegistry->GetEntity(spawner->unit);
-
-			auto renderer = terrain->GetComponent<WorldRenderer>();
-			Vector2 mpos = pos * renderer->GetMatrix().Inverse();
-			TilePos tpos = TilePos{ mpos.X(), mpos.Y(), 0 };
-			auto& tile = tileterrain->tileRegistry->GetTile(tileterrain->GetChunk(tpos).GetTile(tpos));
-			if (tile->passable && tile->placeable)
+			if (remaining[spawner->id] > 0)
 			{
-				auto editor = GameObject::Find("TerrainEditor");
-				if (!editor->GetComponent<TileTerrainEditor>()->enabled)
+				auto renderer = terrain->GetComponent<WorldRenderer>();
+				Vector2 mpos = pos * renderer->GetMatrix().Inverse();
+				TilePos tpos = TilePos{ mpos.X(), mpos.Y(), 0 };
+				TilePos tpos2 = TilePos{ mpos.X(), mpos.Y(), 1 };
+				auto entity = elist->entityRegistry->GetEntity(spawner->unit, tpos);
+
+				auto& tile = tileterrain->tileRegistry->GetTile(tileterrain->GetChunk(tpos).GetTile(tpos));
+				auto& tile2 = tileterrain->tileRegistry->GetTile(tileterrain->GetChunk(tpos2).GetTile(tpos2));
+				if ((tile->passable && tile2->passable) && (tile->placeable || tile2->placeable))
 				{
-					entity->SetLocationImmediately(tpos);
-					elist->AddEntity(entity);
-					PlaySoundMem(GameGlobal::GetInstance().se03->GetResource(), DX_PLAYTYPE_BACK);
+					auto editor = GameObject::Find("TerrainEditor");
+					if (!editor->GetComponent<TileTerrainEditor>()->enabled)
+					{
+						entity->SetLocationImmediately(tpos);
+						elist->AddEntity(entity);
+						PlaySoundMem(GameGlobal::GetInstance().se03->GetResource(), DX_PLAYTYPE_BACK);
+						remaining[spawner->id]--;
+					}
 				}
 			}
 		}
+	}
+
+	bool hasRemain = false;
+	for (auto& remain : remaining)
+	{
+		if (remain.second > 0)
+		{
+			hasRemain = true;
+			break;
+		}
+	}
+	if (!hasRemain)
+	{
+		auto terrain = GameObject::Find("Terrain");
+		auto elist = terrain->GetComponent<EntityList>();
+
+		bool hasEntity = false;
+		for (auto& entity : elist->entities)
+		{
+			if (!entity->destroyed && typeid(*entity) != typeid(EntityLaser))
+			{
+				hasEntity = true;
+				break;
+			}
+		}
+		if (!hasEntity)
+			SceneManager::GetInstance().RequestScene(SceneID::PLAY);
 	}
 }
 
@@ -96,12 +153,21 @@ void EntityPlacer::Render()
 	for (auto& pentity : entities)
 	{
 		auto& entity = *pentity;
-		if (entity->unit >= 0)
+		if (entity->selectable)
+		{
 			entity->Render(
 				Matrix3::CreateTranslation(Vector2::right * static_cast<float>(entity->unit)) *
 				Matrix3::CreateScale(Vector2::one * size) *
 				Matrix3::CreateTranslation(offset)
 				, nullptr);
+			Graphics::DrawQuadString(identity * (
+				Matrix3::CreateTranslation(Vector2::right * static_cast<float>(entity->unit)) *
+				Matrix3::CreateScale(Vector2::one * size) *
+				Matrix3::CreateTranslation(offset)),
+				Colors::White,
+				GameGlobal::GetInstance().font,
+				String::Format("%d", remaining[entity->id]));
+		}
 	}
 	Graphics::DrawQuad(identity * (
 		Matrix3::CreateTranslation(Vector2::right * static_cast<float>(selected)) *

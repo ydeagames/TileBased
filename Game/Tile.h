@@ -22,6 +22,8 @@ public:
 	int id = 0;
 	bool placeable = false;
 	int unit = -1;
+	bool selectable = false;
+	int count = 0;
 
 public:
 	Tile(const Texture& texture, bool passable = true)
@@ -65,7 +67,6 @@ class TileChunk
 {
 public:
 	static const int ChunkHeight = 2;
-	static const std::unique_ptr<TileChunkLoader> loader;
 
 public:
 	std::array<std::array<std::array<int, ChunkPos::ChunkSize>, ChunkPos::ChunkSize>, ChunkHeight> data;

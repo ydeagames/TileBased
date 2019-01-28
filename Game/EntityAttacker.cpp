@@ -2,8 +2,8 @@
 #include "Tile.h"
 #include "GameGlobal.h"
 
-EntityAttacker::EntityAttacker(const Texture& te)
-	: Entity(te)
+EntityAttacker::EntityAttacker(const Texture& te, const TilePos& pos)
+	: Entity(te, pos)
 	, target({ 0, 0, 0 })
 {
 	auto terrain = GameObject::Find("Terrain");
@@ -22,7 +22,7 @@ EntityAttacker::EntityAttacker(const Texture& te)
 	generator.setWorldSize({ (maxX - minX + 1) * ChunkPos::ChunkSize, (maxY - minY + 1) * ChunkPos::ChunkSize });
 	// You can use a few heuristics : manhattan, euclidean or octagonal.
 	generator.setHeuristic(AStar::Heuristic::euclidean);
-	generator.setDiagonalMovement(true);
+	generator.setDiagonalMovement(false);
 
 	for (auto& chunk : tileterrain->tileMap)
 	{
@@ -32,11 +32,12 @@ EntityAttacker::EntityAttacker(const Texture& te)
 			int ix = 0;
 			for (auto& tileid : line)
 			{
-				TilePos pos = chunk.first + TileLocalPos{ ix, iy, 0 };
+				TilePos pos = chunk.first + TileLocalPos{ ix, iy, 1 };
 				auto& tile = tileterrain->tileRegistry->GetTile(tileid);
+				auto& tile2 = tileterrain->tileRegistry->GetTile(chunk.second.GetTile(TileLocalPos{ ix, iy, 0 }));
 				if (tile->id == 8)
 					target = pos;
-				else if (!tile->passable)
+				else if (!tile->passable || !tile2->passable)
 					generator.addCollision({ pos.x, pos.y });
 				ix++;
 			}
@@ -47,16 +48,19 @@ EntityAttacker::EntityAttacker(const Texture& te)
 
 void EntityAttacker::UpdateTick()
 {
-	// This method returns vector of coordinates from target to source.
-	auto path = generator.findPath({ last_pos.X(), last_pos.Y() }, { target.x, target.y });
-	if (path.size() > 1)
+	if (!destroyed && destroying.IsPaused())
 	{
-		auto& last = path.at(path.size() - 2);
-		SetLocation({ last.x, last.y });
-	}
-	if (last_pos.X() == target.x && last_pos.Y() == target.y)
-	{
-		PlaySoundMem(GameGlobal::GetInstance().se02->GetResource(), DX_PLAYTYPE_BACK);
-		SceneManager::GetInstance().RequestScene(SceneID::RESULT);
+		// This method returns vector of coordinates from target to source.
+		auto path = generator.findPath({ last_pos.X(), last_pos.Y() }, { target.x, target.y });
+		if (path.size() > 1)
+		{
+			auto& last = path.at(path.size() - 2);
+			SetLocation({ last.x, last.y });
+		}
+		if (last_pos.X() == target.x && last_pos.Y() == target.y)
+		{
+			PlaySoundMem(GameGlobal::GetInstance().se02->GetResource(), DX_PLAYTYPE_BACK);
+			SceneManager::GetInstance().RequestScene(SceneID::RESULT);
+		}
 	}
 }

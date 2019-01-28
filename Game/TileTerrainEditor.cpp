@@ -2,6 +2,7 @@
 #include "Tile.h"
 #include "WorldRenderer.h"
 #include "GameGlobal.h"
+#include "Entity.h"
 
 void TileTerrainEditor::Start()
 {
@@ -43,6 +44,11 @@ void TileTerrainEditor::Update()
 				Vector2 mpos = pos * renderer->GetMatrix().Inverse();
 				TilePos tpos = TilePos{ mpos.X(), mpos.Y(), tile->floor };
 				tileterrain->GetChunk(tpos).GetTile(tpos) = tile->id;
+
+				auto elist = terrain->GetComponent<EntityList>();
+				int unit = tile->unit;
+				if (unit >= 0)
+					elist->AddEntity(elist->entityRegistry->GetEntity(unit, tpos));
 			}
 		}
 		if (InputManager::GetInstance().key->GetButton(KEY_INPUT_LCONTROL) && InputManager::GetInstance().key->GetButtonDown(KEY_INPUT_S))

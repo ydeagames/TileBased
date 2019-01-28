@@ -16,7 +16,7 @@ LogoScene::LogoScene()
 		void Start()
 		{
 			timer = Timer{}.Start(3);
-			PlayMovieToGraph(texture.texture->GetResource());
+			PlayMovieToGraph(texture.GetFrame()->GetResource());
 		}
 
 		void Update()

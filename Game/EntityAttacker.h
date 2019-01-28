@@ -10,7 +10,7 @@ private:
 	TilePos target;
 
 public:
-	EntityAttacker(const Texture& te);
+	EntityAttacker(const Texture& te, const TilePos& pos);
 
 public:
 	void UpdateTick() override;

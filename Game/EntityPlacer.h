@@ -6,6 +6,7 @@ class EntityPlacer: public Component
 public:
 	int selected;
 	std::vector<std::unique_ptr<Tile>*> entities;
+	std::unordered_map<int, int> remaining;
 
 public:
 	void Start() override;

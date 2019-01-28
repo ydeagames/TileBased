@@ -42,17 +42,34 @@ void Entity::UpdateTick()
 
 void Entity::Render(const Matrix3& matrix, float partialTicks)
 {
-	Matrix3 localMatrix = Matrix3::CreateTranslation(Vector2::Lerp(last_pos, next_pos, partialTicks));
-	static const Quad quad = { Bounds::CreateFromSize(Vector2::zero, Vector2::one) };
-	texture.Render(quad * (localMatrix * matrix));
+	if (!destroyed)
+	{
+		Matrix3 localMatrix = Matrix3::CreateTranslation(Vector2::Lerp(last_pos, next_pos, partialTicks));
+		static const Quad quad = { Bounds::CreateFromSize(Vector2::zero, Vector2::one) };
+		if (!destroying.IsPaused())
+		{
+			static Texture explosion = Texture{
+				std::vector<std::shared_ptr<TextureResource>>{
+					std::make_shared<TextureResource>("explosion1.png"),
+					std::make_shared<TextureResource>("explosion2.png"),
+					std::make_shared<TextureResource>("explosion3.png"),
+				}, 1.f/3, false
+			};
+			Graphics::DrawQuadGraph(quad * (localMatrix * matrix), explosion.GetFrame(destroying.GetProgress()));
+			if (destroying.IsFinished())
+				destroyed = true;
+		}
+		else
+			texture.Render(quad * (localMatrix * matrix));
+	}
 }
 
-void EntityRegistry::RegisterEntity(int id, const std::function<std::shared_ptr<Entity>()>& entity)
+void EntityRegistry::RegisterEntity(int id, const std::function<std::shared_ptr<Entity>(const TilePos&)>& entity)
 {
 	entities[id] = entity;
 }
 
-std::shared_ptr<Entity> EntityRegistry::GetEntity(int id)
+std::shared_ptr<Entity> EntityRegistry::GetEntity(int id, const TilePos& pos)
 {
-	return entities[id]();
+	return entities[id](pos);
 }

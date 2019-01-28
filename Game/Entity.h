@@ -1,4 +1,7 @@
 #pragma once
+#include "TileChunkPos.h"
+
+class TilePos;
 
 class Entity
 {
@@ -8,28 +11,36 @@ public:
 
 	Texture texture;
 
+	Timer destroying;
+	bool destroyed;
+
 public:
-	Entity(const Texture& te)
-		: texture(te) {}
+	Entity(const Texture& te, const TilePos& pos)
+		: texture(te)
+		, destroyed(false)
+		, destroying(Timer{}.SetRemaining(1))
+	{
+		SetLocationImmediately(pos);
+	}
 	virtual ~Entity() = default;
 
 public:
 	void SetLocation(Vector2 pos);
 	void SetLocationImmediately(Vector2 pos);
 	virtual void UpdateTick();
-	void Render(const Matrix3& matrix, float partialTicks);
+	virtual void Render(const Matrix3& matrix, float partialTicks);
 };
 
 class EntityRegistry
 {
 public:
-	std::unordered_map<int, std::function<std::shared_ptr<Entity>()>> entities;
+	std::unordered_map<int, std::function<std::shared_ptr<Entity>(const TilePos&)>> entities;
 
 public:
-	void RegisterEntity(int id, const std::function<std::shared_ptr<Entity>()>& entity);
+	void RegisterEntity(int id, const std::function<std::shared_ptr<Entity>(const TilePos&)>& entity);
 
 public:
-	std::shared_ptr<Entity> GetEntity(int id);
+	std::shared_ptr<Entity> GetEntity(int id, const TilePos& pos);
 };
 
 class EntityList : public Component
