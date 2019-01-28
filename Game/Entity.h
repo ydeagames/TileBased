@@ -18,7 +18,7 @@ public:
 	Entity(const Texture& te, const TilePos& pos)
 		: texture(te)
 		, destroyed(false)
-		, destroying(Timer{}.SetRemaining(1))
+		, destroying(Timer{}.SetTotal(1).ResetRemaining())
 	{
 		SetLocationImmediately(pos);
 	}

@@ -61,7 +61,7 @@ static void DrawMatrix(float x, float y, const Matrix3& m)
 
 void Camera::Render()
 {
-#ifdef _DEBUG
+#ifdef DEBUG
 	Vector2 screen_mouse = InputManager::GetInstance().mouse->GetPosition();
 	Vector2 world_mouse = GetWorldFromScreenPosition(screen_mouse);
 	DrawFormatStringF(10, 55, Colors::White, "cursor (x = %.2f, y = %.2f)", world_mouse.x, world_mouse.y);
